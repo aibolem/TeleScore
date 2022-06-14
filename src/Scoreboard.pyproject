@@ -1,3 +1,3 @@
 {
-    "files": ["mainwindow.ui","layout/startmenu.ui","editor/action/ActionList.py","layout/startmenu.qrc","main.py","layout/startmenu.py"]
+    "files": ["layout/startmenu.ui","editor/action/ActionList.py","layout/startmenu.py","mainwindow.py","mainwindow.ui","layout/startmenu.qrc","layout/FreeLayout.py"]
 }
