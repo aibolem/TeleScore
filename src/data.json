@@ -1,0 +1,22 @@
+{
+    "flags": {
+        "firstRun": true,
+        "firstEditor": true,
+        "firstSave": true,
+        "showSplash": true,
+        "showWelcome": true,
+        "showTips": [
+
+        ]
+    },
+    "window": {
+        "width": 800,
+        "height": 600,
+        "onTop": true
+    },
+    "updates": {
+        "checkForUpdates": true,
+        "lastCheck": null,
+        "ignoreVersion": null
+    }
+}
