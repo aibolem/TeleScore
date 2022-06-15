@@ -1,6 +1,7 @@
 import os
 
 from PyQt6 import QtWidgets, uic
+from PyQt6.QtGui import QIcon # Went ahead and added QIcon
 from pathlib import Path
 from .startmenu import StartMenu
 from .editor import Editor
@@ -11,9 +12,9 @@ class MainWindow(QtWidgets.QMainWindow):
         super().__init__(*args) # Call the inherited classes __init__ method
         self.initUI()
         self.setWindowTitle("GameMaster")
+        self.setWindowIcon(QIcon(resourcePath("src\\resources\\icon.ico"))) # Using a slightly modified version of my PyInstaller Resource system. Also seen on line 18. Basically uses working directory OR temp directory for absolute paths to files.
 
     def initUI(self):
-        path = os.fspath(Path(__file__).resolve().parent / "ui/mainwindow.ui") # This is very clunky, should change this.
         path = resourcePath("src\\window\\ui\\mainwindow.ui") # replaced complicated path logic with resourcePath()
         uic.loadUi(path, self) # Load the .ui file
         self.show() # Show the GUI
