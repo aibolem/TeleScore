@@ -1,7 +1,7 @@
 import os
 import sys
 from PyQt6.QtWidgets import QMessageBox
-from requests import *
+import requests
 import webbrowser
 
 f = {}
@@ -33,11 +33,10 @@ def retrieveFile(url, name):
     if not "http" in url:
         qm.ABOUT(title='Invalid URL',message='URL must start with "http"', icon='warning')
     else:
-        file = get(url)
+        file = requests.get(url)
         f[name] = ""
         for line in file:
-            decoded_line = line.decode("utf-8")
-            f[name] += decoded_line
+            f[name] += line # Removed decode as it's already been decoded.
     return f[name]
 
 def downloadFile(url, name):
@@ -45,7 +44,7 @@ def downloadFile(url, name):
     if not "http" in url:
         qm.ABOUT(title='Invalid URL',message='URL must start with "http"', icon='warning')
     else:
-        file = get(url)
+        file = requests.get(url)
         with open(name, "w") as f:
             f.write(file.text)
             f.close()
