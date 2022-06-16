@@ -5,9 +5,9 @@ name: GameMaster Unit Test
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "unit-test-github-action" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "unit-test-github-action" ]
 
 permissions:
   contents: read
