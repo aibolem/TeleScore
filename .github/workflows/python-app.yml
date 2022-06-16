@@ -26,7 +26,7 @@ jobs:
     - name: Install dependencies
       run:
         sudo apt update
-        pip3 install PyQt6
+        pip install PyQt6
     - name: Test
       run:
-        python3 ./src/tests/unittest.py
+        python ./src/tests/unittest.py
