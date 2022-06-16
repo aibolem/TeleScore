@@ -25,6 +25,8 @@ jobs:
         python-version: "3.10"
     - name: Install dependencies
       run: |
+        sudo apt update
+        sudo apt install libgles2-mesa-dev
         python -m pip install --upgrade pip
         pip install PyQt6 requests
     - name: Test
