@@ -30,4 +30,4 @@ jobs:
         python -m pip install --upgrade pip
         pip install PyQt6 requests
     - name: Test
-      run: python ./src/tests/test.py -platform minimal
+      run: python ./src/tests/test.py
