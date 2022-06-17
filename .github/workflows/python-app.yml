@@ -26,7 +26,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt update
-        sudo apt install libgles2-mesa-dev
+        sudo apt install libx11-xcb-dev libgles2-mesa-dev
         python -m pip install --upgrade pip
         pip install PyQt6 requests
     - name: Test
