@@ -2,30 +2,44 @@
 from PyQt6.QtWidgets import QLayout
 
 class FreeLayout(QLayout):
-    def __init__(self):
-        super(self)
-        self.item = []
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.items = [] # QLayoutItem List
+        self.space = -1
 
-    def addItem(self, arg__1):
-        raise NotImplementedError;
+    #Override
+    def addItem(self, item):
+        self.items.append(item)
 
+    #Override
     def count(self):
-        raise NotImplementedError;
+        return len(self.items)
 
-    def indexOf(self, arg__1):
-        raise NotImplementedError;
+    #Override
+    def indexOf(self, item):
+        return self.items.index(item)
 
-    def itemAt(index):
-        raise NotImplementedError;
+    #Override
+    def itemAt(self, index):
+        return self.items[index]
 
-    def replaceWidget(fr, to):
-        raise NotImplementedError;
+    #Override
+    def replaceWidget(self, fr, to, option = None): # This should only change one widget
+        for item in self.items:
+            if (item.widget() == fr):
+                self.items[self.indexOf(item)] = to
+                return item
+            else:
+                replacedItem = item.widget().layout().replaceWidget(fr, to)
+                if (replacedItem != None):
+                    return replacedItem
 
-    def setSpacing(arg__1):
-        raise NotImplementedError;
+    #Override
+    def setSpacing(self, value): # Check documentation
+        self.space = value
 
-    def spacing():
-        raise NotImplementedError;
+    def spacing(self):
+        return self.space
 
-    def takeAt(index):
-        raise NotImplementedError;
+    def takeAt(self, index):
+        self.items.remove(index)
