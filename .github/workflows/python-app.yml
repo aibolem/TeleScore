@@ -27,6 +27,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install libx11-xcb-dev libgles2-mesa-dev
+        sudo apt install --reinstall libxcb-xinerama0
         python -m pip install --upgrade pip
         pip install PyQt6 requests
     - name: Test
