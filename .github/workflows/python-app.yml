@@ -27,6 +27,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install libgles2-mesa-dev
+        sudo apt install qt6-base-dev-tools
         python -m pip install --upgrade pip
         pip install PyQt6 requests
     - name: Test
