@@ -27,8 +27,6 @@ jobs:
       run: |
         sudo apt update
         sudo apt install libgles2-mesa-dev
-        sudo apt-get install qt6-base-dev
-        sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
         python -m pip install --upgrade pip
         pip install PyQt6 requests
     - name: Test
