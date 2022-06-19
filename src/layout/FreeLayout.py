@@ -21,7 +21,8 @@ class FreeLayout(QLayout):
 
     #Override
     def itemAt(self, index):
-        return self.items[index]
+        if (index < self.count()):
+            return self.items[index]
 
     #Override
     def replaceWidget(self, fr, to, option = None): # This should only change one widget

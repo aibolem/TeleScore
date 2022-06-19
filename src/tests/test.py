@@ -87,6 +87,7 @@ class freelayout_test(unittest.TestCase):
         self.layoutInst.addItem(itemInst1)
 
         self.assertEqual(self.layoutInst.replaceWidget(widgetInst, widgetInst1), itemInst)
+        print(self.layoutInst.itemAt(0))
         self.assertEqual(self.layoutInst.itemAt(0), widgetInst1)
 
     def test_spacing(self):
