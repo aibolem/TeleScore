@@ -35,6 +35,7 @@ jobs:
         # what platform are you installing for? desktop, winrt, android, or ios
         platform: desktop
         # what optional Qt modules to install? qtcharts, qtnetworkauth ect...
+        modules: debug_info
     - name: Install dependencies
       run: |
         sudo apt update
