@@ -56,9 +56,10 @@ def retrieveFile(url, name):
         pass
     else:
         file = requests.get(url)
+        print(file)
         f[name] = ""
         for line in file:
-            f[name] += line.decode() # Removed decode as it's already been decoded.
+            f[name] += line.decode("UTF-8")
         return f[name]
 
 def downloadFile(url, name):

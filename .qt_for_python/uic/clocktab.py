@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\Scoreboard\src\editor\comptab\nametab.ui'
+# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\Scoreboard\src\editor\comptab\clocktab.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.0
 #

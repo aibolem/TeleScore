@@ -19,7 +19,7 @@ class Editor(QMainWindow):
         uic.loadUi(path, self) # Load the .ui file
 
         self.comp = CompList()
-        self.compDock.setWidget(self.comp);
+        self.compDock.setWidget(self.comp)
 
         ctrl = ctrllayout.CtrlLayout()
         ctrl.setMinimumSize(800, 600)
