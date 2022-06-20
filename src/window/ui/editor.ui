@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1100</width>
-    <height>587</height>
+    <width>788</width>
+    <height>481</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,7 @@
    <enum>Qt::LeftToRight</enum>
   </property>
   <property name="styleSheet">
-   <string notr="true">
-</string>
+   <string notr="true"/>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -29,7 +28,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout"/>
   </widget>
-  <widget class="QDockWidget" name="dockWidget_6">
+  <widget class="QDockWidget" name="compDock">
    <property name="sizePolicy">
     <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
      <horstretch>0</horstretch>
@@ -39,7 +38,7 @@
    <property name="minimumSize">
     <size>
      <width>278</width>
-     <height>500</height>
+     <height>42</height>
     </size>
    </property>
    <property name="styleSheet">
@@ -52,24 +51,19 @@
     <string>Components</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>8</number>
+    <number>1</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents_6">
-    <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="0">
-      <widget class="QListWidget" name="listWidget">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <widget class="QWidget" name="compDockContents">
+    <layout class="QGridLayout" name="gridLayout_2"/>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="dockWidget_8">
+  <widget class="QDockWidget" name="propDock">
+   <property name="minimumSize">
+    <size>
+     <width>318</width>
+     <height>113</height>
+    </size>
+   </property>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
@@ -80,12 +74,25 @@
     <string>Properties</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>8</number>
+    <number>2</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_8">
     <layout class="QGridLayout" name="gridLayout_3">
      <item row="0" column="0">
-      <widget class="QTableWidget" name="tableWidget"/>
+      <widget class="QTableWidget" name="tableWidget">
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

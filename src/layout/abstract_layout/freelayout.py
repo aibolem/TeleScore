@@ -1,30 +1,32 @@
 # This Python file uses the following encoding: utf-8
 from PyQt6.QtWidgets import QLayout
+from PyQt6.QtCore import QSize
 
 class FreeLayout(QLayout):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.items = [] # QLayoutItem List
         self.space = -1
+        self.size = QSize()
 
-    #Override
+    # Override
     def addItem(self, item):
         self.items.append(item)
 
-    #Override
+    # Override
     def count(self):
         return len(self.items)
 
-    #Override
+    # Override
     def indexOf(self, item):
         return self.items.index(item)
 
-    #Override
+    # Override
     def itemAt(self, index):
         if (index < self.count()):
             return self.items[index]
 
-    #Override
+    # Override
     def replaceWidget(self, fr, to, option = None): # This should only change one widget
         for item in self.items:
             if (item.widget() == fr):
@@ -35,12 +37,17 @@ class FreeLayout(QLayout):
                 if (replacedItem != None):
                     return replacedItem
 
-    #Override
+    # Override
     def setSpacing(self, value): # Check documentation
         self.space = value
 
     def spacing(self):
         return self.space
 
+    # Override
     def takeAt(self, index):
         self.items.remove(index)
+
+    # Override
+    def sizeHint(self):
+        return self.size
