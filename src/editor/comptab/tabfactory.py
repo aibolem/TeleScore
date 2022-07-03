@@ -1,4 +1,5 @@
 from .clocktab import ClockTab
+from .scoretab import ScoreTab
 
 class TabFactory():
     Clock = "Clock"
@@ -17,7 +18,7 @@ class TabFactory():
             case self.Name:
                 return ClockTab()
             case self.Score:
-                return ClockTab()
+                return ScoreTab()
             case self.Period:
                 return ClockTab()
 

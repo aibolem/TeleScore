@@ -16,3 +16,8 @@ class CompList(QWidget):
         self.categoryTab.clear()
         for cat in TabFactory.categories():
             self.categoryTab.addTab(TabFactory.makeTab(cat), cat)
+
+    def dragEvent(self):
+        pass
+
+        
