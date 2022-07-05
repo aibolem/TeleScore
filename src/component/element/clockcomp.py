@@ -6,8 +6,14 @@ from gm_resources import *
 
 
 class ClockComp(AbstractComp):
+    """
+    CLock widget for scoreboard.
+
+    This class has one clock object from the backend.
+    """
+
     def __init__(self):
         super().__init__(self)
-        path = resourcePath("clocktab.ui")
+        path = resourcePath("src\\editor\\complist.ui\\clockcomp.ui")
         uic.loadUi(path, self) # Load the .ui file
         self.clock = Clock(label=self.clockLabel)

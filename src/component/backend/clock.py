@@ -28,7 +28,7 @@ class Clock(QObject):
         else:
             self.clock.start(self.speed)
 
-    def valueChanged(self):
+    def __valueChanged(self):
         timeStr = QDateTime.fromMSecsSinceEpoch(self.tick).toString(self.timeFormat)
         if (self.label != None):
             self.label.setText(timeStr)
