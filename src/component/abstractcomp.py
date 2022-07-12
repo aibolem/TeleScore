@@ -19,22 +19,25 @@ class AbstractComp(ABC, QFrame):
 
     @abstractmethod
     def getName():
-        return "Name"
+        pass
 
     @abstractmethod
     def disableWidget():
         pass
-
     
+    # Override
     def contextMenuEvent(self):
         pass
 
+    # Override
     def mouseMoveEvent(self, a0: QtGui.QMouseEvent) -> None:
         return super().mouseMoveEvent(a0)
 
+    # Override
     def mousePressEvent(self, a0: QtGui.QMouseEvent) -> None:
         return super().mousePressEvent(a0)
 
+    # Override
     def mouseReleaseEvent(self, a0: QtGui.QMouseEvent) -> None:
         return super().mouseReleaseEvent(a0)
 

@@ -1,5 +1,6 @@
+from PyQt6.QtCore import QObject
 
-class Counter():
+class Counter(QObject):
     def __init__(self):
         self.value = 0
 
@@ -14,3 +15,6 @@ class Counter():
 
     def decrement(self, dec=1):
         self.value -= dec
+
+    def toString(self):
+        return str(self.value)

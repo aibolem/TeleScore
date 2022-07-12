@@ -35,5 +35,3 @@ class CompList(QWidget):
         :return: none
         """
         pass
-
-        

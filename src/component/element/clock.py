@@ -1,5 +1,6 @@
 from PyQt6.QtCore import QObject, pyqtSignal, QTimer, pyqtSlot, QDateTime
 from PyQt6.QtWidgets import QLabel
+import PyQt6.QtCore
 
 class Clock(QObject):
     def __init__(self, stopwatch=False, label=None):
@@ -10,6 +11,7 @@ class Clock(QObject):
         self.tickTo = 0
         self.stopwatch = stopwatch
         self.timeFormat = "mm:ss"
+        self.tick = 0
 
         self.clkChngedSignal = pyqtSignal(str)    # Signal/Callback for when clock is changed
 
