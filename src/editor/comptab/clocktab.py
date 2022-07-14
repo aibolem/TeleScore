@@ -3,25 +3,21 @@ from .compwidgetitem import CompWidgetItem
 from gm_resources import resourcePath
 
 class ClockTab():
-    def __init__(self, treeWidget, parent=None):
+    def __init__(self, treeWidget):
         self.treeWidget = treeWidget
-        self.parent = parent
+        self.parent = treeWidget
         self.insertItems();
 
     def insertItems(self):
-        header = CompWidgetHead(text="Time Based Buttons")
-        self.treeWidget.addTopLevelItem(header)
+        header = CompWidgetHead("Time Based Buttons", parent=self.parent)
         header.setExpanded(True)
 
-        timeDisplay = CompWidgetItem(text="Time Display", icon=resourcePath("src\\resources\\tdisp.png"), parent=self.parent)
-        startTime = CompWidgetItem(text="Start Time", icon=resourcePath("src\\resources\\startButton.png"), parent=self.parent)
-        stopTime = CompWidgetItem(text="Stop Time", icon=resourcePath("src\\resources\\stopButton.png"), parent=self.parent)
-        rstTime = CompWidgetItem(text="Reset Time", icon=resourcePath("src\\resources\\rstButton.png"), parent=self.parent)
-        addSec = CompWidgetItem(text="Add Seconds", icon=resourcePath("src\\resources\\addSec.png"), parent=self.parent)
-        subSec = CompWidgetItem(text="Subtract Seconds", icon=resourcePath("src\\resources\\subSec.png"), parent=self.parent)
-        addMin = CompWidgetItem(text="Add Minutes", icon=resourcePath("src\\resources\\addMin.png"), parent=self.parent)
-        subMin = CompWidgetItem(text="Subtract Minutes", icon=resourcePath("src\\resources\\subMin.png"), parent=self.parent)
-        setTime = CompWidgetItem(text="Type Time Amount", icon=resourcePath("src\\resources\\setTime.png"), parent=self.parent)
-
-        header.addChildren([timeDisplay, startTime, stopTime, rstTime,
-         addSec, subSec, addMin, subMin, setTime])
+        CompWidgetItem(resourcePath("src\\resources\\tdisp.png"), header, self.parent, "Time Display")
+        CompWidgetItem(resourcePath("src\\resources\\startButton.png"), header, self.parent, "Start Time")
+        CompWidgetItem(resourcePath("src\\resources\\stopButton.png"), header, self.parent, "Stop Time")
+        CompWidgetItem(resourcePath("src\\resources\\rstButton.png"), header, self.parent, "Reset Time")
+        CompWidgetItem(resourcePath("src\\resources\\addSec.png"), header, self.parent, "Add Seconds")
+        CompWidgetItem(resourcePath("src\\resources\\subSec.png"), header, self.parent , "Subtract Seconds")
+        CompWidgetItem(resourcePath("src\\resources\\addMin.png"), header, self.parent, "Add Minutes")
+        CompWidgetItem(resourcePath("src\\resources\\subMin.png"), header, self.parent, "Subtract Minutes")
+        CompWidgetItem(resourcePath("src\\resources\\setTime.png"), header, self.parent, "Type Time Amount")

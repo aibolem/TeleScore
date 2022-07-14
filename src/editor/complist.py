@@ -1,5 +1,4 @@
 # This Python file uses the following encoding: utf-8
-from unicodedata import category
 from PyQt6.QtWidgets import QWidget
 from PyQt6.QtGui import QDrag
 from PyQt6.QtCore import QMimeData, Qt
@@ -26,18 +25,17 @@ class CompList(QWidget):
         :param: none
         :return: none
         """
-        #self.catWidget.header().resizeSection(0, 200)
-        #self.catWidget.header().resizeSection(1, 30)
+        self.catWidget.header().resizeSection(0, 240)
+        self.catWidget.header().resizeSection(1, 30)
         self.catWidget.clear()
         for cat in TabFactory.categories():
             TabFactory.makeTab(cat, self.catWidget)
 
-    # Override
     def compItemClicked(self, item):
         """
         Initiates drag support
 
-        :param: Item that is clicked
+        :param item: Item that is clicked
         :return: none
         """
         arr = item.text().toUtf8().constData()
