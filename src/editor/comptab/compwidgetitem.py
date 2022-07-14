@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QTreeWidgetItem
-from PyQt6.QtGui import QIcon
+from PyQt6.QtGui import QIcon, QFont
+from PyQt6.QtCore import Qt
 
 class CompWidgetItem(QTreeWidgetItem):
     """
@@ -8,33 +9,15 @@ class CompWidgetItem(QTreeWidgetItem):
     such as the fonts, icon image size, etc.
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, text="Default", icon=None, parent=None):
         super().__init__(parent)
+        self.role = Qt.ItemDataRole.DisplayRole; # All the items are for displaying
+        self.setText(0, text)
+        self.setFont(0, QFont("Open Sans Bold", 12))
+        if (icon != None):
+            self.setIconFile(icon)
 
-    # Override
-    def __lt__(self):
-        raise NotImplementedError
-
-    # Override
-    def clone(self):
-        raise NotImplementedError
-
-    # Override
-    def data(self, column, role):
-        raise NotImplementedError
-
-    # Override
-    def read(self, input):
-        raise NotImplementedError
-
-    # Override
-    def setData(self, column, role, value):
-        raise NotImplementedError
-
-    # Override
-    def write(self, out):
-        raise NotImplementedError
-
-    # Override
     def setIconFile(self, iconFile):
-        self.setIcon
+        icon = QIcon(iconFile)
+        self.setIcon(0, icon)
+        

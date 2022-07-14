@@ -2,6 +2,10 @@ from .clocktab import ClockTab
 from .scoretab import ScoreTab
 
 class TabFactory():
+    """
+    Factory design patttern used to create category tabs in the component list.
+    """
+    
     Clock = "Clock"
     Name = "Name"
     Score = "Score"
@@ -11,19 +15,19 @@ class TabFactory():
         pass
 
     @classmethod
-    def makeTab(self, tabName):
+    def makeTab(self, tabName, treeWidget):
         match tabName:
             case self.Clock:
-                return ClockTab()
+                return ClockTab(treeWidget)
             case self.Name:
-                return ClockTab()
+                return ClockTab(treeWidget)
             case self.Score:
-                return ScoreTab()
+                return ScoreTab(treeWidget)
             case self.Period:
-                return ClockTab()
+                return ClockTab(treeWidget)
 
     @classmethod
     def categories(self):
-        categories = [self.Clock, self.Name,
-         self.Score, self.Period]
+        categories = [self.Clock, self.Score]
         return categories
+

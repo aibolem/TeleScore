@@ -6,9 +6,9 @@ from PyQt6.QtCore import QRect
 from gm_resources import *
 from layout import ctrllayout
 
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+'''PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
-    sys.path.append(PATH)
+    sys.path.append(PATH)'''
 
 from editor.complist import CompList
 
