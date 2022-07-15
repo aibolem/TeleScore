@@ -4,6 +4,11 @@ from PyQt6.QtWidgets import QFrame, QPushButton
 from .abstract_layout.freelayout import FreeLayout
 
 class CtrlLayout(QFrame):
+    """
+    This class is used to create a scoreboard control
+    layout
+    """
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.layout = FreeLayout()

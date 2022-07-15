@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 from PyQt6.QtWidgets import QWidget
 from PyQt6.QtGui import QDrag
-from PyQt6.QtCore import QMimeData, Qt, QObject, QByteArray
+from PyQt6.QtCore import QMimeData, Qt, QByteArray
 from PyQt6 import uic
 from gm_resources import *
 from .comptab.tabfactory import TabFactory

@@ -3,6 +3,10 @@ from .compwidgetitem import CompWidgetItem
 from gm_resources import resourcePath
 
 class ClockTab():
+    """
+    Adds a clock tab to the component list
+    """
+
     def __init__(self, treeWidget):
         self.treeWidget = treeWidget
         self.parent = treeWidget
