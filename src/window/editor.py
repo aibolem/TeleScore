@@ -10,7 +10,7 @@ from layout import ctrllayout
 if PATH not in sys.path:
     sys.path.append(PATH)'''
 
-from editor.complist import CompList
+from editor.complisttab import CompList
 
 class Editor(QMainWindow):
     def __init__(self, *args):
