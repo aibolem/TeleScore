@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 from PyQt6.QtWidgets import QWidget
 from PyQt6.QtGui import QDrag
-from PyQt6.QtCore import QMimeData, Qt
+from PyQt6.QtCore import QMimeData, Qt, QObject, QByteArray
 from PyQt6 import uic
 from gm_resources import *
 from .comptab.tabfactory import TabFactory
@@ -17,6 +17,7 @@ class CompList(QWidget):
         uic.loadUi(path, self) # Load the .ui file
         self.tab = []
         self.loadTabs()
+        self.catWidget.itemClicked.connect(self.compItemClicked)
 
     def loadTabs(self):
         """
@@ -25,7 +26,7 @@ class CompList(QWidget):
         :param: none
         :return: none
         """
-        self.catWidget.header().resizeSection(0, 240)
+        self.catWidget.header().resizeSection(0, 240) 
         self.catWidget.header().resizeSection(1, 30)
         self.catWidget.clear()
         for cat in TabFactory.categories():
@@ -38,13 +39,12 @@ class CompList(QWidget):
         :param item: Item that is clicked
         :return: none
         """
-        arr = item.text().toUtf8().constData()
         mimeData = QMimeData()
-
-        mimeData.setData("application/x-comp", arr)
+        convByte = str.encode(item.text(0))
+        mimeData.setData("application/x-comp", QByteArray(convByte))
         drag = QDrag(self)
-
+    
         drag.setMimeData(mimeData)
-        if (drag.exec(Qt.DropAction.MoveAction | Qt.DropAction.CopyAction)):
+        if (drag.exec(Qt.DropAction.MoveAction | Qt.DropAction.CopyAction)): # Seem to get null for the pixmap (file not found)
             pass
 
