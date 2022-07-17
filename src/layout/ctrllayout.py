@@ -1,9 +1,8 @@
 """
-Author: Ian, TheLittleDoc
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 # This Python file uses the following encoding: utf-8
-from turtle import width
 from PyQt6.QtWidgets import QFrame
 from PyQt6.QtCore import QEvent, QRect
 import os, sys
@@ -45,11 +44,5 @@ class CtrlLayout(QFrame):
         :return: none
         """
         pass
-
-    def test(self):
-        for i in range(0, 500, 10):
-            item = ButtonComp()
-            item.setGeometry(10+i, 10+i, 30, 30)
-            self.actualLayout.addComponent(item, self.size())
 
 

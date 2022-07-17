@@ -1,3 +1,7 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 from PyQt6.QtWidgets import QPushButton
 from PyQt6 import uic
 from gm_resources import *

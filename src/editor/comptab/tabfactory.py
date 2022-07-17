@@ -1,3 +1,7 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 from .clocktab import ClockTab
 from .scoretab import ScoreTab
 

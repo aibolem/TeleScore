@@ -1,3 +1,7 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 from abc import ABC, abstractmethod
 
 class AbstractCmd(ABC):

@@ -1,3 +1,7 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 import os
 import sys
 from PyQt6.QtWidgets import QMessageBox
@@ -6,9 +10,9 @@ import webbrowser
 
 f = {}
 
-class GMessageBox:
+class GMessageBox():
     """A class defining the types of message boxes we'll be using. I'm dumb and don't know how else to do this, but it didn't look like QMessageBox included the things I was expecting it to lmao"""
-    def __init__(self,title,message,type):
+    def __init__(self, title, message, type):
         self.title = title
         self.message = message
         self.type = type

@@ -1,9 +1,21 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 from PyQt6.QtCore import QObject, pyqtSignal, QTimer, pyqtSlot, QDateTime
 from PyQt6.QtWidgets import QLabel
-import PyQt6.QtCore
 
 class Clock(QObject):
+    """
+    Class that implements a basic clock (timer or stopwatch),
+    Utitlizes QTimer for the clock to update. 
+    For cleaner code, QTimer is updated every milliseconds
+    instead of seconds.
+    """
+
     def __init__(self, stopwatch=False, label=None):
+        """
+        """
         super().__init__(self)
         self.tickFrom = 0
         self.clock = QTimer(self)

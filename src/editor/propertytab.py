@@ -1,5 +1,5 @@
 """
-Author: Ian, TheLittleDoc
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 from PyQt6.QtWidgets import QWidget

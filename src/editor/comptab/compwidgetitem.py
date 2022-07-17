@@ -1,7 +1,11 @@
-from PyQt6.QtWidgets import QTreeWidgetItem, QPushButton
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
+from PyQt6.QtWidgets import QTreeWidgetItem, QPushButton, QTreeWidget
 from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtCore import Qt, QSize
-from gm_resources import resourcePath
+from gm_resources import *
 
 class CompWidgetItem(QTreeWidgetItem):
     """
@@ -10,7 +14,8 @@ class CompWidgetItem(QTreeWidgetItem):
     such as the fonts, icon image size, etc.
     """
 
-    def __init__(self, icon, parent, treeWidget, text="Default"):
+    def __init__(self, icon: QIcon,
+     parent: QTreeWidgetItem, treeWidget: QTreeWidget, text="Default"):
         """
         Consturctor for a component list item
 
@@ -28,13 +33,28 @@ class CompWidgetItem(QTreeWidgetItem):
         if (icon != None):
             self.setIconFile(icon)
 
-        infoButton = QPushButton()
-        infoButton.setIconSize(QSize(20, 20))
-        infoButton.setIcon(QIcon(resourcePath("src\\resources\\infoButton.png")))
-        infoButton.setStyleSheet("border: none;")
-        treeWidget.setItemWidget(self, 1, infoButton)
+        self.infoButton = QPushButton()
+        self.infoButton.setIconSize(QSize(20, 20))
+        self.infoButton.setIcon(QIcon(resourcePath("src\\resources\\infoButton.png")))
+        self.infoButton.setStyleSheet("QPushButton {border: none;}")
+        self.infoButton.pressed.connect(self.infoButtonClicked)
+        self.infoButton.released.connect(self.infoButtonReleased)
+        treeWidget.setItemWidget(self, 1, self.infoButton)
 
-    def setIconFile(self, iconFile):
+    def infoButtonReleased(self):
+        self.infoButton.setIcon(QIcon(resourcePath("src\\resources\\infoButton.png")))
+
+    def infoButtonClicked(self):
+        self.infoButton.setIcon(QIcon(resourcePath("src\\resources\\infoButtonDown.png")))
+        msg = GMessageBox("Clock", "It's a clock duhh...", "AskYesNo")
+        msg.exec()
+
+    def setIconFile(self, iconFile: str) -> None:
+        """
+        Sets the icon next to the description
+
+        :param iconFile: icon file location
+        """
         icon = QIcon(iconFile)
         self.setIcon(0, icon)
         

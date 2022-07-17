@@ -1,3 +1,7 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 from PyQt6.QtWidgets import QFrame
 from PyQt6.QtCore import QSize, QRect
 from abc import ABC, abstractmethod, ABCMeta

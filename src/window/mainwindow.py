@@ -1,5 +1,5 @@
 """
-Author: Ian, TheLittleDoc
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 import os

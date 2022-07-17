@@ -1,3 +1,7 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 from PyQt6.QtCore import QObject
 
 class Counter(QObject):

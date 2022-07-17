@@ -1,3 +1,7 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 from PyQt6.QtWidgets import QLabel, QPushButton
 from PyQt6 import uic
 from ..abstractcomp import AbstractComp

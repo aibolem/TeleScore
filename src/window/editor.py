@@ -1,10 +1,9 @@
 """
-Author: Ian, TheLittleDoc
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 from PyQt6.QtWidgets import QMainWindow, QFrame
 from PyQt6 import uic
-from PyQt6.QtCore import QRect
 from gm_resources import *
 from layout import ctrllayout
 
@@ -28,7 +27,6 @@ class Editor(QMainWindow):
 
         ctrl = ctrllayout.CtrlLayout()
         ctrl.setMinimumSize(800, 600)
-        ctrl.test()
         ctrl.setFrameShape(QFrame.Shape.Box)
         self.setCentralWidget(ctrl)
 

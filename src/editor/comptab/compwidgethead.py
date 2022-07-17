@@ -1,3 +1,7 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 from PyQt6.QtWidgets import QTreeWidgetItem
 from PyQt6.QtGui import QFont, QColor
 from PyQt6.QtCore import Qt

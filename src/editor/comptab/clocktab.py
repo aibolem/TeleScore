@@ -1,3 +1,7 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 from .compwidgethead import CompWidgetHead
 from .compwidgetitem import CompWidgetItem
 from gm_resources import resourcePath
@@ -12,7 +16,12 @@ class ClockTab():
         self.parent = treeWidget
         self.insertItems();
 
-    def insertItems(self):
+    def insertItems(self) -> None:
+        """
+        Method that adds all the component item
+        to the tab.
+        """
+
         header = CompWidgetHead("Time Based Buttons", parent=self.parent)
         header.setExpanded(True)
 
