@@ -20,5 +20,8 @@ class ButtonComp(AbstractComp):
     def disableWidget(self) -> None:
         self.pushButton.setEnabled(False)
 
+    def setButtonColor(self, hexval: str) -> None:
+        self.setStyleSheet("QPushButton {background-color: " + hexval + ";}")
+
     def getName() -> str:
         return "Button"

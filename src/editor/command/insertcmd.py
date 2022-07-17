@@ -2,7 +2,15 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
+import os, sys
 from .abstractcmd import AbstractCmd
+
+PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+if PATH not in sys.path:
+    sys.path.append(PATH)
+
+from layout.ctrllayout import CtrlLayout
+from component.compfactory import CompFactory
 
 class InsertCmd(AbstractCmd):
     """
@@ -10,7 +18,7 @@ class InsertCmd(AbstractCmd):
     to the layout
     """
 
-    def __init__(self, layout, type, pos, name):
+    def __init__(self, layout: CtrlLayout, type: str, pos, name):
         """
         :param layout: Layout
         :param type: Component type (Ex. Clock)
@@ -25,4 +33,8 @@ class InsertCmd(AbstractCmd):
         pass
 
     def execute(self):
+        freelayout = self.layout.getLayout()
+        button = CompFactory.makeComponent("Clock")
+        button.move(self.pos)
+        freelayout.addComponent(button, self.layout.size())
         pass

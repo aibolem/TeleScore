@@ -23,6 +23,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         :param 
         """
         super().__init__(parent)
+        self.propertyMap = {}
 
     @abstractmethod
     def getName():
@@ -46,6 +47,11 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         :param: size of the parent widget
         :return: none
         """
+        if (self.x() <= 0):
+            self.move(1, self.y())
+        if (self.y() <= 0):
+            self.move(self.x(), 1)
+
         self.xratio = size.width() / self.x()
         self.yratio = size.height() / self.y()
         self.wratio = size.width() / self.width()
