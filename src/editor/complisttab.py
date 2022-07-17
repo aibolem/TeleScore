@@ -1,3 +1,7 @@
+"""
+Author: Ian, TheLittleDoc
+"""
+
 # This Python file uses the following encoding: utf-8
 from PyQt6.QtWidgets import QWidget
 from PyQt6.QtGui import QDrag
@@ -5,21 +9,22 @@ from PyQt6.QtCore import QMimeData, Qt, QByteArray
 from PyQt6 import uic
 from gm_resources import *
 from .comptab.tabfactory import TabFactory
+from .comptab.compwidgetitem import CompWidgetItem
 
-class CompList(QWidget):
+class CompListTab(QWidget):
     """
     Widget that displays all of the components for the scoreboard. 
     """
     
     def __init__(self, parent=None):
         super().__init__(parent) # Call the inherited classes __init__ method
-        path = resourcePath("src\\editor\\complist.ui")
+        path = resourcePath("src\\editor\\complisttab.ui")
         uic.loadUi(path, self) # Load the .ui file
         self.tab = []
         self.loadTabs()
-        self.catWidget.itemClicked.connect(self.compItemClicked)
+        self.catWidget.itemPressed.connect(self.compItemClicked)
 
-    def loadTabs(self):
+    def loadTabs(self) -> None:
         """
         Loads the category tab.
 
@@ -32,7 +37,7 @@ class CompList(QWidget):
         for cat in TabFactory.categories():
             TabFactory.makeTab(cat, self.catWidget)
 
-    def compItemClicked(self, item):
+    def compItemClicked(self, item: CompWidgetItem) -> None:
         """
         Initiates drag support
 
@@ -45,6 +50,7 @@ class CompList(QWidget):
         drag = QDrag(self)
     
         drag.setMimeData(mimeData)
-        if (drag.exec(Qt.DropAction.MoveAction | Qt.DropAction.CopyAction)): # Seem to get null for the pixmap (file not found)
-            pass
+        drag.exec(Qt.DropAction.MoveAction | Qt.DropAction.CopyAction)
+
+
 

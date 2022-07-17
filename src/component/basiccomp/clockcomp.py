@@ -14,7 +14,7 @@ class ClockComp(AbstractComp):
 
     def __init__(self):
         super().__init__(self)
-        path = resourcePath("src\\component\\basiccomp\\clockcomp.ui")
+        path = resourcePath("src/component/basiccomp/clockcomp.ui")
         uic.loadUi(path, self) # Load the .ui file
         self.clock = Clock(label=self.clockLabel) 
 
