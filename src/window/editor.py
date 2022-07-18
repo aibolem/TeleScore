@@ -4,9 +4,9 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 
 from PyQt6.QtWidgets import QMainWindow, QFrame
 from PyQt6 import uic, QtGui
-from PyQt6.QtCore import QPoint, pyqtSlot
+from PyQt6.QtCore import QPoint, pyqtSlot, QSize
 from gm_resources import *
-from layout import ctrllayout
+from layout.ctrllayout import CtrlLayout
 
 from editor.complisttab import CompListTab
 from editor.propertytab import PropertyTab
@@ -15,13 +15,12 @@ from editor.command.insertcmd import InsertCmd
 class Editor(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent) # Call the inherited classes __init__ method
-        path = resourcePath("src\\window\\ui\\editor.ui")
+        path = resourcePath("src/window/ui/editor.ui")
         uic.loadUi(path, self) # Load the .ui file
         self.cmdStack = []
-        self.ctrl = ctrllayout.CtrlLayout()
+        self.ctrl = CtrlLayout(size=QSize(800, 600))
         self.ctrl.dropSignal.connect(self.dropSlot)
         self._initUI()
-        
 
     def _initUI(self):
         self.comp = CompListTab()
@@ -30,7 +29,6 @@ class Editor(QMainWindow):
         self.prop = PropertyTab()
         self.propDock.setWidget(self.prop)
 
-        self.ctrl.setMinimumSize(800, 600)
         self.ctrl.setFrameShape(QFrame.Shape.Box)
         self.setCentralWidget(self.ctrl)
 
@@ -39,8 +37,8 @@ class Editor(QMainWindow):
         """
         
         """
-        type = evt.mimeData().data("application/x-comp")
+        type = evt.mimeData().data("application/x-comp").data().decode()
         point = QPoint(int(evt.position().x()), int(evt.position().y()))
-        insert = InsertCmd(self.ctrl, type, point, "")
+        insert = InsertCmd(self.ctrl, type, point, "name")
         insert.execute()
         self.cmdStack.append(insert)

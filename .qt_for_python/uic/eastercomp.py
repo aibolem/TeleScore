@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\Scoreboard\src\component\basiccomp\clockcomp.ui'
+# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\Scoreboard\src\component\basiccomp\eastercomp.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.0
 #
@@ -12,26 +12,21 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(120, 73)
-        Form.setMinimumSize(QtCore.QSize(20, 20))
+        Form.resize(105, 75)
+        Form.setMinimumSize(QtCore.QSize(100, 75))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
         Form.setFont(font)
         Form.setStyleSheet("background-color: #242325;\n"
-"color: #FF9B42;")
+"color: white;")
         self.gridLayout = QtWidgets.QGridLayout(Form)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setContentsMargins(5, 5, 5, 5)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
-        self.clockLabel = QtWidgets.QLabel(Form)
-        font = QtGui.QFont()
-        font.setPointSize(28)
-        font.setBold(True)
-        self.clockLabel.setFont(font)
-        self.clockLabel.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.clockLabel.setObjectName("clockLabel")
-        self.gridLayout.addWidget(self.clockLabel, 0, 0, 1, 2)
+        self.pushButton = QtWidgets.QPushButton(Form)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.pushButton, 0, 0, 1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -39,4 +34,4 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.clockLabel.setText(_translate("Form", "00:00"))
+        self.pushButton.setText(_translate("Form", "You found me"))

@@ -8,6 +8,7 @@ from PyQt6.QtGui import QDrag
 from PyQt6.QtCore import QMimeData, Qt, QByteArray
 from PyQt6 import uic
 from gm_resources import *
+from .comptab.compwidgethead import CompWidgetHead
 from .comptab.tabfactory import TabFactory
 from .comptab.compwidgetitem import CompWidgetItem
 
@@ -18,7 +19,7 @@ class CompListTab(QWidget):
     
     def __init__(self, parent=None):
         super().__init__(parent) # Call the inherited classes __init__ method
-        path = resourcePath("src\\editor\\complisttab.ui")
+        path = resourcePath("src/editor/complisttab.ui")
         uic.loadUi(path, self) # Load the .ui file
         self.tab = []
         self.loadTabs()
@@ -44,13 +45,14 @@ class CompListTab(QWidget):
         :param item: Item that is clicked
         :return: none
         """
-        mimeData = QMimeData()
-        convByte = str.encode(item.text(0))
-        mimeData.setData("application/x-comp", QByteArray(convByte))
-        drag = QDrag(self)
-    
-        drag.setMimeData(mimeData)
-        drag.exec(Qt.DropAction.MoveAction | Qt.DropAction.CopyAction)
+        if (type(item) != CompWidgetHead):
+            mimeData = QMimeData()
+            convByte = str.encode(item.text(0))
+            mimeData.setData("application/x-comp", QByteArray(convByte))
+            drag = QDrag(self)
+        
+            drag.setMimeData(mimeData)
+            drag.exec(Qt.DropAction.MoveAction | Qt.DropAction.CopyAction)
 
 
 

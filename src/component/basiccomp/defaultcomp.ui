@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>120</width>
-    <height>73</height>
+    <width>105</width>
+    <height>75</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>20</width>
-    <height>20</height>
+    <width>100</width>
+    <height>75</height>
    </size>
   </property>
   <property name="font">
@@ -27,37 +27,28 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #242325;
-color: #FF9B42;</string>
+color: white;</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="clockLabel">
-     <property name="font">
-      <font>
-       <pointsize>28</pointsize>
-       <bold>true</bold>
-      </font>
-     </property>
+   <item row="0" column="0">
+    <widget class="QPushButton" name="pushButton">
      <property name="text">
-      <string>00:00</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <string>You found me</string>
      </property>
     </widget>
    </item>

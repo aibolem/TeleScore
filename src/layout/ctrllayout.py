@@ -4,7 +4,7 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 
 # This Python file uses the following encoding: utf-8
 from PyQt6.QtWidgets import QFrame
-from PyQt6.QtCore import QEvent, QRect, pyqtSignal
+from PyQt6.QtCore import QEvent, QRect, pyqtSignal, QSize
 from PyQt6.QtGui import QDropEvent
 import os, sys
 
@@ -23,12 +23,21 @@ class CtrlLayout(QFrame):
     """
     dropSignal = pyqtSignal(QDropEvent)
 
-    def __init__(self, parent=None):
+    def __init__(self, size=QSize(800, 600), parent=None):
         super().__init__(parent)
         self.actualLayout = FreeLayout()
         self.actualLayout.setGeometry(QRect(0, 0, self.width(), self.height()))
         self.setLayout(self.actualLayout)
         self.setAcceptDrops(True)
+        self.setSize(size)
+        self.setStyleSheet("background-color: white;")
+
+    def setSize(self, size: QSize) -> None:
+        self.setMinimumSize(size)
+        self.size = size
+
+    def defaultSize(self):
+        return self.size
 
     def resizeEvent(self, event: QEvent) -> None:
         """

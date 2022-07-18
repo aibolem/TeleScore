@@ -1,33 +1,47 @@
 """
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
-from tkinter import Button
+from .basiccomp.clocksetcomp import ClockSetComp
 from .basiccomp.buttoncomp import ButtonComp
+from .basiccomp.clockcomp import ClockComp
+from .basiccomp.defaultcomp import DefaultComp
 
 class CompFactory():
     """
     Factory design patttern used to create category tabs in the component list.
     """
     
-    Clock = "Clock"
-    Name = "Name"
-    Score = "Score"
-    Period = "Period"
+    NAME = "NAME"
+    COLOR = "COLOR"
+    TIMEDISPLAY = "Time Display"
+    TIMESET = "Type Time Amount"
+
+    buttonName = {
+                "Start Time": {NAME: "Start", COLOR: "#439A86"},
+                "Stop Time": {NAME: "Stop", COLOR: "#e15554"},
+                "Reset Time": {NAME: "Reset", COLOR: "#4357ad"},
+                "Add Seconds": {NAME: "Add [+]\nSeconds", COLOR: "#242325"},
+                "Subtract Seconds": {NAME: "Subtract [+]\nSeconds", COLOR: "#242325"},
+                "Add Minutes": {NAME: "Add [-]\nMinutes", COLOR: "#242325"},
+                "Subtract Minutes": {NAME: "Subtract [-]\nMinutes", COLOR: "#242325"}
+                }
 
     def __init__():
         pass
 
     @classmethod
     def makeComponent(self, compName: str):
+        comp = DefaultComp()
+
+        if (compName in self.buttonName):
+            comp = ButtonComp(self.buttonName[compName][self.NAME])
+            comp.setButtonColor(self.buttonName[compName][self.COLOR])
+
         match compName:
-            case self.Clock:
-                button = ButtonComp()
-                button.setButtonColor("#FF00FF")
-                button.setFixedSize(150, 100)
-                return button
+            case self.TIMEDISPLAY:
+                comp = ClockComp()
+            case self.TIMESET:
+                comp = ClockSetComp()
 
-    @classmethod
-    def categories(self):
-        categories = [self.Clock, self.Score]
-        return categories
-
+        comp.setFixedSize(100, 70)
+        return comp

@@ -16,7 +16,7 @@ class Clock(QObject):
     def __init__(self, stopwatch=False, label=None):
         """
         """
-        super().__init__(self)
+        super().__init__(None)
         self.tickFrom = 0
         self.clock = QTimer(self)
         self.speed = 100

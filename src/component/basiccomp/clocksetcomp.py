@@ -4,11 +4,10 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 
 from PyQt6 import uic
 from ..abstractcomp import AbstractComp
-from ..element.clock import Clock
 from gm_resources import *
 
 
-class ClockComp(AbstractComp):
+class ClockSetComp(AbstractComp):
     """
     CLock widget for scoreboard.
 
@@ -17,9 +16,8 @@ class ClockComp(AbstractComp):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        path = resourcePath("src/component/basiccomp/clockcomp.ui")
+        path = resourcePath("src/component/basiccomp/clocksetcomp.ui")
         uic.loadUi(path, self) # Load the .ui file
-        self.clock = Clock(label=self.clockLabel) 
 
     def disableWidget(self) -> None:
         # Nothing to implement here since clock is just a label
@@ -27,4 +25,4 @@ class ClockComp(AbstractComp):
 
     # Override
     def getName(self) -> str:
-        return "Time Display"
+        return "Time Type Amount"

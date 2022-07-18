@@ -4,6 +4,7 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 
 import os, sys
 from .abstractcmd import AbstractCmd
+from PyQt6.QtCore import QPoint
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
@@ -18,7 +19,7 @@ class InsertCmd(AbstractCmd):
     to the layout
     """
 
-    def __init__(self, layout: CtrlLayout, type: str, pos, name):
+    def __init__(self, layout: CtrlLayout, type: str, pos: QPoint, name: str):
         """
         :param layout: Layout
         :param type: Component type (Ex. Clock)
@@ -29,12 +30,10 @@ class InsertCmd(AbstractCmd):
         self.layout = layout
         self.type = type
         self.pos = pos
-        self.name = name
-        pass
 
     def execute(self):
         freelayout = self.layout.getLayout()
-        button = CompFactory.makeComponent("Clock")
-        button.move(self.pos)
-        freelayout.addComponent(button, self.layout.size())
-        pass
+        component = CompFactory.makeComponent(self.type)
+        if (component != None):
+            component.move(self.pos)
+            freelayout.addComponent(component, self.layout.defaultSize())

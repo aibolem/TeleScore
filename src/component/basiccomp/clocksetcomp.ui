@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>120</width>
-    <height>73</height>
+    <width>131</width>
+    <height>82</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -27,34 +27,72 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #242325;
-color: #FF9B42;</string>
+color: white;</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="clockLabel">
+   <item row="1" column="0" colspan="2">
+    <widget class="QPushButton" name="pushButton">
+     <property name="minimumSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
+     </property>
      <property name="font">
       <font>
-       <pointsize>28</pointsize>
+       <pointsize>16</pointsize>
        <bold>true</bold>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border: none;
+	background-color: #4357AD;
+	color: white;
+}
+
+QPushButton:pressed {
+	border: none;
+	background-color: #213aa6;
+	color: white;
+}</string>
+     </property>
+     <property name="text">
+      <string>SET</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLineEdit" name="lineEdit">
+     <property name="font">
+      <font>
+       <pointsize>22</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="inputMask">
+      <string>00:00</string>
+     </property>
      <property name="text">
       <string>00:00</string>
+     </property>
+     <property name="frame">
+      <bool>false</bool>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

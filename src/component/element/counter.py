@@ -6,6 +6,7 @@ from PyQt6.QtCore import QObject
 
 class Counter(QObject):
     def __init__(self):
+        super().__init__(None)
         self.value = 0
 
     def getValue(self):
