@@ -19,7 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QIcon(resourcePath("src/resources/icon.ico"))) # Using a slightly modified version of my PyInstaller Resource system. Also seen on line 18. Basically uses working directory OR temp directory for absolute paths to files.
 
     def initUI(self):
-        path = resourcePath("src\\window\\ui\\mainwindow.ui") # replaced complicated path logic with resourcePath()
+        path = resourcePath("src/window/ui/mainwindow.ui") # replaced complicated path logic with resourcePath()
         uic.loadUi(path, self) # Load the .ui file
         self.show() # Show the GUI
 

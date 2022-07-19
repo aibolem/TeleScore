@@ -30,18 +30,18 @@ class CompFactory():
         pass
 
     @classmethod
-    def makeComponent(self, compName: str):
+    def makeComponent(self, compName: str, edit=False):
         comp = DefaultComp()
 
         if (compName in self.buttonName):
-            comp = ButtonComp(self.buttonName[compName][self.NAME])
+            comp = ButtonComp(self.buttonName[compName][self.NAME], edit)
             comp.setButtonColor(self.buttonName[compName][self.COLOR])
 
         match compName:
             case self.TIMEDISPLAY:
-                comp = ClockComp()
+                comp = ClockComp(edit)
             case self.TIMESET:
-                comp = ClockSetComp()
+                comp = ClockSetComp(edit)
 
         comp.setFixedSize(100, 70)
         return comp

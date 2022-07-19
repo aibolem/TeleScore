@@ -14,10 +14,14 @@ class ClockSetComp(AbstractComp):
     This class has one clock object from the backend.
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, edit=False, parent=None):
         super().__init__(parent)
         path = resourcePath("src/component/basiccomp/clocksetcomp.ui")
         uic.loadUi(path, self) # Load the .ui file
+
+        if (edit == True):
+            self.lineEdit.installEventFilter(self)
+            self.pushButton.installEventFilter(self)
 
     def disableWidget(self) -> None:
         # Nothing to implement here since clock is just a label

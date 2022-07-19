@@ -33,7 +33,10 @@ class InsertCmd(AbstractCmd):
 
     def execute(self):
         freelayout = self.layout.getLayout()
-        component = CompFactory.makeComponent(self.type)
+        component = CompFactory.makeComponent(self.type, True)
         if (component != None):
             component.move(self.pos)
+            component.disableWidget()
             freelayout.addComponent(component, self.layout.defaultSize())
+            if (self.layout.defaultSize() != self.layout.size()):
+                component.resizeFromOrg(self.layout.size())

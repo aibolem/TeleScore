@@ -23,21 +23,21 @@ class CtrlLayout(QFrame):
     """
     dropSignal = pyqtSignal(QDropEvent)
 
-    def __init__(self, size=QSize(800, 600), parent=None):
+    def __init__(self, projSize=QSize(800, 600), parent=None):
         super().__init__(parent)
         self.actualLayout = FreeLayout()
         self.actualLayout.setGeometry(QRect(0, 0, self.width(), self.height()))
         self.setLayout(self.actualLayout)
         self.setAcceptDrops(True)
-        self.setSize(size)
+        self.setSize(projSize)
+        self.projSize = projSize
         self.setStyleSheet("background-color: white;")
 
     def setSize(self, size: QSize) -> None:
         self.setMinimumSize(size)
-        self.size = size
 
     def defaultSize(self):
-        return self.size
+        return self.projSize
 
     def resizeEvent(self, event: QEvent) -> None:
         """
@@ -67,9 +67,12 @@ class CtrlLayout(QFrame):
         """
         return self.actualLayout
 
-    def dragEnterEvent(self, evt):
+    def dragEnterEvent(self, evt) -> None:
         """
-        
+        Method is called when anything dragged is entered.
+
+        :param evt: event
+        :return: none
         """
         if (evt.mimeData().hasFormat("application/x-comp")):
             evt.setAccepted(True)

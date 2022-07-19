@@ -18,7 +18,7 @@ class Editor(QMainWindow):
         path = resourcePath("src/window/ui/editor.ui")
         uic.loadUi(path, self) # Load the .ui file
         self.cmdStack = []
-        self.ctrl = CtrlLayout(size=QSize(800, 600))
+        self.ctrl = CtrlLayout(projSize=QSize(800, 600))
         self.ctrl.dropSignal.connect(self.dropSlot)
         self._initUI()
 

@@ -1,3 +1,7 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 from .compwidgethead import CompWidgetHead
 from .compwidgetitem import CompWidgetItem
 from gm_resources import resourcePath

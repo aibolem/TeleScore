@@ -15,7 +15,7 @@ class ClockComp(AbstractComp):
     This class has one clock object from the backend.
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, edit=False, parent=None):
         super().__init__(parent)
         path = resourcePath("src/component/basiccomp/clockcomp.ui")
         uic.loadUi(path, self) # Load the .ui file
