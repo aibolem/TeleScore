@@ -64,6 +64,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         self.hratio = size.height() / self.height()
 
         self.parentSize = size
+        self.updatedSize = size
 
     def parentResizeEvent(self, size: QSize) -> None:
         """
@@ -117,6 +118,9 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         return False
 
     def cornerResizeCheck(self, pos) -> bool:
+        """
+        Method for resizing by drag. 
+        """
         if (pos.x() <= self.resizeRadius and pos.y() <= self.resizeRadius): # Top Left
             self.setCursor(Qt.CursorShape.SizeFDiagCursor)
         elif (pos.x() >= self.size().width()-self.resizeRadius and pos.y() <= self.resizeRadius): # Top right

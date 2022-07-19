@@ -2,7 +2,7 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QPushButton
 from PyQt6 import uic
 import sys, os
 
@@ -19,6 +19,11 @@ class PropertyTab(QWidget):
     
     def __init__(self, parent=None):
         super().__init__(parent) # Call the inherited classes __init__ method
-        path = resourcePath("src\\editor\\propertytab.ui")
+        path = resourcePath("src/editor/propertytab.ui")
         uic.loadUi(path, self) # Load the .ui file
+        self.dockWidget.setTitleBarWidget(QWidget())
+
+
+    def loadProperties(self):
+        pass
         
