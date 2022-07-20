@@ -7,7 +7,7 @@ from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtCore import Qt, QSize
 from gm_resources import *
 
-class CompWidgetItem(QTreeWidgetItem):
+class PropWidgetItem(QTreeWidgetItem):
     """
     Each component listed in the component list is made from 
     this class object. This widget item will standardize attributes
@@ -33,12 +33,4 @@ class CompWidgetItem(QTreeWidgetItem):
         if (icon != None):
             self.setIconFile(icon)
 
-    def setIconFile(self, iconFile: str) -> None:
-        """
-        Sets the icon next to the description
-
-        :param iconFile: icon file location
-        """
-        icon = QIcon(iconFile)
-        self.setIcon(0, icon)
         

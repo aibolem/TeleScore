@@ -28,3 +28,7 @@ class ClockComp(AbstractComp):
     # Override
     def getName(self) -> str:
         return "Time Display"
+
+    # Override
+    def getPropertyTab(self) -> list:
+        return None

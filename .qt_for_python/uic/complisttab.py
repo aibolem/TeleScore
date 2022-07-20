@@ -37,4 +37,3 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.catWidget.headerItem().setText(0, _translate("Form", "Category"))
-        self.catWidget.headerItem().setText(1, _translate("Form", "Info"))

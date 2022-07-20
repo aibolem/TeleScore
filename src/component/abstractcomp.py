@@ -2,6 +2,7 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
+from tkinter import E
 from PyQt6.QtWidgets import QFrame
 from PyQt6.QtCore import QSize, QPoint, Qt, QEvent, QObject
 from PyQt6.QtGui import QMouseEvent
@@ -41,6 +42,10 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     
     # Override
     def contextMenuEvent(self):
+        pass
+
+    @abstractmethod
+    def getPropertyTab(self) -> list:
         pass
 
     def sizeInit(self, size: QSize) -> None:

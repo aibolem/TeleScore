@@ -24,3 +24,7 @@ class DefaultComp(AbstractComp):
     # Override
     def getName(self) -> str:
         return ""
+
+    # Override
+    def getPropertyTab(self) -> list:
+        return None

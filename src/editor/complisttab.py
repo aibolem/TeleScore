@@ -32,8 +32,6 @@ class CompListTab(QWidget):
         :param: none
         :return: none
         """
-        self.catWidget.header().resizeSection(0, 240) 
-        self.catWidget.header().resizeSection(1, 30)
         self.catWidget.clear()
         for cat in TabFactory.categories():
             TabFactory.makeTab(cat, self.catWidget)
@@ -52,6 +50,7 @@ class CompListTab(QWidget):
             drag = QDrag(self)
         
             drag.setMimeData(mimeData)
+            drag.setPixmap(item.icon(0).pixmap(20, 20))
             drag.exec(Qt.DropAction.MoveAction | Qt.DropAction.CopyAction)
 
 

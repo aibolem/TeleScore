@@ -42,5 +42,34 @@ class ButtonComp(AbstractComp):
                             "QPushButton:hover{color: #e8e8e8;}")
         pass
 
+    def getPropertyTab(self) -> list:
+        """
+        Method that returns how the property tab should
+        be setup for this instance of a button
+
+        :param: none
+        :return: list containing the layout info
+        """
+        prop = [
+            {
+                "TABNAME": "Add [+] Properties",
+                "PROPERTIES": [
+                    ["Increase Number By:", "TEXTEDIT"],
+                    ["Hotkey Button:", "TEXTEDIT"],
+                    ]
+            },
+            {
+                "TABNAME": "Button Properties",
+                "PROPERTIES": [
+                    ["Text Info:", "TEXTEDIT"],
+                    ["Width", "NUMEDIT"],
+                    ["Height", "NUMEDIT"]
+                    ["Text Font:", "FONTEDIT"]
+                ]
+            }
+        ]
+
+        return prop
+
     def getName(self) -> str:
         return "Button"

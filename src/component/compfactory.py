@@ -17,7 +17,7 @@ class CompFactory():
     TIMESET = "Type Time Amount"
 
     buttonName = {
-                "Start Time": {NAME: "Start", COLOR: "#439A86"},
+                "Start Time": {NAME: "Start", COLOR: "#000000"},
                 "Stop Time": {NAME: "Stop", COLOR: "#e15554"},
                 "Reset Time": {NAME: "Reset", COLOR: "#4357ad"},
                 "Add Seconds": {NAME: "Add [+]\nSeconds", COLOR: "#242325"},
