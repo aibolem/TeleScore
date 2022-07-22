@@ -6,13 +6,8 @@ from PyQt6.QtWidgets import QWidget, QPushButton
 from PyQt6 import uic
 from PyQt6.QtCore import Qt
 import sys, os
-from .comptab.compwidgethead import CompWidgetHead
+from .proptab.propwidgethead import PropWidgetHead
 from .proptab.propwidgetitem import PropWidgetItem
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
-
 from gm_resources import resourcePath
 
 class PropertyTab(QWidget):
@@ -64,12 +59,16 @@ class PropertyTab(QWidget):
         #try:
         for tab in settings:    # Goes through the dictionary
             tabName = tab[self.TABNAME]
-            tabHead = CompWidgetHead(tabName, Qt.AlignmentFlag.AlignLeft, self.treeWidget)
+            tabHead = PropWidgetHead(tabName, self.treeWidget)
             for properties in tab[self.PROPERTIES]:
                 #tabItem = '
                 tabItem = PropWidgetItem(None, tabHead, self.treeWidget, properties[0])
         #except Exception:
             #pass
         
+    def resizeEvent(self, evt) -> None:
+        width = int(self.width()/self.treeWidget.columnCount())
 
+        for i in range(self.treeWidget.columnCount()):
+            self.treeWidget.header().resizeSection(0, width) 
         

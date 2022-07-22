@@ -33,6 +33,7 @@ class CtrlLayout(QFrame):
         self.projSize = projSize
         self.setStyleSheet("background-color: white;")
 
+
     def setSize(self, size: QSize) -> None:
         self.setMinimumSize(size)
 

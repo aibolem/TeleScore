@@ -6,6 +6,13 @@ from .basiccomp.buttoncomp import ButtonComp
 from .basiccomp.clockcomp import ClockComp
 from .basiccomp.defaultcomp import DefaultComp
 
+import os, sys
+PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+if PATH not in sys.path:
+    sys.path.append(PATH)
+
+from component.compattr import CompAttr
+
 class CompFactory():
     """
     Factory design patttern used to create category tabs in the component list.
@@ -16,26 +23,19 @@ class CompFactory():
     TIMEDISPLAY = "Time Display"
     TIMESET = "Type Time Amount"
 
-    buttonName = {
-                "Start Time": {NAME: "Start", COLOR: "#000000"},
-                "Stop Time": {NAME: "Stop", COLOR: "#e15554"},
-                "Reset Time": {NAME: "Reset", COLOR: "#4357ad"},
-                "Add Seconds": {NAME: "Add [+]\nSeconds", COLOR: "#242325"},
-                "Subtract Seconds": {NAME: "Subtract [+]\nSeconds", COLOR: "#242325"},
-                "Add Minutes": {NAME: "Add [-]\nMinutes", COLOR: "#242325"},
-                "Subtract Minutes": {NAME: "Subtract [-]\nMinutes", COLOR: "#242325"}
-                }
-
     def __init__():
         pass
 
     @classmethod
     def makeComponent(self, compName: str, edit=False):
         comp = DefaultComp()
+        buttons = CompAttr.timeComponent;
 
-        if (compName in self.buttonName):
-            comp = ButtonComp(self.buttonName[compName][self.NAME], edit)
-            comp.setButtonColor(self.buttonName[compName][self.COLOR])
+        if (compName in buttons):        # Change this for future
+            item = buttons[compName]
+            if (self.NAME in item and self.COLOR in item):
+                comp = ButtonComp(item[self.NAME], edit)
+                comp.setButtonColor(item[self.COLOR])
 
         match compName:
             case self.TIMEDISPLAY:

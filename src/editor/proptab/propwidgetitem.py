@@ -29,7 +29,7 @@ class PropWidgetItem(QTreeWidgetItem):
         super().__init__(parent) # This sets this component to be the subcomponent of the header
         self.role = Qt.ItemDataRole.DisplayRole; # All the items are for displaying
         self.setText(0, text)
-        self.setFont(0, QFont("Open Sans Bold", 12))
+        self.setFont(0, QFont("Open Sans Bold", 11))
         if (icon != None):
             self.setIconFile(icon)
 
