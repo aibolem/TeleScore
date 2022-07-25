@@ -59,7 +59,7 @@ class FreeLayout(QLayout):
     # Override
     def takeAt(self, index):
         self.compList.remove(self.compList[index])
-        self.items.remove(index)
+        self.items.remove(self.items[index])
 
     # Override
     def sizeHint(self):
