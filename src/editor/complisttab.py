@@ -41,10 +41,11 @@ class CompListTab(QWidget):
         self.treeView.setModel(self.model)
         self.treeView.header().resizeSection(0, 240) 
         self.treeView.header().resizeSection(1, 30)
-        for cat in CompAttr.category:
+        for i, cat in enumerate(CompAttr.category):
             header = CompWidgetHead(cat[CompAttr.TABNAME])
             self.model.appendRow(header)
-            self.treeView.setFirstColumnSpanned(0, QModelIndex(), True)
+            self.treeView.setFirstColumnSpanned(i, QModelIndex(), True)
+            self.treeView.setExpanded(header.index(), True)
             for i, comp in enumerate(cat[CompAttr.COMPONENT]):  # Refractor this please
                 item = cat[CompAttr.COMPONENT][comp]
                 component = CompWidgetItem(item[CompAttr.ICON], header, comp)
@@ -54,7 +55,6 @@ class CompListTab(QWidget):
                 infoButton = QPushButton()
                 self.treeView.setIndexWidget(instance.index(), infoButton)
                 component.setInfoButton(infoButton)
-
 
     def compItemClicked(self, index: QModelIndex) -> None:
         """

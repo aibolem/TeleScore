@@ -10,8 +10,8 @@ class CompWidgetHead(QStandardItem):
     Header item for the category list
     """
 
-    def __init__(self, text="Default", parent=None):
-        super().__init__(parent)
+    def __init__(self, text="Default"):
+        super().__init__()
         self.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setText(text) # Very bad way of centering it, change it at some point
         self.setFont(QFont("Open Sans Bold", 13))

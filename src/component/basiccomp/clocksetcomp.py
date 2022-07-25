@@ -27,6 +27,9 @@ class ClockSetComp(AbstractComp):
         # Nothing to implement here since clock is just a label
         pass
 
+    def getPropertyTab(self) -> list:
+        pass
+
     # Override
     def getName(self) -> str:
         return "Time Type Amount"

@@ -29,57 +29,23 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="3" column="0">
-    <widget class="QDockWidget" name="dockWidget">
-     <property name="minimumSize">
-      <size>
-       <width>99</width>
-       <height>100</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>10000</width>
-       <height>200</height>
-      </size>
-     </property>
-     <widget class="QWidget" name="dockWidgetContents"/>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="Line" name="line">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QTreeWidget" name="treeWidget">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+   <item row="0" column="0">
+    <widget class="QTreeView" name="treeView">
+     <property name="styleSheet">
+      <string notr="true">QTreeView::item {
+margin:5px;
+}
+</string>
      </property>
      <property name="indentation">
-      <number>30</number>
-     </property>
-     <property name="rootIsDecorated">
-      <bool>false</bool>
+      <number>0</number>
      </property>
      <attribute name="headerVisible">
-      <bool>true</bool>
+      <bool>false</bool>
      </attribute>
-     <column>
-      <property name="text">
-       <string>Property</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Value</string>
-      </property>
-     </column>
+     <attribute name="headerDefaultSectionSize">
+      <number>125</number>
+     </attribute>
     </widget>
    </item>
   </layout>

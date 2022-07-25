@@ -2,20 +2,20 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
-from PyQt6.QtWidgets import QTreeWidgetItem, QPushButton, QTreeWidget
-from PyQt6.QtGui import QIcon, QFont
+from PyQt6.QtWidgets import QWidget
+from PyQt6.QtGui import QIcon, QFont, QStandardItem, QColor
 from PyQt6.QtCore import Qt, QSize
+from .propwidgethead import PropWidgetHead
 from gm_resources import *
 
-class PropWidgetItem(QTreeWidgetItem):
+class PropWidgetItem(QStandardItem):
     """
     Each component listed in the component list is made from 
     this class object. This widget item will standardize attributes
     such as the fonts, icon image size, etc.
     """
 
-    def __init__(self, icon: QIcon,
-     parent: QTreeWidgetItem, treeWidget: QTreeWidget, text="Default"):
+    def __init__(self, parent: PropWidgetHead, text="Default"):
         """
         Consturctor for a component list item
 
@@ -28,9 +28,11 @@ class PropWidgetItem(QTreeWidgetItem):
         """
         super().__init__(parent) # This sets this component to be the subcomponent of the header
         self.role = Qt.ItemDataRole.DisplayRole; # All the items are for displaying
-        self.setText(0, text)
-        self.setFont(0, QFont("Open Sans Bold", 11))
-        if (icon != None):
-            self.setIconFile(icon)
-
+        self.setText(text)
+        self.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.setFont(QFont("Open Sans Bold", 11))
+        self.setBackground(QColor(255, 255, 255))
+        #self.setSizeHint(QSize(1000000, 50))
         
+    def setEditWidget(self, widget:QWidget) -> None:
+        self.editWidget = widget

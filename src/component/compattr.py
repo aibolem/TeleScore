@@ -5,6 +5,25 @@ class CompAttr:
     ICON = "ICON"
     NAME = "NAME"
     COLOR = "COLOR"
+    PROPERTY = ""
+
+    defaultButtonProp = [
+            {
+                "TABNAME": "General Properties",
+                "PROPERTIES": [
+                    ["Component Name:", "TEXTEDIT"],
+                    ["Width:", "TEXTEDIT"],
+                    ["Height:", "TEXTEDIT"]
+                ]
+            },
+            {
+                "TABNAME": "Button Properties",
+                "PROPERTIES": [
+                    ["Text Info:", "TEXTEDIT"],
+                    ["Text Font:", "TEXTEDIT"]
+                ]
+            }
+        ]
 
     timeComponent = {
         "Time Display": {
@@ -23,37 +42,32 @@ class CompAttr:
             COLOR: "#e15554",
             "HELP": ""
         },
-        "Reset Time": {
+        "Reset": {
             "ICON": "src/resources/rstButton.png",
-            "NAME": "",
             NAME: "Reset",
             COLOR: "#4357ad",
             "HELP": ""
         },
         "Add Seconds": {
             "ICON": "src/resources/addSec.png",
-            "NAME": "",
             NAME: "Add [+]\nSeconds",
             COLOR: "#242325",
             "HELP": ""
         },
         "Subtract Seconds": {
             "ICON": "src/resources/subSec.png",
-            "NAME": "",
             NAME: "Subtract [+]\nSeconds",
             COLOR: "#242325",
             "HELP": ""
         },
         "Add Minutes": {
             "ICON": "src/resources/addMin.png",
-            "NAME": "",
             NAME: "Add [-]\nMinutes",
             COLOR: "#242325",
             "HELP": ""
         },
         "Subtract Minutes": {
             "ICON": "src/resources/subMin.png",
-            "NAME": "",
             NAME: "Subtract [-]\nMinutes",
             COLOR: "#242325",
             "HELP": ""
@@ -69,10 +83,6 @@ class CompAttr:
     category = [
             {
                 TABNAME: "Time Based Buttons",
-                COMPONENT: timeComponent
-            },
-            {
-                TABNAME: "Hello",
                 COMPONENT: timeComponent
             }
         ]

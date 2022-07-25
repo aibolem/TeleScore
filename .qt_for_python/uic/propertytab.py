@@ -17,27 +17,16 @@ class Ui_Form(object):
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
-        self.dockWidget = QtWidgets.QDockWidget(Form)
-        self.dockWidget.setMinimumSize(QtCore.QSize(99, 100))
-        self.dockWidget.setMaximumSize(QtCore.QSize(10000, 200))
-        self.dockWidget.setObjectName("dockWidget")
-        self.dockWidgetContents = QtWidgets.QWidget()
-        self.dockWidgetContents.setObjectName("dockWidgetContents")
-        self.dockWidget.setWidget(self.dockWidgetContents)
-        self.gridLayout.addWidget(self.dockWidget, 3, 0, 1, 1)
-        self.line = QtWidgets.QFrame(Form)
-        self.line.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
-        self.line.setFrameShape(QtWidgets.QFrame.Shape.VLine)
-        self.line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
-        self.line.setObjectName("line")
-        self.gridLayout.addWidget(self.line, 4, 0, 1, 1)
-        self.treeWidget = QtWidgets.QTreeWidget(Form)
-        self.treeWidget.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
-        self.treeWidget.setIndentation(30)
-        self.treeWidget.setRootIsDecorated(False)
-        self.treeWidget.setObjectName("treeWidget")
-        self.treeWidget.header().setVisible(True)
-        self.gridLayout.addWidget(self.treeWidget, 5, 0, 1, 1)
+        self.treeView = QtWidgets.QTreeView(Form)
+        self.treeView.setStyleSheet("QTreeView::item {\n"
+"margin:5px;\n"
+"}\n"
+"")
+        self.treeView.setIndentation(0)
+        self.treeView.setObjectName("treeView")
+        self.treeView.header().setVisible(False)
+        self.treeView.header().setDefaultSectionSize(125)
+        self.gridLayout.addWidget(self.treeView, 0, 0, 1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -45,5 +34,3 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.treeWidget.headerItem().setText(0, _translate("Form", "Property"))
-        self.treeWidget.headerItem().setText(1, _translate("Form", "Value"))

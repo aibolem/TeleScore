@@ -35,7 +35,11 @@ class Editor(QMainWindow):
     @pyqtSlot(QtGui.QDropEvent)
     def dropSlot(self, evt: QtGui.QDropEvent) -> None:
         """
-        
+        When component is dropped from the components list, 
+        this is called and adds the right component to the layout
+
+        :param evt: event information
+        :return: none
         """
         type = evt.mimeData().data("application/x-comp").data().decode()
         point = QPoint(int(evt.position().x()), int(evt.position().y()))
