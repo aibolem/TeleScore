@@ -15,7 +15,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: ubuntu-22.04
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -31,17 +31,13 @@ jobs:
         # Qt version to pick 5.15.2 or 6.2.1
         version: 6.2.0
         # install os; linux, windows, or mac
-        os: linux
+        os: windows
         # what platform are you installing for? desktop, winrt, android, or ios
         platform: desktop
         # what optional Qt modules to install? qtcharts, qtnetworkauth ect...
         modules: debug_info
     - name: Install dependencies
       run: |
-        sudo apt update
-        sudo apt install libgles2-mesa-dev
-        sudo apt install qt6-base-dev-tools
-        sudo apt-get -qq install libxcb-xinerama0
         python -m pip install --upgrade pip
         pip install PyQt6 requests
     - name: Test
