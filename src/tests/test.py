@@ -7,6 +7,7 @@ import os
 
 from unittest.mock import PropertyMock, patch
 from PyQt6.QtWidgets import QApplication, QWidgetItem, QPushButton
+from PyQt6.QtCore import QSize
 import unittest 
 import requests
 
@@ -17,6 +18,7 @@ if PATH not in sys.path:
 
 import gm_resources
 from layout.abstract_layout.freelayout import FreeLayout
+from component.basiccomp.buttoncomp import ButtonComp
 
 # Note, these tests might be seperated into different classes in the future.
 
@@ -90,18 +92,6 @@ class freelayout_test(unittest.TestCase):
         self.assertEqual(self.layoutInst.itemAt(0), itemInst)
         self.assertEqual(self.layoutInst.itemAt(1), itemInst1) 
 
-    def test_replaceWidget(self):
-        widgetInst = QPushButton()
-        itemInst = QWidgetItem(widgetInst)
-        self.layoutInst.addItem(itemInst)
-
-        widgetInst1 = QPushButton()
-        itemInst1 = QWidgetItem(widgetInst1)
-        self.layoutInst.addItem(itemInst1)
-
-        self.assertEqual(self.layoutInst.replaceWidget(widgetInst, widgetInst1), itemInst)
-        self.assertEqual(self.layoutInst.itemAt(0), widgetInst1)
-
     def test_spacing(self):
         self.assertEqual(self.layoutInst.spacing(), -1)
 
@@ -110,16 +100,15 @@ class freelayout_test(unittest.TestCase):
         self.layoutInst.setSpacing(2)
         self.assertEqual(self.layoutInst.spacing(), 2)
 
-    '''def test_takeAt(self):
-        widgetInst = QPushButton()
-        itemInst = QWidgetItem(widgetInst)
-        self.layoutInst.addItem(itemInst)
+    def test_takeAt(self):
+        widgetInst = ButtonComp("test")
+        self.layoutInst.addComponent(widgetInst, QSize(700, 600))
 
-        self.assertEqual(self.layoutInst.itemAt(0), itemInst)
+        self.assertEqual(self.layoutInst.count(), 1)
 
         self.layoutInst.takeAt(0)
 
-        self.assertEqual(self.layoutInst.itemAt(0), None)'''
+        self.assertEqual(self.layoutInst.count(), 0)
         
 
 
