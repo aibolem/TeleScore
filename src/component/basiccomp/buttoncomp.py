@@ -8,6 +8,8 @@ from PyQt6.QtGui import QColor
 from gm_resources import *
 from ..abstractcomp import AbstractComp
 
+from component.compattr import CompAttr
+
 class ButtonComp(AbstractComp):
     """
     Button widget for scoreboard.
@@ -50,26 +52,8 @@ class ButtonComp(AbstractComp):
         :param: none
         :return: list containing the layout info
         """
-        prop = [
-            {
-                "TABNAME": "Add [+] Properties",
-                "PROPERTIES": [
-                    ["Increase Number By:", "TEXTEDIT"],
-                    ["Hotkey Button:", "TEXTEDIT"],
-                    ]
-            },
-            {
-                "TABNAME": "Button Properties",
-                "PROPERTIES": [
-                    ["Text Info:", "TEXTEDIT"],
-                    ["Width", "NUMEDIT"],
-                    ["Height", "NUMEDIT"]
-                    ["Text Font:", "FONTEDIT"]
-                ]
-            }
-        ]
 
-        return prop
+        return CompAttr.defaultButtonProp
 
     def getName(self) -> str:
         return "Button"

@@ -12,6 +12,12 @@ from editor.complisttab import CompListTab
 from editor.propertytab import PropertyTab
 from editor.command.insertcmd import InsertCmd
 
+PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+if PATH not in sys.path:
+    sys.path.append(PATH)
+
+from component.abstractcomp import AbstractComp
+
 class Editor(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent) # Call the inherited classes __init__ method
@@ -19,10 +25,17 @@ class Editor(QMainWindow):
         uic.loadUi(path, self) # Load the .ui file
         self.cmdStack = []
         self.ctrl = CtrlLayout(projSize=QSize(800, 600))
-        self.ctrl.dropSignal.connect(self.dropSlot)
+        self.ctrl.dropSignal.connect(self._dropSlot)
+        self.currComp = None
         self._initUI()
 
-    def _initUI(self):
+    def _initUI(self) -> None:
+        """
+        Initializes the editor UI.
+
+        :param: none
+        :return: none
+        """
         self.comp = CompListTab()
         self.compDock.setWidget(self.comp)
 
@@ -32,8 +45,22 @@ class Editor(QMainWindow):
         self.ctrl.setFrameShape(QFrame.Shape.Box)
         self.setCentralWidget(self.ctrl)
 
+    @pyqtSlot(object)
+    def _compClicked(self, comp: AbstractComp) -> None:
+        """
+        If any of the component is clicked, this
+        slot gets called. This should process the property
+        tab initiation. Get the property of the component
+        and pass it onto the property tab.
+
+        :param comp: Component that has been clicked
+        :return: none
+        """
+        propertyInst = comp.getPropertyTab()
+        self.prop.loadProperties(propertyInst)
+
     @pyqtSlot(QtGui.QDropEvent)
-    def dropSlot(self, evt: QtGui.QDropEvent) -> None:
+    def _dropSlot(self, evt: QtGui.QDropEvent) -> None:
         """
         When component is dropped from the components list, 
         this is called and adds the right component to the layout
@@ -46,3 +73,9 @@ class Editor(QMainWindow):
         insert = InsertCmd(self.ctrl, type, point, "name")
         insert.execute()
         self.cmdStack.append(insert)
+
+        comp = insert.getComponent()
+
+        comp.compClicked.connect(self._compClicked)
+
+        

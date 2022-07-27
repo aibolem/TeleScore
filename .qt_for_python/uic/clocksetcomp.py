@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\Scoreboard\src\component\basiccomp\clocksetcomp.ui'
+# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\component\basiccomp\clocksetcomp.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.0
 #

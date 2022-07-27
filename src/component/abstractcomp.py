@@ -1,12 +1,16 @@
 """
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
+import os, sys
 
-from tkinter import E
-from PyQt6.QtWidgets import QFrame
-from PyQt6.QtCore import QSize, QPoint, Qt, QEvent, QObject
-from PyQt6.QtGui import QMouseEvent
+from PyQt6.QtWidgets import QFrame, QMenu
+from PyQt6.QtCore import QSize, QPoint, Qt, QEvent, QObject, pyqtSignal
+from PyQt6.QtGui import QMouseEvent, QContextMenuEvent
 from abc import ABC, abstractmethod, ABCMeta
+
+PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+if PATH not in sys.path:
+    sys.path.append(PATH)
 
 class Meta(type(ABC), type(QFrame)): pass
 
@@ -17,6 +21,8 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     Contains implmentation requirements for a component, also contains functions that
     are required for the editor
     """
+
+    compClicked = pyqtSignal(object) # Object should be AbstractComp
 
     def __init__(self, parent=None):
         """
@@ -31,23 +37,27 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         self.updatedSize = QSize(1, 1)
         self.mousePressed = False
         self.resizeRadius = 5
+        self.properties = []
 
     @abstractmethod
-    def getName():
+    def getName() -> str:
         pass
 
     @abstractmethod
-    def disableWidget():
+    def disableWidget() -> None:
         pass
     
     # Override
-    def contextMenuEvent(self):
-        pass
+    def contextMenuEvent(self, evt: QContextMenuEvent) -> None:
+        menu = QMenu(self)
+        menu.addAction("Copy")
+        menu.addAction("Delete")
+        menu.move(evt.globalX(), evt.globalY())
+        menu.show()
 
     @abstractmethod
     def getPropertyTab(self) -> list:
         pass
-
     def sizeInit(self, size: QSize) -> None:
         """
         When the size or position of either the component
@@ -103,6 +113,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
 
     # Override
     def mousePressEvent(self, evt: QMouseEvent) -> None:
+        self.compClicked.emit(self)
         self.setCursor(Qt.CursorShape.SizeAllCursor)
         self.firstPoint = evt.pos()
         self.mousePressed = True

@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\Scoreboard\src\editor\propertytab.ui'
+# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\editor\propertytab.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.0
 #
@@ -27,6 +27,9 @@ class Ui_Form(object):
         self.treeView.header().setVisible(False)
         self.treeView.header().setDefaultSectionSize(125)
         self.gridLayout.addWidget(self.treeView, 0, 0, 1, 1)
+        self.pushButton = QtWidgets.QPushButton(Form)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.pushButton, 1, 0, 1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -34,3 +37,4 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
+        self.pushButton.setText(_translate("Form", "Apply"))

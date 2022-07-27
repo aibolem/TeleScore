@@ -11,5 +11,5 @@ class AbstractCmd(ABC):
     """
 
     @abstractmethod
-    def execute():
+    def execute() -> None:
         pass

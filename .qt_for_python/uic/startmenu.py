@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\Scoreboard\src\window\ui\startmenu.ui'
+# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\window\ui\startmenu.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.0
 #

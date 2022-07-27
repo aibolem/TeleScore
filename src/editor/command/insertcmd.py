@@ -12,6 +12,7 @@ if PATH not in sys.path:
 
 from layout.ctrllayout import CtrlLayout
 from component.compfactory import CompFactory
+from component.abstractcomp import AbstractComp
 
 class InsertCmd(AbstractCmd):
     """
@@ -31,12 +32,28 @@ class InsertCmd(AbstractCmd):
         self.type = type
         self.pos = pos
 
-    def execute(self):
+    def execute(self) -> None:
+        """
+        Insert command is executed and 
+        component gets insertted to the layout
+
+        :param: none
+        :return: none
+        """
         freelayout = self.layout.getLayout()
-        component = CompFactory.makeComponent(self.type, True)
-        if (component != None):
-            component.move(self.pos)
-            component.disableWidget()
-            freelayout.addComponent(component, self.layout.defaultSize())
+        self.component = CompFactory.makeComponent(self.type, True)
+        if (self.component != None):
+            self.component.move(self.pos)
+            self.component.disableWidget()
+            freelayout.addComponent(self.component, self.layout.defaultSize())
             if (self.layout.defaultSize() != self.layout.size()):
-                component.resizeFromOrg(self.layout.size())
+                self.component.resizeFromOrg(self.layout.size())
+
+    def getComponent(self) -> AbstractComp:
+        """
+        Returns the component this command is insertting.
+
+        :param: none
+        :return: Component
+        """
+        return self.component
