@@ -3,7 +3,7 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 from PyQt6 import uic
-from PyQt6.QtCore import QEvent, QObject
+from PyQt6.QtCore import pyqtSlot
 from PyQt6.QtGui import QColor
 from gm_resources import *
 from ..abstractcomp import AbstractComp
@@ -17,7 +17,7 @@ class ButtonComp(AbstractComp):
     
     def __init__(self, text, edit=False, parent=None):
         super().__init__(parent)
-        path = resourcePath("src\\component\\basiccomp\\buttoncomp.ui")
+        path = resourcePath("src/component/basiccomp/buttoncomp.ui")
         uic.loadUi(path, self) # Load the .ui file
         self.setStyleSheet("QPushButton {border: none; color: white; \
          font-size: 17px; border-radius: 4px;}")
@@ -25,6 +25,15 @@ class ButtonComp(AbstractComp):
 
         if (edit == True):
             self.pushButton.installEventFilter(self)
+
+        self.firstTimeProp()
+
+    def firstTimeProp(self):
+        self.genProperty = CompAttr.genProperty
+        self.appProperty = CompAttr.appearProperty
+        self.prop = CompAttr.defaultButtonProp
+        self.prop["General Properties"][CompAttr.PROPERTIES] = self.genProperty
+        self.prop["Appearance Properties"][CompAttr.PROPERTIES] = self.appProperty
 
     def clicked(self):
         print("hello")
@@ -52,8 +61,20 @@ class ButtonComp(AbstractComp):
         :param: none
         :return: list containing the layout info
         """
+        self.genProperty["Component Name"][CompAttr.VALUE] = "Test"
+        self.genProperty["Width"][CompAttr.VALUE] = str(self.width())
+        self.genProperty["Height"][CompAttr.VALUE] = str(self.height())
+        self.genProperty["X"][CompAttr.VALUE] = str(self.x())
+        self.genProperty["Y"][CompAttr.VALUE] = str(self.y())
+        self.appProperty["Display Text"][CompAttr.VALUE] = self.pushButton.text()
+        self.appProperty["Display Font"][CompAttr.VALUE] = self.pushButton.font().toString()
+        self.appProperty["Font Size"][CompAttr.VALUE] = str(self.pushButton.font().pixelSize())
 
-        return CompAttr.defaultButtonProp
+        return self.prop
+
+    @pyqtSlot()
+    def propChanged(self) -> None:
+        pass
 
     def getName(self) -> str:
         return "Button"

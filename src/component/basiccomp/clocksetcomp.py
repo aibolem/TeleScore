@@ -3,6 +3,7 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 from PyQt6 import uic
+from PyQt6.QtCore import pyqtSlot
 from ..abstractcomp import AbstractComp
 from gm_resources import *
 
@@ -33,3 +34,7 @@ class ClockSetComp(AbstractComp):
     # Override
     def getName(self) -> str:
         return "Time Type Amount"
+
+    @pyqtSlot()
+    def propChanged(self) -> None:
+        pass

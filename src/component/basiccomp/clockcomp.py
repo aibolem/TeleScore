@@ -3,6 +3,7 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 from PyQt6 import uic
+from PyQt6.QtCore import pyqtSlot
 from ..abstractcomp import AbstractComp
 from ..element.clock import Clock
 from gm_resources import *
@@ -30,5 +31,9 @@ class ClockComp(AbstractComp):
         return "Time Display"
 
     # Override
-    def getPropertyTab(self) -> list:
+    def getPropertyTab(self) -> dict:
         return None
+
+    @pyqtSlot()
+    def propChanged(self) -> None:
+        pass

@@ -27,9 +27,6 @@ class Ui_Form(object):
         self.treeView.header().setVisible(False)
         self.treeView.header().setDefaultSectionSize(125)
         self.gridLayout.addWidget(self.treeView, 0, 0, 1, 1)
-        self.pushButton = QtWidgets.QPushButton(Form)
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout.addWidget(self.pushButton, 1, 0, 1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -37,4 +34,3 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.pushButton.setText(_translate("Form", "Apply"))

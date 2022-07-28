@@ -15,61 +15,71 @@ class CompAttr:
     PROPERTY = "PROPERTY"
     PROPERTIES = "PROPERTIES"
 
-    default = [
-            {
-                "TABNAME": "Cheese burger",
-                "PROPERTIES": {
-                    "Bun": {
-                        TYPE: TEXTEDIT,
-                        #VALUE: "Delicious"
-                    },
-                    "Meat": {
-                        TYPE: TEXTEDIT,
-                        VALUE: "Marvelous"
-                    },
-                    "Cheese": {
-                        TYPE: TEXTEDIT,
-                        VALUE: "Extraordinary"
-                    }
+    defaultProp = {
+        "Make a burger": {
+            PROPERTIES: {
+                "Bun": {
+                    TYPE: TEXTEDIT,
+                    VALUE: "Delicious"
+                },
+                "Cheese": {
+                    TYPE: NUMEDIT,
+                    VALUE: "Marvelous"
+                },
+                "Meat": {
+                    TYPE: NUMEDIT,
+                    VALUE: "Extraordinary"
                 }
             }
-        ]
+        }
+    }
 
     genProperty = {
         "Component Name": {
             TYPE: TEXTEDIT,
-            VALUE: "Delicious"
+            VALUE: ""
+        },
+        "X": {
+            TYPE: NUMEDIT,
+            VALUE: ""
+        },
+        "Y": {
+            TYPE: NUMEDIT,
+            VALUE: ""
         },
         "Width": {
             TYPE: NUMEDIT,
-            VALUE: "Marvelous"
+            VALUE: "53"
         },
         "Height": {
             TYPE: NUMEDIT,
-            VALUE: "Extraordinary"
+            VALUE: "21"
         }
     }
-    
 
-    defaultButtonProp = [
-            {
-                TABNAME: "General Properties",
-                PROPERTIES: genProperty
-            },
-            {
-                TABNAME: "Button Appearance",
-                PROPERTIES: {
-                    "Display Text":{ 
-                        TYPE: TEXTEDIT,
-                        VALUE: ""
-                    },
-                    "Text Font": {
-                        TYPE: FONTEDIT,
-                        VALUE: ""
-                    }
-                }
-            }
-        ]
+    appearProperty = {
+        "Display Text": {
+            TYPE: TEXTEDIT,
+            VALUE: ""
+        },
+        "Display Font": {
+            TYPE: FONTEDIT,
+            VALUE: ""
+        },
+        "Font Size": {
+            TYPE: NUMEDIT,
+            VALUE: ""
+        }
+    }
+
+    defaultButtonProp = {
+        "General Properties": {
+            PROPERTIES: None
+        },
+        "Appearance Properties": {
+            PROPERTIES: None
+        }
+    }
 
     #---------------------------------
 

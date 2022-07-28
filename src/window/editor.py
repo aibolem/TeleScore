@@ -57,6 +57,7 @@ class Editor(QMainWindow):
         :return: none
         """
         propertyInst = comp.getPropertyTab()
+        self.prop.propChanged.connect(comp.propChanged)
         self.prop.loadProperties(propertyInst)
 
     @pyqtSlot(QtGui.QDropEvent)

@@ -4,7 +4,7 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 import os, sys
 
 from PyQt6.QtWidgets import QFrame, QMenu
-from PyQt6.QtCore import QSize, QPoint, Qt, QEvent, QObject, pyqtSignal
+from PyQt6.QtCore import QSize, QPoint, Qt, QEvent, QObject, pyqtSignal, pyqtSlot
 from PyQt6.QtGui import QMouseEvent, QContextMenuEvent
 from abc import ABC, abstractmethod, ABCMeta
 
@@ -58,6 +58,12 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     @abstractmethod
     def getPropertyTab(self) -> list:
         pass
+
+    @abstractmethod
+    @pyqtSlot()
+    def propChanged(self) -> None:
+        pass
+
     def sizeInit(self, size: QSize) -> None:
         """
         When the size or position of either the component

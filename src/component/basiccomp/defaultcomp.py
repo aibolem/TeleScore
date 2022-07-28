@@ -3,6 +3,7 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 from PyQt6 import uic
+from PyQt6.QtCore import pyqtSlot
 from ..abstractcomp import AbstractComp
 from gm_resources import *
 
@@ -28,3 +29,7 @@ class DefaultComp(AbstractComp):
     # Override
     def getPropertyTab(self) -> list:
         return None
+
+    @pyqtSlot()
+    def propChanged(self) -> None:
+        pass
