@@ -23,6 +23,10 @@ class DefaultComp(AbstractComp):
         pass
 
     # Override
+    def firstTimeProp(self) -> None:
+        pass
+
+    # Override
     def getName(self) -> str:
         return ""
 

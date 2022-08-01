@@ -45,6 +45,7 @@ class InsertCmd(AbstractCmd):
         if (self.component != None):
             self.component.move(self.pos)
             self.component.disableWidget()
+            self.component.firstTimeProp()
             freelayout.addComponent(self.component, self.layout.defaultSize())
             if (self.layout.defaultSize() != self.layout.size()):
                 self.component.resizeFromOrg(self.layout.size())

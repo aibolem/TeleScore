@@ -27,6 +27,10 @@ class ClockComp(AbstractComp):
         pass
 
     # Override
+    def firstTimeProp(self):
+        pass
+
+    # Override
     def getName(self) -> str:
         return "Time Display"
 

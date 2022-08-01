@@ -58,7 +58,7 @@ class PropertyTab(QWidget):
         :return: none
         """
         self.clearTree()
-
+        self.settings = settings
         if (type(settings) == NoneType):
             settings = CompAttr.defaultProp
 
@@ -93,7 +93,8 @@ class PropertyTab(QWidget):
                 self.treeView.setIndexWidget(instance.index(),
                     tabItem.getWidget())
 
-    def propItemChanged(self, item: PropWidgetItem):
+    def propItemChanged(self, item: PropWidgetItem, value: str):
+        self.settings[item.parent().text()][CompAttr.PROPERTIES][item.text()][CompAttr.VALUE] = value
         self.propChanged.emit()
 
         

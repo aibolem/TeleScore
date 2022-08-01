@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import QApplication, QWidgetItem, QPushButton
 from PyQt6.QtCore import QSize
 import unittest 
 import requests
-
+import time
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
@@ -19,6 +19,8 @@ if PATH not in sys.path:
 import gm_resources
 from layout.abstract_layout.freelayout import FreeLayout
 from component.basiccomp.buttoncomp import ButtonComp
+from component.element.clock import Clock
+from component.property import Property
 
 # Note, these tests might be seperated into different classes in the future.
 
@@ -110,6 +112,75 @@ class freelayout_test(unittest.TestCase):
 
         self.assertEqual(self.layoutInst.count(), 0)
         
+class clockelement_test(unittest.TestCase):
+    def setUp(self):
+        self.app = QApplication([])
+        self.clock = Clock()
+
+    def tearDown(self):
+        pass
+
+    def test_timer(self):
+        pass
+        #self.clock.setClockTick(5000) # 5 seconds
+        #self.clock.startClock()
+
+        #time.sleep(2)
+
+        #self.clock.stopClock()
+        #print(self.clock.getTick())
+
+class property_test(unittest.TestCase):
+    testProperty1 = {
+        "test1_prop": {
+            "TYPE": "TEXTEDIT",
+            "VALUE": "Hello World"
+        },
+    }
+    testProperty2 = {
+        "test2_prop": {
+            "TYPE": "NUMEDIT",
+            "VALUE": "Hi World"
+        },
+    }
+
+    def setUp(self):
+        self.app = QApplication([])
+        self.property = Property()
+
+    def test_appendProperty(self):
+        self.assertEqual(len(self.property.getList()), 0)
+        self.property.appendProperty("test1", self.testProperty1)
+        self.assertEqual(len(self.property.getList()), 1)
+        self.assertEqual(self.property.getValue("test1_prop"), "Hello World")
+
+    def test_removeProperty(self):
+        self.property.appendProperty("test1", self.testProperty1)
+        self.property.appendProperty("test2", self.testProperty2)
+        self.assertEqual(len(self.property.getList()), 2)
+        self.assertEqual(self.property.getValue("test2_prop"), "Hi World")
+        self.property.removeProperty("test2")
+
+        self.assertEqual(len(self.property.getList()), 1)
+        self.assertEqual(self.property.getValue("test2_prop"), None)
+        self.assertEqual(self.property.getValue("test1_prop"), "Hello World")
+
+    def test_getValue(self):
+        self.property.appendProperty("test1", self.testProperty1)
+        self.assertEqual(self.property.getValue("test1_prop"), "Hello World")
+
+    def test_changeValue(self):
+        self.property.appendProperty("test1", self.testProperty1)
+        self.assertEqual(self.property.getValue("test1_prop"), "Hello World")
+        self.property.changeValue("test1_prop", "1")
+        self.assertEqual(self.property.getValue("test1_prop"), "1")
+
+        dictInst = self.property.getList()
+        dictInst2 = self.property.getAll()
+
+        self.assertEqual(dictInst["test1"]["PROPERTIES"]["test1_prop"]["VALUE"], "1")
+        self.assertEqual(dictInst2["test1_prop"]["VALUE"], "1")
+
 
 
 if __name__ == '__main__':

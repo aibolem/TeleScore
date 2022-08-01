@@ -16,6 +16,8 @@ PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
     sys.path.append(PATH)
 
+from component.element.clock import Clock
+
 from component.abstractcomp import AbstractComp
 
 class Editor(QMainWindow):
@@ -56,9 +58,13 @@ class Editor(QMainWindow):
         :param comp: Component that has been clicked
         :return: none
         """
-        propertyInst = comp.getPropertyTab()
-        self.prop.propChanged.connect(comp.propChanged)
-        self.prop.loadProperties(propertyInst)
+        if (self.currComp != comp):
+            if (self.currComp != None):
+                self.prop.propChanged.disconnect(self.currComp.propChanged)
+            self.prop.propChanged.connect(comp.propChanged)
+            self.prop.loadProperties(comp.getPropertyTab())
+
+        self.currComp = comp
 
     @pyqtSlot(QtGui.QDropEvent)
     def _dropSlot(self, evt: QtGui.QDropEvent) -> None:

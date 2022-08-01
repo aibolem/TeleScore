@@ -4,9 +4,10 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 
 from PyQt6 import uic
 from PyQt6.QtCore import pyqtSlot
-from PyQt6.QtGui import QColor
+from PyQt6.QtGui import QColor, QFont
 from gm_resources import *
 from ..abstractcomp import AbstractComp
+from ..property import Property
 
 from component.compattr import CompAttr
 
@@ -26,14 +27,11 @@ class ButtonComp(AbstractComp):
         if (edit == True):
             self.pushButton.installEventFilter(self)
 
-        self.firstTimeProp()
-
+    # Override
     def firstTimeProp(self):
-        self.genProperty = CompAttr.genProperty
-        self.appProperty = CompAttr.appearProperty
-        self.prop = CompAttr.defaultButtonProp
-        self.prop["General Properties"][CompAttr.PROPERTIES] = self.genProperty
-        self.prop["Appearance Properties"][CompAttr.PROPERTIES] = self.appProperty
+        self.prop = Property()
+        self.prop.appendProperty("General Properties", CompAttr.genProperty)
+        self.prop.appendProperty("Appearance Properties", CompAttr.appearProperty)
 
     def clicked(self):
         print("hello")
@@ -53,6 +51,16 @@ class ButtonComp(AbstractComp):
                             "QPushButton:hover{color: #e8e8e8;}")
         pass
 
+    def _reloadProp(self):
+        self.prop.changeValue("Component Name", "Test")
+        self.prop.changeValue("Width", self.height())
+        self.prop.changeValue("Height", self.width())
+        self.prop.changeValue("X", self.x())
+        self.prop.changeValue("Y", self.y())
+        self.prop.changeValue("Display Text", self.pushButton.text())
+        self.prop.changeValue("Display Font", self.pushButton.font().family())
+        self.prop.changeValue("Font Size", self.pushButton.font().pixelSize())
+
     def getPropertyTab(self) -> list:
         """
         Method that returns how the property tab should
@@ -61,20 +69,17 @@ class ButtonComp(AbstractComp):
         :param: none
         :return: list containing the layout info
         """
-        self.genProperty["Component Name"][CompAttr.VALUE] = "Test"
-        self.genProperty["Width"][CompAttr.VALUE] = str(self.width())
-        self.genProperty["Height"][CompAttr.VALUE] = str(self.height())
-        self.genProperty["X"][CompAttr.VALUE] = str(self.x())
-        self.genProperty["Y"][CompAttr.VALUE] = str(self.y())
-        self.appProperty["Display Text"][CompAttr.VALUE] = self.pushButton.text()
-        self.appProperty["Display Font"][CompAttr.VALUE] = self.pushButton.font().toString()
-        self.appProperty["Font Size"][CompAttr.VALUE] = str(self.pushButton.font().pixelSize())
+        self._reloadProp()
 
-        return self.prop
+        return self.prop.getList()
 
     @pyqtSlot()
     def propChanged(self) -> None:
-        pass
+        fontFamily = self.prop.getValue("Display Font")
+        fontSize = self.prop.getValue("Font Size")
+        displayText = self.prop.getValue("Display Text")
+        self.pushButton.setStyleSheet("font-size: {}px; font-family: {}".format(fontSize, fontFamily))
+        self.pushButton.setText(displayText)
 
     def getName(self) -> str:
         return "Button"

@@ -56,6 +56,10 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         menu.show()
 
     @abstractmethod
+    def firstTimeProp(self) -> None:
+        pass
+
+    @abstractmethod
     def getPropertyTab(self) -> list:
         pass
 
