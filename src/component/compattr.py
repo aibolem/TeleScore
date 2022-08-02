@@ -1,4 +1,7 @@
 
+from multiprocessing.sharedctypes import Value
+
+
 class CompAttr:
     TABNAME = "TABNAME"
     COMPONENT = "COMPONENT"
@@ -11,6 +14,8 @@ class CompAttr:
     TEXTEDIT = "TEXTEDIT"
     FONTEDIT = "FONTEDIT"
     NUMEDIT = "NUMEDIT"
+    CONNEDIT = "CONNEDIT"
+    CHECKBOX = "CHECKBOX"
     TABNAME = "TABNAME"
     PROPERTY = "PROPERTY"
     PROPERTIES = "PROPERTIES"
@@ -41,19 +46,19 @@ class CompAttr:
         },
         "X": {
             TYPE: NUMEDIT,
-            VALUE: ""
+            VALUE: 1
         },
         "Y": {
             TYPE: NUMEDIT,
-            VALUE: ""
+            VALUE: 1
         },
         "Width": {
             TYPE: NUMEDIT,
-            VALUE: "53"
+            VALUE: 0
         },
         "Height": {
             TYPE: NUMEDIT,
-            VALUE: "21"
+            VALUE: 0
         }
     }
 
@@ -72,12 +77,21 @@ class CompAttr:
         }
     }
 
-    defaultButtonProp = {
-        "General Properties": {
-            PROPERTIES: None
+    connProperty = {
+        "Connection": {
+            TYPE: CONNEDIT,
+            VALUE: None
+        }
+    }
+
+    clockProperty = {
+        "Stopwatch": {
+            TYPE: CHECKBOX,
+            VALUE: False
         },
-        "Appearance Properties": {
-            PROPERTIES: None
+        "Format": {
+            TYPE: TEXTEDIT,
+            VALUE: "mm:ss"
         }
     }
 

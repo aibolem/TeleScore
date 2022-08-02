@@ -20,7 +20,7 @@ class InsertCmd(AbstractCmd):
     to the layout
     """
 
-    def __init__(self, layout: CtrlLayout, type: str, pos: QPoint, name: str):
+    def __init__(self, layout: CtrlLayout, type: str, pos: QPoint, count: int):
         """
         :param layout: Layout
         :param type: Component type (Ex. Clock)
@@ -31,6 +31,7 @@ class InsertCmd(AbstractCmd):
         self.layout = layout
         self.type = type
         self.pos = pos
+        self.count = count
 
     def execute(self) -> None:
         """
@@ -40,14 +41,16 @@ class InsertCmd(AbstractCmd):
         :param: none
         :return: none
         """
-        freelayout = self.layout.getLayout()
-        self.component = CompFactory.makeComponent(self.type, True)
+        self.component = CompFactory.makeComponent(self.type, True, self.layout)
         if (self.component != None):
             self.component.move(self.pos)
             self.component.disableWidget()
-            freelayout.addComponent(self.component, self.layout.defaultSize())
+            self.component.firstTimeProp()
+            name = self.component.getName() + str(self.count)
+            self.component.setObjectName(name)
+            self.layout.addComponent(self.component)
             if (self.layout.defaultSize() != self.layout.size()):
-                self.component.resizeFromOrg(self.layout.size())
+                self.component.insertCalc(self.layout.size())
 
     def getComponent(self) -> AbstractComp:
         """

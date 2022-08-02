@@ -24,17 +24,20 @@ class ClockSetComp(AbstractComp):
             self.lineEdit.installEventFilter(self)
             self.pushButton.installEventFilter(self)
 
+    # Override
+    def firstTimeProp(self) -> None:
+        pass
+
     def disableWidget(self) -> None:
         # Nothing to implement here since clock is just a label
         pass
 
-    def getPropertyTab(self) -> list:
+    def reloadProperty(self) -> None:
         pass
 
     # Override
     def getName(self) -> str:
         return "Time Type Amount"
 
-    @pyqtSlot()
-    def propChanged(self) -> None:
+    def reconfProperty(self) -> None:
         pass

@@ -4,11 +4,10 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 
 from PyQt6 import uic
 from PyQt6.QtCore import pyqtSlot
-from PyQt6.QtGui import QColor
+from PyQt6.QtGui import QColor, QFont
 from gm_resources import *
 from ..abstractcomp import AbstractComp
-
-from component.compattr import CompAttr
+from ..compattr import CompAttr
 
 class ButtonComp(AbstractComp):
     """
@@ -22,22 +21,24 @@ class ButtonComp(AbstractComp):
         self.setStyleSheet("QPushButton {border: none; color: white; \
          font-size: 17px; border-radius: 4px;}")
         self.pushButton.setText(text)
+        self.pushButton.clicked.connect(self.onClick)
 
         if (edit == True):
             self.pushButton.installEventFilter(self)
 
-        self.firstTimeProp()
+    def onClick(self):
+        self.connection.emitSignal("On Click")
+        pass
 
+    # Override
     def firstTimeProp(self):
-        self.genProperty = CompAttr.genProperty
-        self.appProperty = CompAttr.appearProperty
-        self.prop = CompAttr.defaultButtonProp
-        self.prop["General Properties"][CompAttr.PROPERTIES] = self.genProperty
-        self.prop["Appearance Properties"][CompAttr.PROPERTIES] = self.appProperty
+        self.properties.appendProperty("General Properties", CompAttr.genProperty)
+        self.properties.appendProperty("Appearance Properties", CompAttr.appearProperty)
+        self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
 
-    def clicked(self):
-        print("hello")
+        self.connection.appendSignalType("On Click")
         
+    # Override
     def disableWidget(self) -> None:
         #self.pushButton.setDisabled(True)
         pass
@@ -51,30 +52,24 @@ class ButtonComp(AbstractComp):
                             "QPushButton:pressed{background-color: " + 
                              dimmed.name(QColor.NameFormat.HexRgb) + ";}" +
                             "QPushButton:hover{color: #e8e8e8;}")
-        pass
 
-    def getPropertyTab(self) -> list:
-        """
-        Method that returns how the property tab should
-        be setup for this instance of a button
+    # Override
+    def reloadProperty(self):
+        self.properties["Component Name"] = self.objectName()
+        self.properties["Width"] = self.width()
+        self.properties["Height"] = self.height()
+        self.properties["X"] = self.x()
+        self.properties["Y"] = self.y()
+        self.properties["Display Text"] = self.pushButton.text()
+        self.properties["Display Font"] = self.pushButton.font().family()
+        self.properties["Font Size"] = self.pushButton.font().pixelSize()
 
-        :param: none
-        :return: list containing the layout info
-        """
-        self.genProperty["Component Name"][CompAttr.VALUE] = "Test"
-        self.genProperty["Width"][CompAttr.VALUE] = str(self.width())
-        self.genProperty["Height"][CompAttr.VALUE] = str(self.height())
-        self.genProperty["X"][CompAttr.VALUE] = str(self.x())
-        self.genProperty["Y"][CompAttr.VALUE] = str(self.y())
-        self.appProperty["Display Text"][CompAttr.VALUE] = self.pushButton.text()
-        self.appProperty["Display Font"][CompAttr.VALUE] = self.pushButton.font().toString()
-        self.appProperty["Font Size"][CompAttr.VALUE] = str(self.pushButton.font().pixelSize())
+    # Override
+    def reconfProperty(self) -> None:
+        self.pushButton.setStyleSheet("font-size: {}px;\
+            font-family: {}".format(self.properties["Font Size"], self.properties["Display Font"]))
+        self.pushButton.setText(self.properties["Display Text"])
 
-        return self.prop
-
-    @pyqtSlot()
-    def propChanged(self) -> None:
-        pass
-
+    # Override
     def getName(self) -> str:
         return "Button"

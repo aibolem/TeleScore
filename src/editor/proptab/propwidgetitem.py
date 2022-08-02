@@ -2,7 +2,7 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
-from PyQt6.QtWidgets import QWidget, QLineEdit, QSpinBox
+from PyQt6.QtWidgets import QWidget, QLineEdit, QSpinBox, QFontComboBox, QPushButton, QCheckBox
 from PyQt6.QtGui import QFont, QStandardItem, QColor
 from PyQt6.QtCore import Qt, pyqtSignal, pyqtSlot, QObject
 from .propwidgethead import PropWidgetHead
@@ -48,18 +48,27 @@ class PropWidgetItem(QStandardItem):
         self.callBack = changed
 
     def _spinBoxChanged(self, value: int):
-        self.callBack(self)
+        self.callBack(self, value)
 
-    def _lineEditChanged(self, text: str):
-        pass
+    def _lineEditChanged(self):
+        self.callBack(self, self.editWidget.text())
 
-    def _createProp(self, text: str, value) -> QWidget:
+    def _fontEditChanged(self, font: QFont) -> None:
+        self.callBack(self, font.family())
+
+    def _createProp(self, text: object, value) -> QWidget:
         wid = None
         match text:
             case CompAttr.TEXTEDIT:
                 wid = self._createTextEdit(value)
             case CompAttr.NUMEDIT:
                 wid = self._createNumEdit(value)
+            case CompAttr.FONTEDIT:
+                wid = self._createFontEdit(value)
+            case CompAttr.CONNEDIT:
+                wid = self._createConnEdit(value)
+            case CompAttr.CHECKBOX:
+                wid = self._createCheckBox(value)
         return wid
 
     def _createTextEdit(self, value) -> None:
@@ -71,6 +80,7 @@ class PropWidgetItem(QStandardItem):
         :return: none
         """
         lineEdit = QLineEdit(value)
+        lineEdit.editingFinished.connect(self._lineEditChanged)
         return lineEdit
 
     def _createFontEdit(self, value):
@@ -81,7 +91,10 @@ class PropWidgetItem(QStandardItem):
         :param: none (might change in the future for some attribute changes)
         :return: none
         """
-        pass
+        edit = QFontComboBox()
+        edit.setDisplayFont(value, edit.currentFont())
+        edit.currentFontChanged.connect(self._fontEditChanged)
+        return edit
 
     def _createNumEdit(self, value) -> QSpinBox:
         """
@@ -94,10 +107,17 @@ class PropWidgetItem(QStandardItem):
         spinBox = QSpinBox()
         spinBox.setMinimum(1)
         spinBox.setMaximum(9999999)
-        try:
-            spinBox.setValue(int(value))
-        except ValueError:
-            spinBox.setValue(1)
+
+        spinBox.setValue(value)
             
         spinBox.valueChanged.connect(self._spinBoxChanged)
         return spinBox
+
+    def _createConnEdit(self, value) -> QPushButton:
+        wid = QPushButton("Manager")
+        return wid
+
+    def _createCheckBox(self, value) -> QCheckBox:
+        wid = QCheckBox()
+        wid.setChecked(value)
+        return wid

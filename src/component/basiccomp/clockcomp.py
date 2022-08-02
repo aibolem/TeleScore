@@ -2,6 +2,8 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
+from ..property import Property
+from ..compattr import CompAttr
 from PyQt6 import uic
 from PyQt6.QtCore import pyqtSlot
 from ..abstractcomp import AbstractComp
@@ -27,13 +29,30 @@ class ClockComp(AbstractComp):
         pass
 
     # Override
+    def firstTimeProp(self):
+        self.properties.appendProperty("Clock Properties", CompAttr.clockProperty)
+        self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
+        self.connection.appendSignalType("Time Ended")
+        self.connection.appendReceiverType("Start", self.start)
+        self.connection.appendReceiverType("Stop", self.stop)
+        self.connection.appendReceiverType("Reset", self.reset)
+
+    def start(self):
+        self.clock.startTimer()
+
+    def stop(self):
+        self.clock.stopClock()
+
+    def reset(self):
+        pass
+
+    # Override
     def getName(self) -> str:
         return "Time Display"
 
     # Override
-    def getPropertyTab(self) -> dict:
-        return None
+    def reloadProperty(self) -> None:
+        pass
 
-    @pyqtSlot()
-    def propChanged(self) -> None:
+    def reconfProperty(self) -> None:
         pass

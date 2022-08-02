@@ -13,28 +13,31 @@ class Clock(QObject):
     instead of seconds.
     """
 
+    clkChngedSignal = pyqtSignal(str)    # Signal/Callback for when clock is changed
+
     def __init__(self, stopwatch=False, label=None):
         """
         """
-        super().__init__(None)
-        self.tickFrom = 0
-        self.clock = QTimer(self)
-        self.speed = 100
+        super(QObject, self).__init__()
+        self.tick = 0
+        self.clock = QTimer()
+        self.speed = 1
         self.tickTo = 0
         self.stopwatch = stopwatch
         self.timeFormat = "mm:ss"
-        self.tick = 0
-
-        self.clkChngedSignal = pyqtSignal(str)    # Signal/Callback for when clock is changed
 
         self.label = label
 
+        self.clock.timeout.connect(self._clockEvent)
+
+    def getTick(self) -> int:
+        return self.tick
 
     def stopClock(self):
-        self.clock.start(self.speed)
+        self.clock.stop()
 
     def startClock(self):
-        self.clock.stop()
+        self.clock.start(self.speed)
 
     def startStopClock(self):
         if (self.clock.isActive()):
@@ -42,31 +45,31 @@ class Clock(QObject):
         else:
             self.clock.start(self.speed)
 
-    def __valueChanged(self):
+    def _valueChanged(self):
         timeStr = QDateTime.fromMSecsSinceEpoch(self.tick).toString(self.timeFormat)
         if (self.label != None):
             self.label.setText(timeStr)
         self.clkChngedSignal.emit(timeStr)
 
-    def __stopWatch(self):
+    def _stopWatch(self):
         self.tick += 1
 
-    def __timer(self):
-        if (self.tickFrom < self.tickTo):
+    def _timer(self):
+        if (self.tick <= self.tickTo):
             self.stopClock()
-
-        self.valueChanged()
-        self.tick -= 1
+        else:
+            self._valueChanged()
+            self.tick -= 1
 
     def setClockTick(self, tick):
         self.tick = tick
 
     @pyqtSlot()
-    def __clockEvent(self):
+    def _clockEvent(self):
         if (self.stopwatch):
             self.stopWatch()
         else:
-            self.timer()
-        self.valueChanged()
+            self._timer()
+        self._valueChanged()
     
     

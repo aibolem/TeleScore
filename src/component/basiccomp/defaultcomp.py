@@ -23,13 +23,16 @@ class DefaultComp(AbstractComp):
         pass
 
     # Override
+    def firstTimeProp(self) -> None:
+        pass
+
+    # Override
     def getName(self) -> str:
         return ""
 
     # Override
-    def getPropertyTab(self) -> list:
-        return None
+    def reloadProperty(self) -> None:
+        pass
 
-    @pyqtSlot()
-    def propChanged(self) -> None:
+    def reconfProperty(self) -> None:
         pass
