@@ -6,6 +6,7 @@ import os
 
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtGui import QIcon # Went ahead and added QIcon
+from PyQt6.QtCore import QTimer, qDebug
 from pathlib import Path
 from .startmenu import StartMenu
 from .editor import Editor
