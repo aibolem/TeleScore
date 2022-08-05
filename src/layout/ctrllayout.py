@@ -13,8 +13,8 @@ if PATH not in sys.path:
     sys.path.append(PATH)
 
 from .abstract_layout.freelayout import FreeLayout
-from component.basiccomp.buttoncomp import ButtonComp
 from component.abstractcomp import AbstractComp
+from proginterface import ProgInterface
 
 class CtrlLayout(QFrame):
     """
@@ -33,6 +33,9 @@ class CtrlLayout(QFrame):
         self.projSize = projSize
         self.setStyleSheet("background-color: white;")
         self.compDict = {} # This list should only contain AbstractComp
+        self.interface = ProgInterface()
+        self.interface.setAllComponent(self.compDict)
+
 
     def setSize(self, size: QSize) -> None:
         self.setMinimumSize(size)
@@ -49,9 +52,6 @@ class CtrlLayout(QFrame):
         :return: none
         """
         self.actualLayout.resizeEvent(event)
-
-    def compContains(self, name: str) -> bool:
-        return name in self.compDict
         
     def addComponent(self, component: AbstractComp) -> None:
         """

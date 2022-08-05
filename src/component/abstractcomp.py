@@ -4,7 +4,7 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 import os, sys
 
 from PyQt6.QtWidgets import QFrame, QMenu
-from PyQt6.QtCore import QSize, QPoint, Qt, QEvent, QObject, pyqtSignal, pyqtSlot
+from PyQt6.QtCore import QSize, QPoint, Qt, QEvent, QObject, pyqtSignal
 from PyQt6.QtGui import QMouseEvent, QContextMenuEvent
 from abc import ABC, abstractmethod, ABCMeta
 from gm_resources import GMessageBox
@@ -15,7 +15,8 @@ if PATH not in sys.path:
 
 from .property import Property
 from .connection import Connection
-from .compattr import CompAttr
+from attr import CompAttr
+from proginterface import ProgInterface
 
 class Meta(type(ABC), type(QFrame)): pass
 
@@ -28,6 +29,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     """
 
     compClicked = pyqtSignal(object) # Object should be AbstractComp
+    attrChanged = pyqtSignal()
 
     def __init__(self, parent=None):
         """
@@ -36,7 +38,6 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         :param 
         """
         super().__init__(parent)
-        self.parent = parent
         self.properties = Property()
         self.properties.appendProperty("General Properties", CompAttr.genProperty)
         self.connection = Connection(parent)
@@ -45,6 +46,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         self.updatedSize = QSize(1, 1)
         self.mousePressed = False
         self.resizeRadius = 5
+        self.prog = ProgInterface()
 
     def getConnection(self) -> Connection:
         return self.connection
@@ -89,11 +91,16 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         self.move(self.properties["X"], self.properties["Y"])
         self.setFixedSize(self.properties["Width"], self.properties["Height"])
         if (self.objectName() != self.properties["Component Name"]):
-            if (not self.parent.compContains(self.objectName())):
+            if (not self.prog.compContains(self.properties["Component Name"])):
+                self.prog.nameChanged(self.objectName(), self.properties["Component Name"])
                 self.setObjectName(self.properties["Component Name"])
+                self.attrChanged.emit()
             else:
-                msgBox = GMessageBox("Cannot Change Component Name", "This name is already taken by another component!", "Info")
+                msgBox = GMessageBox("Cannot Change Component Name",
+                 "This name is already taken by another component!", "Info")
                 msgBox.exec()
+                self.properties["Component Name"] = self.objectName()
+                self.attrChanged.emit()
         self.changedGeo()
         self.reconfProperty()
 
@@ -193,6 +200,11 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     def mouseReleaseEvent(self, evt: QMouseEvent) -> None:
         self.setCursor(Qt.CursorShape.ArrowCursor)
         self.insertCalc(self.updatedSize)
+        self.properties["Width"] = self.width()
+        self.properties["Height"] = self.height()
+        self.properties["X"] = self.x()
+        self.properties["Y"] = self.y()
+        self.attrChanged.emit()
         self.mousePressed = False
 
     def eventFilter(self, obj: QObject, evt: QEvent) -> bool:

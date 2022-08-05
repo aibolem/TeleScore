@@ -11,7 +11,7 @@ PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
     sys.path.append(PATH)
 
-from component.compattr import CompAttr
+from attr import CompAttr
 
 class CompFactory():
     """
@@ -29,12 +29,12 @@ class CompFactory():
     @classmethod
     def makeComponent(self, compName: str, edit=False, parent=None):
         comp = DefaultComp()
-        buttons = CompAttr.timeComponent;
+        buttons = CompAttr.timeComponent
 
         if (compName in buttons):        # Change this for future
             item = buttons[compName]
             if (self.NAME in item and self.COLOR in item):
-                comp = ButtonComp(item[self.NAME], edit, parent)
+                comp = ButtonComp(item[self.NAME], item[CompAttr.SIGNAL], edit, parent)
                 comp.setButtonColor(item[self.COLOR])
 
         match compName:

@@ -10,13 +10,14 @@ from PyQt6.QtCore import QModelIndex, pyqtSlot, pyqtSignal
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
 from .proptab.propwidgethead import PropWidgetHead
 from .proptab.propwidgetitem import PropWidgetItem
+from .connection.connman import ConnMan
 from gm_resources import resourcePath, GMessageBox
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
     sys.path.append(PATH)
 
-from component.compattr import CompAttr
+from attr import CompAttr
 
 class PropertyTab(QWidget):
     """
@@ -31,6 +32,7 @@ class PropertyTab(QWidget):
         uic.loadUi(path, self) # Load the .ui file
         self.model = QStandardItemModel(0, 2)
         self.treeView.setModel(self.model)
+        self.objectName = ""
 
     def clearTree(self):
         if (self.model.hasChildren()):
@@ -81,20 +83,33 @@ class PropertyTab(QWidget):
             self.treeView.setExpanded(tabHead.index(), True) # Making sure the tabs are expanded
 
             properties = settings[tabName][CompAttr.PROPERTIES]
-            for i, propertyName in enumerate(properties):
-                property = properties[propertyName]
-                tabItem = PropWidgetItem(tabHead, propertyName, 
-                property[CompAttr.TYPE], property[CompAttr.VALUE])
-                tabItem.setCallBack(self.propItemChanged)
-                
+            for i, propertyName in enumerate(properties):                
                 instance = QStandardItem()
+                tabItem = None
+                property = properties[propertyName]
 
-                tabHead.insertRow(i, [tabItem, instance])
+                if (tabName == "Connection Properties"): # We are assuming that Component Name has been called before
+                    tabItem = PropWidgetItem(tabHead, propertyName, 
+                    property[CompAttr.TYPE], self.objectName)
+                    tabHead.insertRow(i, [tabItem, instance])
+                    self.treeView.setFirstColumnSpanned(i, tabHead.index(), True)
+                else:
+                    tabItem = PropWidgetItem(tabHead, propertyName, 
+                    property[CompAttr.TYPE], property[CompAttr.VALUE])
+                    tabItem.setCallBack(self.propItemChanged)
+                    tabHead.insertRow(i, [tabItem, instance])
+
                 self.treeView.setIndexWidget(instance.index(),
                     tabItem.getWidget())
+
+                if (propertyName == "Component Name"):
+                    self.objectName = property[CompAttr.VALUE]
 
     def propItemChanged(self, item: PropWidgetItem, value: str):
         self.settings[item.parent().text()][CompAttr.PROPERTIES][item.text()][CompAttr.VALUE] = value
         self.propChanged.emit()
+
+    def externalChange(self):
+        self.loadProperties(self.settings)
 
         

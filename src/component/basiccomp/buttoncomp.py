@@ -7,14 +7,21 @@ from PyQt6.QtCore import pyqtSlot
 from PyQt6.QtGui import QColor, QFont
 from gm_resources import *
 from ..abstractcomp import AbstractComp
-from ..compattr import CompAttr
+
+import os, sys
+
+PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+if PATH not in sys.path:
+    sys.path.append(PATH)
+
+from attr import CompAttr
 
 class ButtonComp(AbstractComp):
     """
     Button widget for scoreboard.
     """
     
-    def __init__(self, text, edit=False, parent=None):
+    def __init__(self, text, signal: str, edit=False, parent=None):
         super().__init__(parent)
         path = resourcePath("src/component/basiccomp/buttoncomp.ui")
         uic.loadUi(path, self) # Load the .ui file
@@ -22,13 +29,13 @@ class ButtonComp(AbstractComp):
          font-size: 17px; border-radius: 4px;}")
         self.pushButton.setText(text)
         self.pushButton.clicked.connect(self.onClick)
+        self.signal = signal
 
         if (edit == True):
             self.pushButton.installEventFilter(self)
 
     def onClick(self):
-        self.connection.emitSignal("On Click")
-        pass
+        self.connection.emitSignal(self.signal)
 
     # Override
     def firstTimeProp(self):
@@ -36,7 +43,7 @@ class ButtonComp(AbstractComp):
         self.properties.appendProperty("Appearance Properties", CompAttr.appearProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
 
-        self.connection.appendSignalType("On Click")
+        self.connection.appendSignalType(self.signal)
         
     # Override
     def disableWidget(self) -> None:

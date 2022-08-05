@@ -1,4 +1,8 @@
 class Connection:
+    COMP = 0
+    TYPE = 1
+    EXTRA = 2
+
     def __init__(self, layoutWidget):
         self.transmitSignal = {}   # Contains all the components that will receive
         self.receiveType = {} # Contain callbacks to the 
@@ -39,5 +43,14 @@ class Connection:
         callback = self.receivers[signal]
         callback(extra)
 
-    def getList(self) -> list:
-        pass
+    def getSignalTypes(self) -> list:
+        types = []
+        for i in self.transmitSignal:
+            types.append(i)
+        return types
+
+    def getRecvTypes(self) -> list:
+        types = []
+        for i in self.receiveType:
+            types.append(i)
+        return types

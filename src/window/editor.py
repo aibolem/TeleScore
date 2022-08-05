@@ -6,19 +6,16 @@ from PyQt6.QtWidgets import QMainWindow, QFrame
 from PyQt6 import uic, QtGui
 from PyQt6.QtCore import QPoint, pyqtSlot, QSize
 from gm_resources import *
-from layout.ctrllayout import CtrlLayout
-
-from editor.complisttab import CompListTab
-from editor.propertytab import PropertyTab
-from editor.command.insertcmd import InsertCmd
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
     sys.path.append(PATH)
 
-from component.element.clock import Clock
-
 from component.abstractcomp import AbstractComp
+from editor.complisttab import CompListTab
+from editor.propertytab import PropertyTab
+from editor.command.insertcmd import InsertCmd
+from layout.ctrllayout import CtrlLayout
 
 class Editor(QMainWindow):
     def __init__(self, parent=None):
@@ -61,8 +58,13 @@ class Editor(QMainWindow):
         if (self.currComp != comp):
             if (self.currComp != None):
                 self.prop.propChanged.disconnect(self.currComp.propChanged)
+                self.currComp.attrChanged.disconnect(self.prop.externalChange)
+                self.currComp.setFrameShape(QFrame.Shape.NoFrame)
             self.prop.propChanged.connect(comp.propChanged)
             self.prop.loadProperties(comp.getPropertyTab())
+            comp.attrChanged.connect(self.prop.externalChange)
+            comp.setFrameShape(QFrame.Shape.Box)
+            comp.setLineWidth(3)
 
         self.currComp = comp
 

@@ -15,7 +15,7 @@ PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
     sys.path.append(PATH)
 
-from component.compattr import CompAttr
+from attr import CompAttr
 
 class CompListTab(QWidget):
     """
@@ -49,9 +49,9 @@ class CompListTab(QWidget):
             for i, comp in enumerate(cat[CompAttr.COMPONENT]):  # Refractor this please
                 item = cat[CompAttr.COMPONENT][comp]
                 component = CompWidgetItem(item[CompAttr.ICON], header, comp)
-                header.setChild(i, component)
                 instance = QStandardItem()
-                header.setChild(i, 1, instance)
+  
+                header.insertRow(i, [component, instance])
                 infoButton = QPushButton()
                 self.treeView.setIndexWidget(instance.index(), infoButton)
                 component.setInfoButton(infoButton)

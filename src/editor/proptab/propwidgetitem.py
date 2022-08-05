@@ -2,9 +2,9 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
-from PyQt6.QtWidgets import QWidget, QLineEdit, QSpinBox, QFontComboBox, QPushButton, QCheckBox
+from PyQt6.QtWidgets import QWidget, QLineEdit, QSpinBox, QFontComboBox, QCheckBox
 from PyQt6.QtGui import QFont, QStandardItem, QColor
-from PyQt6.QtCore import Qt, pyqtSignal, pyqtSlot, QObject
+from PyQt6.QtCore import Qt
 from .propwidgethead import PropWidgetHead
 from gm_resources import *
 
@@ -12,7 +12,8 @@ PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
     sys.path.append(PATH)
 
-from component.compattr import CompAttr
+from attr import CompAttr
+from editor.connection.connman import ConnMan
 
 class PropWidgetItem(QStandardItem):
     """
@@ -40,6 +41,7 @@ class PropWidgetItem(QStandardItem):
         self.setFont(QFont("Open Sans Bold", 11))
         self.setBackground(QColor(255, 255, 255))
         self.editWidget = self._createProp(propType, propValue)
+        self.extraInfo = None
 
     def getWidget(self) -> QWidget:
         return self.editWidget
@@ -66,10 +68,13 @@ class PropWidgetItem(QStandardItem):
             case CompAttr.FONTEDIT:
                 wid = self._createFontEdit(value)
             case CompAttr.CONNEDIT:
-                wid = self._createConnEdit(value)
+                wid = self._createConnMan(value)
             case CompAttr.CHECKBOX:
                 wid = self._createCheckBox(value)
         return wid
+
+    def extraInfo(self, value):
+        self.extraInfo = value
 
     def _createTextEdit(self, value) -> None:
         """
@@ -113,11 +118,12 @@ class PropWidgetItem(QStandardItem):
         spinBox.valueChanged.connect(self._spinBoxChanged)
         return spinBox
 
-    def _createConnEdit(self, value) -> QPushButton:
-        wid = QPushButton("Manager")
-        return wid
-
     def _createCheckBox(self, value) -> QCheckBox:
         wid = QCheckBox()
         wid.setChecked(value)
+        return wid
+
+    def _createConnMan(self, value):
+        wid = ConnMan(value)
+
         return wid

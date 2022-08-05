@@ -1,7 +1,3 @@
-
-from multiprocessing.sharedctypes import Value
-
-
 class CompAttr:
     TABNAME = "TABNAME"
     COMPONENT = "COMPONENT"
@@ -10,6 +6,7 @@ class CompAttr:
     NAME = "NAME"
     COLOR = "COLOR"
     TYPE = "TYPE"
+    SIGNAL = "SIGNAL"
     VALUE = "VALUE"
     TEXTEDIT = "TEXTEDIT"
     FONTEDIT = "FONTEDIT"
@@ -108,6 +105,7 @@ class CompAttr:
             NAME: "Start",
             COLOR: "#439a86",
             TYPE: "BUTTON",
+            SIGNAL: "Start",
             HELP: ""
         },
         "Stop Time": {
@@ -115,6 +113,7 @@ class CompAttr:
             NAME: "Stop",
             COLOR: "#e15554",
             TYPE: "BUTTON",
+            SIGNAL: "Stop",
             HELP: ""
         },
         "Reset": {
@@ -122,6 +121,7 @@ class CompAttr:
             NAME: "Reset",
             COLOR: "#4357ad",
             TYPE: "BUTTON",
+            SIGNAL: "Reset",
             HELP: ""
         },
         "Add Seconds": {
@@ -129,6 +129,7 @@ class CompAttr:
             NAME: "Add [+]\nSeconds",
             COLOR: "#242325",
             TYPE: "BUTTON",
+            SIGNAL: "ADDS",
             HELP: ""
         },
         "Subtract Seconds": {
@@ -136,6 +137,7 @@ class CompAttr:
             NAME: "Subtract [+]\nSeconds",
             COLOR: "#242325",
             TYPE: "BUTTON",
+            SIGNAL: "SUBS",
             HELP: ""
         },
         "Add Minutes": {
@@ -143,6 +145,7 @@ class CompAttr:
             NAME: "Add [-]\nMinutes",
             COLOR: "#242325",
             TYPE: "BUTTON",
+            SIGNAL: "ADDM",
             HELP: ""
         },
         "Subtract Minutes": {
@@ -150,6 +153,7 @@ class CompAttr:
             NAME: "Subtract [-]\nMinutes",
             COLOR: "#242325",
             TYPE: "BUTTON",
+            SIGNAL: "SUBM",
             HELP: ""
         },
         "Type Time Amount": {

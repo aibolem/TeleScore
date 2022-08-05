@@ -3,7 +3,14 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 from ..property import Property
-from ..compattr import CompAttr
+
+import os, sys
+
+PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+if PATH not in sys.path:
+    sys.path.append(PATH)
+
+from attr import CompAttr
 from PyQt6 import uic
 from PyQt6.QtCore import pyqtSlot
 from ..abstractcomp import AbstractComp
@@ -18,7 +25,7 @@ class ClockComp(AbstractComp):
     This class has one clock object from the backend.
     """
 
-    def __init__(self, edit=False, parent=None):
+    def __init__(self, layout, edit=False, parent=None):
         super().__init__(parent)
         path = resourcePath("src/component/basiccomp/clockcomp.ui")
         uic.loadUi(path, self) # Load the .ui file
@@ -32,7 +39,8 @@ class ClockComp(AbstractComp):
     def firstTimeProp(self):
         self.properties.appendProperty("Clock Properties", CompAttr.clockProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
-        self.connection.appendSignalType("Time Ended")
+        self.connection.appendSignalType("Clock Start")
+        self.connection.appendSignalType("Clock Stop")
         self.connection.appendReceiverType("Start", self.start)
         self.connection.appendReceiverType("Stop", self.stop)
         self.connection.appendReceiverType("Reset", self.reset)
