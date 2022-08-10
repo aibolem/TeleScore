@@ -58,6 +58,10 @@ class PropWidgetItem(QStandardItem):
     def _fontEditChanged(self, font: QFont) -> None:
         self.callBack(self, font.family())
 
+    def _connEditChanged(self, connList):
+        self.callBack(self, connList)
+
+
     def _createProp(self, text: object, value) -> QWidget:
         wid = None
         match text:
@@ -124,6 +128,7 @@ class PropWidgetItem(QStandardItem):
         return wid
 
     def _createConnMan(self, value):
-        wid = ConnMan(value)
-
+        name = value[0]
+        data = value[1]
+        wid = ConnMan(name, data, self._connEditChanged)
         return wid

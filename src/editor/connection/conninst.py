@@ -29,7 +29,8 @@ class ConnInst(QTreeWidgetItem):
         self.recvLineEdit = QLineEdit(name)
         self.recvLineEdit.setEnabled(False)
         interface = ProgInterface()
-        self.signals = interface.getComponent(self.objectName).getConnection().getSignalTypes()
+        self.object = interface.getComponent(self.objectName)
+        self.signals = self.object.getConnection().getSignalTypes()
 
     def _loadCombo(self):
         interface = ProgInterface()
@@ -70,11 +71,12 @@ class ConnInst(QTreeWidgetItem):
         self.button.clicked.connect(self.buttonClicked)
 
     def buttonClicked(self):
+        interface = ProgInterface()
         match self.type:
             case self.ADD:
                 if (len(self.recvComboBox.currentText()) > 0):
-                    self.addCallBack(self.sigComboBox.currentText(), self.recvComboBox.currentText())
+                    self.addCallBack(interface.getComponent(self.recvComboBox.currentText()), self.sigComboBox.currentText())
             case self.REMOVE:
-                self.remCallBack(self, self.sigLineEdit.text(), self.recvLineEdit.text())
+                self.remCallBack(interface.getComponent(self.recvLineEdit.text()), self.sigLineEdit.text(), self)
 
     

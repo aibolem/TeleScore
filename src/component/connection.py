@@ -1,23 +1,36 @@
+
 class Connection:
     COMP = 0
     TYPE = 1
     EXTRA = 2
 
-    def __init__(self, layoutWidget):
-        self.transmitSignal = {}   # Contains all the components that will receive
-        self.receiveType = {} # Contain callbacks to the 
-        self.parent = layoutWidget
+    HELLO_PKT = -1
 
-    def appendSignalType(self, name):
-        self.transmitSignal[name] = {}
+    def __init__(self, comp):
+        self.A2Bconnection = {} # Contains the type of the connection and the list of components assigned
+        self.A2Bcallback = {} # Contains callback when the appended connection type is received
 
-    def appendSignal(self, signal, component):
-        self.transmitSignal[signal][component.objectName()] = component.getConnection()
+        self.B2Aconnection = {} # Contains components (A2B) that are connected to this component
+        self.selfComponent = comp
 
-    def appendReceiverType(self, name, callback):
-        self.receiveType[name] = callback
+    def appendConnType(self, name):
+        self.A2Bconnection[name] = {}
 
-    def checkDeletion(self, objectName):
+    def appendConn(self, signal, component):
+        # 
+        self.A2Bconnection[signal][component] = component.getConnection()
+
+        component.getConnection().received(self.HELLO_PKT, [self.selfComponent, self, signal])
+
+    def clearConn(self):
+        for i in self.A2Bconnection:
+            self.A2Bconnection[i] = {}
+        self.B2Aconnection.clear()
+            
+    def appendCallBack(self, name, callback):
+        self.A2Bcallback[name] = callback
+
+    def checkDeletion(self, component):
         """
         This method is called whenever there is a component
         that is deleted from the layout. 
@@ -27,30 +40,55 @@ class Connection:
         :param objectName: name of the component
         :return: none
         """
-        for i in self.transmitSignal:
-            if (objectName in self.transmitSignal[i]):
-                self.transmitSignal[i].pop(objectName)
+        for i in self.A2Bconnection:
+            if (component in self.A2Bconnection[i]):
+                self.A2Bconnection[i].pop(component)
 
     def emitSignal(self, name):
-        for i in self.transmitSignal[name]:
-            comp = i[0]
-            type = i[1]
-            extra = i[2]
+        list = self.A2Bconnection[name]
+        for i in list:
+            list[i].received(name, None)
 
-            comp.received(type, extra)
+    def setConnList(self, list):
+        self.clearConn()
+        print(list)
+        for i in list[0]:
+            self.appendConn(i[1], i[0])
+        for i in list[1]:
+            self.B2Aconnection[i[1]] = (i[1].getConnection(), i[0])
+        
 
     def received(self, signal, extra):
-        callback = self.receivers[signal]
-        callback(extra)
+        if (signal == self.HELLO_PKT):
+            object = extra[0]
+            conn = extra[1]
+            type = extra[2]
+
+            self.B2Aconnection[object] = (conn, type)
+        else:  
+            callback = self.A2Bcallback[signal]
+            callback()
+
+    def getData(self) -> list: # Should change this and make it reference not sending back all the data
+        transSig = []
+        for i in self.A2Bconnection:
+            for j in self.A2Bconnection[i]:
+                transSig.append((i, j))
+
+        recvSig = []
+        for i in self.B2Aconnection:
+            recvSig.append((self.B2Aconnection[i][1], i))
+
+        return (transSig, recvSig)
 
     def getSignalTypes(self) -> list:
         types = []
-        for i in self.transmitSignal:
+        for i in self.A2Bconnection:
             types.append(i)
         return types
 
     def getRecvTypes(self) -> list:
         types = []
-        for i in self.receiveType:
+        for i in self.A2Bcallback:
             types.append(i)
         return types

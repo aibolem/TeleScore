@@ -77,7 +77,7 @@ class CompAttr:
     connProperty = {
         "Connection": {
             TYPE: CONNEDIT,
-            VALUE: None
+            VALUE: []
         }
     }
 

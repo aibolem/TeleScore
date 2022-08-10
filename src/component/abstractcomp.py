@@ -6,7 +6,7 @@ import os, sys
 from PyQt6.QtWidgets import QFrame, QMenu
 from PyQt6.QtCore import QSize, QPoint, Qt, QEvent, QObject, pyqtSignal
 from PyQt6.QtGui import QMouseEvent, QContextMenuEvent
-from abc import ABC, abstractmethod, ABCMeta
+from abc import ABC, abstractmethod
 from gm_resources import GMessageBox
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -40,7 +40,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         super().__init__(parent)
         self.properties = Property()
         self.properties.appendProperty("General Properties", CompAttr.genProperty)
-        self.connection = Connection(parent)
+        self.connection = Connection(self)
         self.firstPoint = QPoint(1, 1)
         self.parentSize = QSize(1, 1)
         self.updatedSize = QSize(1, 1)
@@ -84,6 +84,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         self.properties["Height"] = self.height()
         self.properties["X"] = self.x()
         self.properties["Y"] = self.y()
+        self.properties["Connection"] = self.connection.getData()
         self.reloadProperty()
         return self.properties.getList()
 
@@ -101,7 +102,8 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
                 msgBox.exec()
                 self.properties["Component Name"] = self.objectName()
                 self.attrChanged.emit()
-        self.changedGeo()
+
+        self.connection.setConnList(self.properties["Connection"])
         self.reconfProperty()
 
     def setNameChangeCallback(self, callback):

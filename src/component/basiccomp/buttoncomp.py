@@ -43,7 +43,7 @@ class ButtonComp(AbstractComp):
         self.properties.appendProperty("Appearance Properties", CompAttr.appearProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
 
-        self.connection.appendSignalType(self.signal)
+        self.connection.appendConnType(self.signal)
         
     # Override
     def disableWidget(self) -> None:

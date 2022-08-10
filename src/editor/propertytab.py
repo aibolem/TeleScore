@@ -90,13 +90,14 @@ class PropertyTab(QWidget):
 
                 if (tabName == "Connection Properties"): # We are assuming that Component Name has been called before
                     tabItem = PropWidgetItem(tabHead, propertyName, 
-                    property[CompAttr.TYPE], self.objectName)
+                    property[CompAttr.TYPE], (self.objectName, property[CompAttr.VALUE]))
+                    tabItem.setCallBack(self._propItemChanged)
                     tabHead.insertRow(i, [tabItem, instance])
                     self.treeView.setFirstColumnSpanned(i, tabHead.index(), True)
                 else:
                     tabItem = PropWidgetItem(tabHead, propertyName, 
                     property[CompAttr.TYPE], property[CompAttr.VALUE])
-                    tabItem.setCallBack(self.propItemChanged)
+                    tabItem.setCallBack(self._propItemChanged)
                     tabHead.insertRow(i, [tabItem, instance])
 
                 self.treeView.setIndexWidget(instance.index(),
@@ -105,7 +106,7 @@ class PropertyTab(QWidget):
                 if (propertyName == "Component Name"):
                     self.objectName = property[CompAttr.VALUE]
 
-    def propItemChanged(self, item: PropWidgetItem, value: str):
+    def _propItemChanged(self, item: PropWidgetItem, value: str):
         self.settings[item.parent().text()][CompAttr.PROPERTIES][item.text()][CompAttr.VALUE] = value
         self.propChanged.emit()
 

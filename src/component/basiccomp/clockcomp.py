@@ -39,14 +39,15 @@ class ClockComp(AbstractComp):
     def firstTimeProp(self):
         self.properties.appendProperty("Clock Properties", CompAttr.clockProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
-        self.connection.appendSignalType("Clock Start")
-        self.connection.appendSignalType("Clock Stop")
-        self.connection.appendReceiverType("Start", self.start)
-        self.connection.appendReceiverType("Stop", self.stop)
-        self.connection.appendReceiverType("Reset", self.reset)
+        self.connection.appendConnType("Clock Start")
+        self.connection.appendConnType("Clock Stop")
+        self.connection.appendCallBack("Start", self.start)
+        self.connection.appendCallBack("Stop", self.stop)
+        self.connection.appendCallBack("Reset", self.reset)
 
     def start(self):
-        self.clock.startTimer()
+        self.clock.setClockTick(10000)
+        self.clock.startClock()
 
     def stop(self):
         self.clock.stopClock()
