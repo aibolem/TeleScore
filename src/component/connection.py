@@ -1,3 +1,4 @@
+from copy import copy
 
 class Connection:
     COMP = 0
@@ -5,31 +6,57 @@ class Connection:
     EXTRA = 2
 
     HELLO_PKT = -1
+    BYEA2B_PKT = -2
+    BYEB2A_PKT = -3
+
+    """
+    A2Bconnection dictionary format:
+        { 
+            TypeName1: [component1, component2],
+            TypeName2: [component3, component4]
+        }
+
+    A2Bcallback dictionary format:
+        {
+            TypeName1: callbackFunc
+        }
+    
+    B2Aconnection dictionary format:
+        {
+            component1: TypeName
+        }
+    """
 
     def __init__(self, comp):
         self.A2Bconnection = {} # Contains the type of the connection and the list of components assigned
         self.A2Bcallback = {} # Contains callback when the appended connection type is received
 
-        self.B2Aconnection = {} # Contains components (A2B) that are connected to this component
+        self.B2Aconnection = [] # Contains components (A2B) that are connected to this component
         self.selfComponent = comp
 
-    def appendConnType(self, name):
-        self.A2Bconnection[name] = {}
+    def appendConnType(self, typeName):
+        self.A2Bconnection[typeName] = []
 
-    def appendConn(self, signal, component):
-        # 
-        self.A2Bconnection[signal][component] = component.getConnection()
+    def appendConn(self, typeName, component):
+        """
+        
+        """
+        if (component not in self.A2Bconnection[typeName]):
+            self.A2Bconnection[typeName].append(component)
+        component.getConnection().received(self.HELLO_PKT, (self.selfComponent, typeName))
 
-        component.getConnection().received(self.HELLO_PKT, [self.selfComponent, self, signal])
+    def removeConn(self, typeName, component):
+        self.A2Bconnection[typeName].remove(component)
+        component.getConnection().received(self.BYEA2B_PKT, (self.selfComponent, typeName))
 
-    def clearConn(self):
-        for i in self.A2Bconnection:
-            self.A2Bconnection[i] = {}
-        self.B2Aconnection.clear()
+    def removeB2AConn(self, typeName, component):
+        component.getConnection().received(self.BYEB2A_PKT, (self.selfComponent, typeName))
+        self.B2Aconnection.remove((component, typeName))
             
     def appendCallBack(self, name, callback):
         self.A2Bcallback[name] = callback
 
+    # TODO
     def checkDeletion(self, component):
         """
         This method is called whenever there is a component
@@ -40,46 +67,62 @@ class Connection:
         :param objectName: name of the component
         :return: none
         """
+        # Check for outgoing connection
         for i in self.A2Bconnection:
             if (component in self.A2Bconnection[i]):
-                self.A2Bconnection[i].pop(component)
+                self.A2Bconnection[i].remove(component)
 
-    def emitSignal(self, name):
-        list = self.A2Bconnection[name]
-        for i in list:
-            list[i].received(name, None)
-
-    def setConnList(self, list):
-        self.clearConn()
-        print(list)
-        for i in list[0]:
-            self.appendConn(i[1], i[0])
-        for i in list[1]:
-            self.B2Aconnection[i[1]] = (i[1].getConnection(), i[0])
-        
-
-    def received(self, signal, extra):
-        if (signal == self.HELLO_PKT):
-            object = extra[0]
-            conn = extra[1]
-            type = extra[2]
-
-            self.B2Aconnection[object] = (conn, type)
-        else:  
-            callback = self.A2Bcallback[signal]
-            callback()
-
-    def getData(self) -> list: # Should change this and make it reference not sending back all the data
-        transSig = []
-        for i in self.A2Bconnection:
-            for j in self.A2Bconnection[i]:
-                transSig.append((i, j))
-
-        recvSig = []
+        # Check for incoming connection
         for i in self.B2Aconnection:
-            recvSig.append((self.B2Aconnection[i][1], i))
+            if (component in i):
+                self.B2Aconnection.remove(i)
 
-        return (transSig, recvSig)
+    def emitSignal(self, typeName):
+        list = self.A2Bconnection[typeName]
+        for i in list:
+            i.getConnection().received(typeName, None)
+        
+    def received(self, typeName, extra):
+        """
+        This is called when a transmitting component emits a signal
+
+        :param:
+        """
+        match typeName:
+            case self.HELLO_PKT:
+                self.B2Aconnection.append((extra[0], extra[1]))
+            case self.BYEA2B_PKT:
+                self.B2Aconnection.remove((extra[0], extra[1]))
+            case self.BYEB2A_PKT:
+                self.A2Bconnection[extra[1]].remove(extra[0])
+            case _:
+                self.A2Bcallback[typeName]()
+
+    def getData(self) -> list:
+        """
+        
+        """
+        self.aA2Bconnection = {}
+        for type in self.A2Bconnection:
+            self.aA2Bconnection[type] = copy(self.A2Bconnection[type])
+        self.aB2Aconnection = copy(self.B2Aconnection)
+        return (self.aA2Bconnection, self.aB2Aconnection)
+
+    def dataChanged(self):
+        for type in self.A2Bconnection:    # Usually going to be n=1
+            for component in self.A2Bconnection[type]:
+                if (component not in self.aA2Bconnection):
+                    self.removeConn(type, component)
+
+        # Add the new connections
+        for type in self.A2Bconnection:
+            for component in self.aA2Bconnection[type]:
+                self.appendConn(type, component)
+
+        for tuple in self.B2Aconnection:
+            if (tuple not in self.aB2Aconnection):
+                self.removeB2AConn(tuple[1], tuple[0])
+        
 
     def getSignalTypes(self) -> list:
         types = []

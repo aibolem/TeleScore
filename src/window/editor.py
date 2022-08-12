@@ -22,8 +22,8 @@ class Editor(QMainWindow):
         super().__init__(parent) # Call the inherited classes __init__ method
         path = resourcePath("src/window/ui/editor.ui")
         uic.loadUi(path, self) # Load the .ui file
-        self.cmdStack = []
-        self.ctrl = CtrlLayout(projSize=QSize(800, 600))
+        self.cmdStack = QtGui.QUndoStack(self)
+        self.ctrl = CtrlLayout(QSize(800, 600), self.remCallBack, self)
         self.ctrl.dropSignal.connect(self._dropSlot)
         self.currComp = None
         self._initUI()
@@ -35,10 +35,10 @@ class Editor(QMainWindow):
         :param: none
         :return: none
         """
-        self.comp = CompListTab()
+        self.comp = CompListTab(self)
         self.compDock.setWidget(self.comp)
 
-        self.prop = PropertyTab()
+        self.prop = PropertyTab(self)
         self.propDock.setWidget(self.prop)
 
         self.ctrl.setFrameShape(QFrame.Shape.Box)
@@ -80,10 +80,16 @@ class Editor(QMainWindow):
         type = evt.mimeData().data("application/x-comp").data().decode()
         point = QPoint(int(evt.position().x()), int(evt.position().y()))
         insert = InsertCmd(self.ctrl, type, point, self.ctrl.count())
-        insert.execute()
-        self.cmdStack.append(insert)
+        self.cmdStack.push(insert)
 
         comp = insert.getComponent()
-
         comp.compClicked.connect(self._compClicked)
+
+    def remCallBack(self, component: AbstractComp):
+        if (self.currComp == component):
+            self.prop.propChanged.disconnect(self.currComp.propChanged)
+            self.currComp.attrChanged.disconnect(self.prop.externalChange)
+            self.currComp = None
+            self.prop.clearTree()
+        component.compClicked.disconnect(self._compClicked)
         

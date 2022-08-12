@@ -15,21 +15,21 @@ class ConnInst(QTreeWidgetItem):
     ADD = 0
     REMOVE = 1
 
-    def __init__(self, type, tree, name, signal="", parent=None):
-        super().__init__(parent)
-        self.type = type
+    def __init__(self, type, tree, objectName, signal=""):
+        super().__init__()
+        self.instType = type
         self.tree = tree
-        self.objectName = name
-        self.sigComboBox = QComboBox()
-        self.recvComboBox = QComboBox()
+        self.objectName = objectName
         self.button = QPushButton()
 
-        self.sigLineEdit = QLineEdit(signal)
-        self.sigLineEdit.setEnabled(False)
-        self.recvLineEdit = QLineEdit(name)
-        self.recvLineEdit.setEnabled(False)
+        if (type == self.REMOVE):
+            self.sigLineEdit = QLineEdit(signal)
+            self.sigLineEdit.setEnabled(False)
+            self.recvLineEdit = QLineEdit(objectName)
+            self.recvLineEdit.setEnabled(False)
+
         interface = ProgInterface()
-        self.object = interface.getComponent(self.objectName)
+        self.object = interface.getComponent(objectName)
         self.signals = self.object.getConnection().getSignalTypes()
 
     def _loadCombo(self):
@@ -55,8 +55,10 @@ class ConnInst(QTreeWidgetItem):
         self.remCallBack = callback
 
     def exec(self):
-        match self.type:
+        match self.instType:
             case self.ADD:
+                self.sigComboBox = QComboBox()
+                self.recvComboBox = QComboBox()
                 self.tree.setItemWidget(self, 0, self.button)
                 self.tree.setItemWidget(self, 1, self.sigComboBox)
                 self.tree.setItemWidget(self, 2, self.recvComboBox)
@@ -72,7 +74,7 @@ class ConnInst(QTreeWidgetItem):
 
     def buttonClicked(self):
         interface = ProgInterface()
-        match self.type:
+        match self.instType:
             case self.ADD:
                 if (len(self.recvComboBox.currentText()) > 0):
                     self.addCallBack(interface.getComponent(self.recvComboBox.currentText()), self.sigComboBox.currentText())

@@ -5,9 +5,8 @@ import os, sys
 
 from PyQt6.QtWidgets import QFrame, QMenu
 from PyQt6.QtCore import QSize, QPoint, Qt, QEvent, QObject, pyqtSignal
-from PyQt6.QtGui import QMouseEvent, QContextMenuEvent
+from PyQt6.QtGui import QMouseEvent, QContextMenuEvent, QAction
 from abc import ABC, abstractmethod
-from gm_resources import GMessageBox
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
@@ -17,6 +16,7 @@ from .property import Property
 from .connection import Connection
 from attr import CompAttr
 from proginterface import ProgInterface
+from gm_resources import GMessageBox
 
 class Meta(type(ABC), type(QFrame)): pass
 
@@ -31,13 +31,14 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     compClicked = pyqtSignal(object) # Object should be AbstractComp
     attrChanged = pyqtSignal()
 
-    def __init__(self, parent=None):
+    def __init__(self, ctrlLayout):
         """
         Contruct a new 'AbstractComp' object
 
         :param 
         """
-        super().__init__(parent)
+        super().__init__(ctrlLayout)
+        self.layout = ctrlLayout
         self.properties = Property()
         self.properties.appendProperty("General Properties", CompAttr.genProperty)
         self.connection = Connection(self)
@@ -49,26 +50,45 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         self.prog = ProgInterface()
 
     def getConnection(self) -> Connection:
+        """
+        """
         return self.connection
 
     @abstractmethod
     def getName() -> str:
+        """
+        """
         pass
 
     @abstractmethod
     def disableWidget() -> None:
+        """
+        """
         pass
     
     # Override
     def contextMenuEvent(self, evt: QContextMenuEvent) -> None:
+        """
+        """
         menu = QMenu(self)
-        menu.addAction("Copy")
+        #menu.addAction("Copy")
         menu.addAction("Delete")
         menu.move(evt.globalX(), evt.globalY())
+        menu.triggered.connect(self.menuItemSelected)
+        menu.setStyleSheet("QMenu {color: black; background-color:white;}\
+                            QMenu::item:selected {color: gray;}")
         menu.show()
+
+    def menuItemSelected(self, action):
+        match action.text():
+            case "Delete":
+                self.layout.removeComponent(self)
+
 
     @abstractmethod
     def firstTimeProp(self) -> None:
+        """
+        """
         pass
 
     def getPropertyTab(self) -> list:
@@ -103,7 +123,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
                 self.properties["Component Name"] = self.objectName()
                 self.attrChanged.emit()
 
-        self.connection.setConnList(self.properties["Connection"])
+        self.connection.dataChanged()
         self.reconfProperty()
 
     def setNameChangeCallback(self, callback):

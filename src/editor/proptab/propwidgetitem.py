@@ -58,8 +58,8 @@ class PropWidgetItem(QStandardItem):
     def _fontEditChanged(self, font: QFont) -> None:
         self.callBack(self, font.family())
 
-    def _connEditChanged(self, connList):
-        self.callBack(self, connList)
+    def _connEditChanged(self):
+        self.callBack(self, None) # Since the data is referenced, nothing needs to be sent back
 
 
     def _createProp(self, text: object, value) -> QWidget:

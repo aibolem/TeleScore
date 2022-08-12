@@ -35,6 +35,7 @@ class FreeLayout(QLayout):
     def itemAt(self, index) -> None:
         if (index < self.count()):
             return self.items[index]
+        return None
 
     # Override
     def setSpacing(self, value) -> None: # Check documentation
@@ -45,7 +46,9 @@ class FreeLayout(QLayout):
 
     # Override
     def takeAt(self, index):
-        self.items.remove(self.items[index])
+        item = self.items[index]
+        self.items.remove(item)
+        return item
 
     # Override
     def sizeHint(self):

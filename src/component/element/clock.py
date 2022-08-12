@@ -15,10 +15,10 @@ class Clock(QObject):
 
     clkChngedSignal = pyqtSignal(str)    # Signal/Callback for when clock is changed
 
-    def __init__(self, stopwatch=False, label=None):
+    def __init__(self, stopwatch=False, label: QLabel=None, parent=None):
         """
         """
-        super(QObject, self).__init__()
+        super(QObject, self).__init__(parent)
         self.tick = 0
         self.clock = QTimer()
         self.speed = 1

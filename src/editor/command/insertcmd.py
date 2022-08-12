@@ -3,8 +3,8 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 import os, sys
-from .abstractcmd import AbstractCmd
 from PyQt6.QtCore import QPoint
+from PyQt6.QtGui import QUndoCommand
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
@@ -14,26 +14,28 @@ from layout.ctrllayout import CtrlLayout
 from component.compfactory import CompFactory
 from component.abstractcomp import AbstractComp
 
-class InsertCmd(AbstractCmd):
+class InsertCmd(QUndoCommand):
     """
     Command used when insertting a component
     to the layout
     """
 
-    def __init__(self, layout: CtrlLayout, type: str, pos: QPoint, count: int):
+    def __init__(self, layout: CtrlLayout, type: str, pos: QPoint, count: int, parent=None):
         """
         :param layout: Layout
         :param type: Component type (Ex. Clock)
         :param pos: Position of the component
         :param name: Object name
         """
-        super().__init__()
+        super().__init__(parent)
         self.layout = layout
         self.type = type
         self.pos = pos
         self.count = count
+        self.component = None
 
-    def execute(self) -> None:
+    # Override
+    def redo(self) -> None:
         """
         Insert command is executed and 
         component gets insertted to the layout
@@ -51,6 +53,10 @@ class InsertCmd(AbstractCmd):
             self.layout.addComponent(self.component)
             if (self.layout.defaultSize() != self.layout.size()):
                 self.component.insertCalc(self.layout.size())
+
+    # Override
+    def undo(self) -> None:
+        self.layout.removeComponent(self.component)
 
     def getComponent(self) -> AbstractComp:
         """

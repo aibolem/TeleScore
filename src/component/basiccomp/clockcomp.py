@@ -25,11 +25,11 @@ class ClockComp(AbstractComp):
     This class has one clock object from the backend.
     """
 
-    def __init__(self, layout, edit=False, parent=None):
+    def __init__(self, edit=False, parent=None):
         super().__init__(parent)
         path = resourcePath("src/component/basiccomp/clockcomp.ui")
         uic.loadUi(path, self) # Load the .ui file
-        self.clock = Clock(label=self.clockLabel) 
+        self.clock = Clock(False, self.clockLabel, self) 
 
     def disableWidget(self) -> None:
         # Nothing to implement here since clock is just a label

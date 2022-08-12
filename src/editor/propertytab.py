@@ -64,15 +64,15 @@ class PropertyTab(QWidget):
         if (type(settings) == None):
             settings = CompAttr.defaultProp
 
-        try:
-            self._parseProperties(settings)
-        except Exception as ex:
+        #try:
+        self._parseProperties(settings)
+        '''except Exception as ex:
             self.clearTree()
             errMsg = GMessageBox("Error Loading Properties",
                                 "There was an issue parsing the properties dictionary.\n"
                                 "Exception: " + str(ex) +"\nPlease check the "
                                 "format of the properties dictionary!", "Info")
-            errMsg.exec()
+            errMsg.exec()'''
     
     def _parseProperties(self, settings: dict):
         for i, tabName in enumerate(settings):    # Goes through the dictionary
@@ -106,8 +106,9 @@ class PropertyTab(QWidget):
                 if (propertyName == "Component Name"):
                     self.objectName = property[CompAttr.VALUE]
 
-    def _propItemChanged(self, item: PropWidgetItem, value: str):
-        self.settings[item.parent().text()][CompAttr.PROPERTIES][item.text()][CompAttr.VALUE] = value
+    def _propItemChanged(self, item: PropWidgetItem, value):
+        if (value != None):
+            self.settings[item.parent().text()][CompAttr.PROPERTIES][item.text()][CompAttr.VALUE] = value
         self.propChanged.emit()
 
     def externalChange(self):

@@ -23,7 +23,7 @@ class CtrlLayout(QFrame):
     """
     dropSignal = pyqtSignal(QDropEvent)
 
-    def __init__(self, projSize=QSize(800, 600), parent=None):
+    def __init__(self, projSize=QSize(800, 600), remCallBack=None, parent=None):
         super().__init__(parent)
         self.actualLayout = FreeLayout()
         self.actualLayout.setGeometry(QRect(0, 0, self.width(), self.height()))
@@ -35,6 +35,7 @@ class CtrlLayout(QFrame):
         self.compDict = {} # This list should only contain AbstractComp
         self.interface = ProgInterface()
         self.interface.setAllComponent(self.compDict)
+        self.remCallBack = remCallBack
 
 
     def setSize(self, size: QSize) -> None:
@@ -66,10 +67,16 @@ class CtrlLayout(QFrame):
 
     def removeComponent(self, component: AbstractComp) -> None:
         for i in self.compDict:
-            self.compDict[i].getConnections().checkDeletion(component.objectName())
+            self.compDict[i].getConnection().checkDeletion(component)
         
         self.compDict.pop(component.objectName())
         self.actualLayout.removeWidget(component)
+        if (self.remCallBack != None):
+            self.remCallBack(component)
+        component.setParent(None)
+        component.deleteLater()
+        #del component
+        component = None
 
     def dragEnterEvent(self, evt) -> None:
         """

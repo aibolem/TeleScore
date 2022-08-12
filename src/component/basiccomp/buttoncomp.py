@@ -62,11 +62,6 @@ class ButtonComp(AbstractComp):
 
     # Override
     def reloadProperty(self):
-        self.properties["Component Name"] = self.objectName()
-        self.properties["Width"] = self.width()
-        self.properties["Height"] = self.height()
-        self.properties["X"] = self.x()
-        self.properties["Y"] = self.y()
         self.properties["Display Text"] = self.pushButton.text()
         self.properties["Display Font"] = self.pushButton.font().family()
         self.properties["Font Size"] = self.pushButton.font().pixelSize()

@@ -28,7 +28,7 @@ class CompFactory():
 
     @classmethod
     def makeComponent(self, compName: str, edit=False, parent=None):
-        comp = DefaultComp()
+        comp = DefaultComp(parent)
         buttons = CompAttr.timeComponent
 
         if (compName in buttons):        # Change this for future
