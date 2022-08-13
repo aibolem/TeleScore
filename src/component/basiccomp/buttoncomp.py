@@ -2,19 +2,18 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
-from PyQt6 import uic
-from PyQt6.QtCore import pyqtSlot
-from PyQt6.QtGui import QColor, QFont
-from gm_resources import *
-from ..abstractcomp import AbstractComp
-
 import os, sys
+
+from PyQt6 import uic
+from PyQt6.QtGui import QColor
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
     sys.path.append(PATH)
 
 from attr import CompAttr
+from gm_resources import *
+from component.abstractcomp import AbstractComp
 
 class ButtonComp(AbstractComp):
     """
@@ -30,6 +29,7 @@ class ButtonComp(AbstractComp):
         self.pushButton.setText(text)
         self.pushButton.clicked.connect(self.onClick)
         self.signal = signal
+        self.buttonType = text
 
         if (edit == True):
             self.pushButton.installEventFilter(self)
@@ -75,3 +75,6 @@ class ButtonComp(AbstractComp):
     # Override
     def getName(self) -> str:
         return "Button"
+
+    def getButtonType(self) -> str:
+        return self.buttonType

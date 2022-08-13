@@ -221,7 +221,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     # Override
     def mouseReleaseEvent(self, evt: QMouseEvent) -> None:
         self.setCursor(Qt.CursorShape.ArrowCursor)
-        self.insertCalc(self.updatedSize)
+        #self.insertCalc(self.updatedSize) TODO
         self.properties["Width"] = self.width()
         self.properties["Height"] = self.height()
         self.properties["X"] = self.x()

@@ -2,7 +2,8 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
-from PyQt6.QtCore import QObject, pyqtSignal, QTimer, pyqtSlot, QDateTime
+from distutils.log import debug
+from PyQt6.QtCore import QObject, pyqtSignal, QTimer, pyqtSlot, QDateTime, QTime
 from PyQt6.QtWidgets import QLabel
 
 class Clock(QObject):
@@ -21,7 +22,7 @@ class Clock(QObject):
         super(QObject, self).__init__(parent)
         self.tick = 0
         self.clock = QTimer()
-        self.speed = 1
+        self.speed = 1000
         self.tickTo = 0
         self.stopwatch = stopwatch
         self.timeFormat = "mm:ss"
@@ -32,6 +33,12 @@ class Clock(QObject):
 
     def getTick(self) -> int:
         return self.tick
+
+    def setTimeFormat(self, value):
+        self.timeFormat = value
+
+    def getTimeFormat(self):
+        return self.timeFormat
 
     def stopClock(self):
         self.clock.stop()
@@ -46,7 +53,8 @@ class Clock(QObject):
             self.clock.start(self.speed)
 
     def _valueChanged(self):
-        timeStr = QDateTime.fromMSecsSinceEpoch(self.tick).toString(self.timeFormat)
+        timeStr = QTime(0, 0, 0, 0).addSecs(self.tick).toString(self.timeFormat)
+        
         if (self.label != None):
             self.label.setText(timeStr)
         self.clkChngedSignal.emit(timeStr)
@@ -63,6 +71,17 @@ class Clock(QObject):
 
     def setClockTick(self, tick):
         self.tick = tick
+        self._valueChanged()
+
+    def setClockFromStr(self, str) -> bool:
+        time = QTime.fromString(str, self.timeFormat)
+        self.setClockTick(time.hour()*3600+time.minute()*60+time.second())
+        if (not time.isValid()):
+            self.setClockTick(0)
+        return time.isValid()
+
+    def debug(self):
+        self.debug = True
 
     @pyqtSlot()
     def _clockEvent(self):

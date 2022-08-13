@@ -1,4 +1,5 @@
 from copy import copy
+from types import NoneType
 
 class Connection:
     COMP = 0
@@ -43,7 +44,7 @@ class Connection:
         """
         if (component not in self.A2Bconnection[typeName]):
             self.A2Bconnection[typeName].append(component)
-        component.getConnection().received(self.HELLO_PKT, (self.selfComponent, typeName))
+            component.getConnection().received(self.HELLO_PKT, (self.selfComponent, typeName))
 
     def removeConn(self, typeName, component):
         self.A2Bconnection[typeName].remove(component)
@@ -56,7 +57,6 @@ class Connection:
     def appendCallBack(self, name, callback):
         self.A2Bcallback[name] = callback
 
-    # TODO
     def checkDeletion(self, component):
         """
         This method is called whenever there is a component
@@ -77,10 +77,10 @@ class Connection:
             if (component in i):
                 self.B2Aconnection.remove(i)
 
-    def emitSignal(self, typeName):
+    def emitSignal(self, typeName, extra=None):
         list = self.A2Bconnection[typeName]
         for i in list:
-            i.getConnection().received(typeName, None)
+            i.getConnection().received(typeName, extra)
         
     def received(self, typeName, extra):
         """
@@ -96,9 +96,12 @@ class Connection:
             case self.BYEB2A_PKT:
                 self.A2Bconnection[extra[1]].remove(extra[0])
             case _:
-                self.A2Bcallback[typeName]()
+                if (extra != None):
+                    self.A2Bcallback[typeName](extra)
+                else:
+                    self.A2Bcallback[typeName]()
 
-    def getData(self) -> list:
+    def getData(self) -> tuple:
         """
         
         """
@@ -111,7 +114,7 @@ class Connection:
     def dataChanged(self):
         for type in self.A2Bconnection:    # Usually going to be n=1
             for component in self.A2Bconnection[type]:
-                if (component not in self.aA2Bconnection):
+                if (component not in self.aA2Bconnection[type]):
                     self.removeConn(type, component)
 
         # Add the new connections

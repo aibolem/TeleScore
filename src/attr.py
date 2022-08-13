@@ -89,6 +89,24 @@ class CompAttr:
         "Format": {
             TYPE: TEXTEDIT,
             VALUE: "mm:ss"
+        },
+        "Default Time": {
+            TYPE: TEXTEDIT,
+            VALUE: "00:00"
+        }
+    }
+
+    scoreDispProperty = {
+        "Suffix (st, nd, rd, th)": {
+            TYPE: CHECKBOX,
+            VALUE: 0
+        }
+    }
+
+    scoreSetProperty = {
+        "Set Amount": {
+            TYPE: NUMEDIT,
+            VALUE: 0
         }
     }
 
@@ -165,8 +183,26 @@ class CompAttr:
     }
 
     scoreComponent = {
-        "Add Points / Stats Amount": {
-            ICON: "src/resources/addButton.png",
+        "Score Display": {
+            ICON: "src/resources/scoreDisplay.png",
+            NAME: "Score Display",
+            TYPE: "DISPLAY"
+        },
+        "Add Points": {
+            ICON: "src/resources/addPtButton.png",
+            NAME: "Add Points",
+            TYPE: "CUST_BUTTON",
+            HELP: ""
+        },
+        "Sub Points": {
+            ICON: "src/resources/subPtButton.png",
+            NAME: "Sub Points",
+            TYPE: "CUST_BUTTON",
+            HELP: ""
+        }, 
+        "Score Set": {
+            ICON: "src/resources/scoreSet.png",
+            NAME: "Score Set",
             TYPE: "DISPLAY",
             HELP: ""
         }
@@ -182,3 +218,12 @@ class CompAttr:
                 COMPONENT: scoreComponent
             }
         ]
+
+    @classmethod
+    def getAllCategory(self):
+        # terrible code replace this in memory
+        largeDict = {}
+        for i in self.category:
+            dict = i[self.COMPONENT]
+            largeDict.update(dict)
+        return largeDict

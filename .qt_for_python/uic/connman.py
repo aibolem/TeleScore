@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(355, 342)
+        Form.resize(393, 342)
         self.gridLayout = QtWidgets.QGridLayout(Form)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setSpacing(0)
@@ -55,8 +55,8 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "(Point B Connections)"))
         self.treeWidget_2.headerItem().setText(0, _translate("Form", "-"))
         self.treeWidget_2.headerItem().setText(1, _translate("Form", "Action"))
-        self.treeWidget_2.headerItem().setText(2, _translate("Form", "Text/Image Output"))
+        self.treeWidget_2.headerItem().setText(2, _translate("Form", "Component"))
         self.treeWidget.headerItem().setText(0, _translate("Form", "-"))
         self.treeWidget.headerItem().setText(1, _translate("Form", "Action"))
-        self.treeWidget.headerItem().setText(2, _translate("Form", "Text/Image Output"))
+        self.treeWidget.headerItem().setText(2, _translate("Form", "Component"))
         self.label_2.setText(_translate("Form", "(Point A Connections)"))

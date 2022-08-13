@@ -61,6 +61,8 @@ class PropWidgetItem(QStandardItem):
     def _connEditChanged(self):
         self.callBack(self, None) # Since the data is referenced, nothing needs to be sent back
 
+    def _checkBoxChanged(self, checked):
+        self.callBack(self, checked)
 
     def _createProp(self, text: object, value) -> QWidget:
         wid = None
@@ -114,7 +116,7 @@ class PropWidgetItem(QStandardItem):
         :return: none
         """
         spinBox = QSpinBox()
-        spinBox.setMinimum(1)
+        spinBox.setMinimum(0)
         spinBox.setMaximum(9999999)
 
         spinBox.setValue(value)
@@ -125,6 +127,7 @@ class PropWidgetItem(QStandardItem):
     def _createCheckBox(self, value) -> QCheckBox:
         wid = QCheckBox()
         wid.setChecked(value)
+        wid.stateChanged.connect(self._checkBoxChanged)
         return wid
 
     def _createConnMan(self, value):

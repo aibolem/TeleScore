@@ -44,6 +44,31 @@ class Editor(QMainWindow):
         self.ctrl.setFrameShape(QFrame.Shape.Box)
         self.setCentralWidget(self.ctrl)
 
+        '''start = InsertCmd(self.ctrl, "Start Time", QPoint(1, 1), 1)
+        self.cmdStack.push(start)
+        data0 = start.getComponent().getConnection()
+        
+        set = InsertCmd(self.ctrl, "Type Time Amount", QPoint(100, 1), 2)
+        self.cmdStack.push(set)
+        data1 = set.getComponent().getConnection()
+
+        row = -1
+        column = 0
+        random = None
+        for i in range(110):
+            if (i % 10 == 0):
+                column += 1
+                row = -1
+            row += 1
+            instance = InsertCmd(self.ctrl, "Time Display", QPoint(100*row, 50*column), i+2)
+            self.cmdStack.push(instance)
+            data0.appendConn("Start", instance.getComponent())
+            data1.appendConn("Set Time", instance.getComponent())
+
+            if (column == 3 and row == 2):
+                random = instance.getComponent().debug()'''
+
+
     @pyqtSlot(object)
     def _compClicked(self, comp: AbstractComp) -> None:
         """
