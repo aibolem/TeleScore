@@ -9,15 +9,15 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(243, 204)
-        self.gridLayout = QtWidgets.QGridLayout(Form)
+class Ui_CompListTab(object):
+    def setupUi(self, CompListTab):
+        CompListTab.setObjectName("CompListTab")
+        CompListTab.resize(243, 204)
+        self.gridLayout = QtWidgets.QGridLayout(CompListTab)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
-        self.treeView = QtWidgets.QTreeView(Form)
+        self.treeView = QtWidgets.QTreeView(CompListTab)
         self.treeView.setDragEnabled(True)
         self.treeView.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragOnly)
         self.treeView.setIconSize(QtCore.QSize(50, 50))
@@ -26,9 +26,9 @@ class Ui_Form(object):
         self.treeView.header().setVisible(False)
         self.gridLayout.addWidget(self.treeView, 0, 0, 1, 1)
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(CompListTab)
+        QtCore.QMetaObject.connectSlotsByName(CompListTab)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, CompListTab):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        CompListTab.setWindowTitle(_translate("CompListTab", "Form"))

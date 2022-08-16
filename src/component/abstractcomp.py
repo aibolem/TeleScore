@@ -5,17 +5,18 @@ import os, sys
 
 from PyQt6.QtWidgets import QFrame, QMenu
 from PyQt6.QtCore import QSize, QPoint, Qt, QEvent, QObject, pyqtSignal
-from PyQt6.QtGui import QMouseEvent, QContextMenuEvent, QAction
+from PyQt6.QtGui import QMouseEvent, QContextMenuEvent
 from abc import ABC, abstractmethod
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
     sys.path.append(PATH)
 
-from .property import Property
-from .connection import Connection
+from component.property import Property
+from component.connection import Connection
 from attr import CompAttr
 from proginterface import ProgInterface
+from fileio.textout import TextOut
 from gm_resources import GMessageBox
 
 class Meta(type(ABC), type(QFrame)): pass
@@ -41,6 +42,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         self.layout = ctrlLayout
         self.properties = Property()
         self.properties.appendProperty("General Properties", CompAttr.genProperty)
+        self.fileOut = TextOut(self)
         self.connection = Connection(self)
         self.firstPoint = QPoint(1, 1)
         self.parentSize = QSize(1, 1)
@@ -110,7 +112,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
 
     def propChanged(self) -> None:
         self.move(self.properties["X"], self.properties["Y"])
-        self.setFixedSize(self.properties["Width"], self.properties["Height"])
+        #self.setFixedSize(self.properties["Width"], self.properties["Height"])
         if (self.objectName() != self.properties["Component Name"]):
             if (not self.prog.compContains(self.properties["Component Name"])):
                 self.prog.nameChanged(self.objectName(), self.properties["Component Name"])
@@ -147,6 +149,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         :param: size of the parent widget
         :return: none
         """
+        pass
         if (self.x() <= 0):
             self.move(1, self.y())
         if (self.y() <= 0):

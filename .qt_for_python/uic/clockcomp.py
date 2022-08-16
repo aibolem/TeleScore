@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\component\basiccomp\clockcomp.ui'
+# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\build\exe.win-amd64-3.10\lib\component\basiccomp\clockcomp.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.0
 #
@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(120, 73)
+        Form.resize(167, 98)
         Form.setMinimumSize(QtCore.QSize(20, 20))
         font = QtGui.QFont()
         font.setPointSize(18)

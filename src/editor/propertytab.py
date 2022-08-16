@@ -3,21 +3,20 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 import os, sys
-from types import NoneType
 from PyQt6.QtWidgets import QWidget
 from PyQt6 import uic
-from PyQt6.QtCore import QModelIndex, pyqtSlot, pyqtSignal
+from PyQt6.QtCore import QModelIndex, pyqtSignal
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
-from .proptab.propwidgethead import PropWidgetHead
-from .proptab.propwidgetitem import PropWidgetItem
-from .connection.connman import ConnMan
-from gm_resources import resourcePath, GMessageBox
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
     sys.path.append(PATH)
 
 from attr import CompAttr
+from editor.proptab.propwidgethead import PropWidgetHead
+from editor.proptab.propwidgetitem import PropWidgetItem
+from editor.connection.connman import ConnMan
+from gm_resources import resourcePath, GMessageBox
 
 class PropertyTab(QWidget):
     """

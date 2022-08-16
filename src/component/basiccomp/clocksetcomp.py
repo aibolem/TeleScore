@@ -4,7 +4,6 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 
 import os, sys
 from PyQt6 import uic
-from gm_resources import *
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
@@ -12,6 +11,7 @@ if PATH not in sys.path:
 
 from attr import CompAttr
 from component.abstractcomp import AbstractComp
+from gm_resources import *
 
 class ClockSetComp(AbstractComp):
     """

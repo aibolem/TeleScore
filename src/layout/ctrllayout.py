@@ -31,7 +31,7 @@ class CtrlLayout(QFrame):
         self.setAcceptDrops(True)
         self.setSize(projSize)
         self.projSize = projSize
-        self.setStyleSheet("background-color: white;")
+        #self.setStyleSheet("background-color: white;")
         self.compDict = {} # This list should only contain AbstractComp
         self.interface = ProgInterface()
         self.interface.setAllComponent(self.compDict)

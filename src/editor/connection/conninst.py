@@ -1,6 +1,7 @@
 """
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
+
 import os, sys
 
 from PyQt6.QtWidgets import QTreeWidgetItem, QPushButton, QComboBox, QLineEdit
@@ -15,11 +16,12 @@ class ConnInst(QTreeWidgetItem):
     ADD = 0
     REMOVE = 1
 
-    def __init__(self, type, tree, objectName, signal=""):
+    def __init__(self, type, tree, objectName, addedCompDict={}, signal=""):
         super().__init__()
         self.instType = type
         self.tree = tree
         self.objectName = objectName
+        self.addedCompDict = addedCompDict
         self.button = QPushButton()
 
         if (type == self.REMOVE):
@@ -27,7 +29,7 @@ class ConnInst(QTreeWidgetItem):
             self.sigLineEdit.setEnabled(False)
             self.recvLineEdit = QLineEdit(objectName)
             self.recvLineEdit.setEnabled(False)
-
+        
         interface = ProgInterface()
         self.object = interface.getComponent(objectName)
         self.signals = self.object.getConnection().getSignalTypes()
@@ -53,6 +55,11 @@ class ConnInst(QTreeWidgetItem):
     
     def setRemCall(self, callback):
         self.remCallBack = callback
+
+    def removedComp(self):
+        if (self.type == self.ADD):
+            self.recvComboBox.clear()
+            self._loadCombo()
 
     def exec(self):
         match self.instType:

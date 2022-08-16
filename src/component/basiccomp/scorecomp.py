@@ -26,7 +26,7 @@ class ScoreComp(AbstractComp):
         super().__init__(parent)
         path = resourcePath("src/component/basiccomp/scorecomp.ui")
         uic.loadUi(path, self) # Load the .ui file
-        self.score = Counter(self.label, self)
+        self.score = Counter(self.label, self.fileOut, self)
 
     def disableWidget(self) -> None:
         # Nothing to implement here since clock is just a label
@@ -34,8 +34,13 @@ class ScoreComp(AbstractComp):
 
     # Override
     def firstTimeProp(self):
+        self.properties.appendProperty("File Properties", CompAttr.fileProperty)
+        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName())
+        self.fileOut.setOutputFile(self.properties["File Output Location"])
+        self.fileOut.outputFile("")
         self.properties.appendProperty("Score Properties", CompAttr.scoreDispProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
+
         self.connection.appendCallBack("Add Score", self.addPoint)
         self.connection.appendCallBack("Sub Score", self.subPoint)
         self.connection.appendCallBack("Set Score", self.setScore)
@@ -56,6 +61,8 @@ class ScoreComp(AbstractComp):
     # Override
     def reloadProperty(self) -> None:
         self.properties["Suffix (st, nd, rd, th)"] = self.score.getSuffix()
-
+        self.properties["File Output Location"] = self.fileOut.getOutputFile()
+        
     def reconfProperty(self) -> None:
         self.score.setSuffix(self.properties["Suffix (st, nd, rd, th)"])
+        self.fileOut.setOutputFile(self.properties["File Output Location"])

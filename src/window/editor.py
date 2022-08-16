@@ -4,7 +4,7 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 
 from PyQt6.QtWidgets import QMainWindow, QFrame
 from PyQt6 import uic, QtGui
-from PyQt6.QtCore import QPoint, pyqtSlot, QSize
+from PyQt6.QtCore import QPoint, pyqtSlot, QSize, QFile
 from gm_resources import *
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -44,7 +44,7 @@ class Editor(QMainWindow):
         self.ctrl.setFrameShape(QFrame.Shape.Box)
         self.setCentralWidget(self.ctrl)
 
-        '''start = InsertCmd(self.ctrl, "Start Time", QPoint(1, 1), 1)
+        ''''start = InsertCmd(self.ctrl, "Start Time", QPoint(1, 1), 1)
         self.cmdStack.push(start)
         data0 = start.getComponent().getConnection()
         
@@ -55,19 +55,18 @@ class Editor(QMainWindow):
         row = -1
         column = 0
         random = None
-        for i in range(110):
+        for i in range(5000):
             if (i % 10 == 0):
                 column += 1
                 row = -1
             row += 1
-            instance = InsertCmd(self.ctrl, "Time Display", QPoint(100*row, 50*column), i+2)
+            instance = InsertCmd(self.ctrl, "Time Display", QPoint(4*row, 2*column+10), i+2)
             self.cmdStack.push(instance)
             data0.appendConn("Start", instance.getComponent())
             data1.appendConn("Set Time", instance.getComponent())
 
             if (column == 3 and row == 2):
                 random = instance.getComponent().debug()'''
-
 
     @pyqtSlot(object)
     def _compClicked(self, comp: AbstractComp) -> None:

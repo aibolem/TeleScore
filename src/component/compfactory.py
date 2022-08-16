@@ -4,8 +4,6 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 
 import os, sys
 
-from .basiccomp.scorecomp import ScoreComp
-
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
     sys.path.append(PATH)
@@ -17,6 +15,7 @@ from component.basiccomp.clockcomp import ClockComp
 from component.basiccomp.scorecomp import ScoreComp
 from component.basiccomp.defaultcomp import DefaultComp
 from component.basiccomp.scoresetcomp import ScoreSetComp
+from component.basiccomp.scorecomp import ScoreComp
 
 class CompFactory():
     """

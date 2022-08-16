@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\editor\propertytab.ui'
+# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\build\exe.win-amd64-3.10\lib\editor\propertytab.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.0
 #

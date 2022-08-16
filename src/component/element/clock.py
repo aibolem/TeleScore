@@ -2,8 +2,7 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
-from distutils.log import debug
-from PyQt6.QtCore import QObject, pyqtSignal, QTimer, pyqtSlot, QDateTime, QTime
+from PyQt6.QtCore import QObject, pyqtSignal, QTimer, QTime
 from PyQt6.QtWidgets import QLabel
 
 class Clock(QObject):
@@ -16,7 +15,7 @@ class Clock(QObject):
 
     clkChngedSignal = pyqtSignal(str)    # Signal/Callback for when clock is changed
 
-    def __init__(self, stopwatch=False, label: QLabel=None, parent=None):
+    def __init__(self, stopwatch=False, label: QLabel=None, file=None, parent=None):
         """
         """
         super(QObject, self).__init__(parent)
@@ -25,6 +24,7 @@ class Clock(QObject):
         self.speed = 1000
         self.tickTo = 0
         self.stopwatch = stopwatch
+        self.file = file
         self.timeFormat = "mm:ss"
 
         self.label = label
@@ -57,6 +57,8 @@ class Clock(QObject):
         
         if (self.label != None):
             self.label.setText(timeStr)
+        if (self.file != None):
+            self.file.outputFile(timeStr)
         self.clkChngedSignal.emit(timeStr)
 
     def _stopWatch(self):
@@ -73,6 +75,18 @@ class Clock(QObject):
         self.tick = tick
         self._valueChanged()
 
+    def addTime(self, min, sec):
+        time = QTime(0, min, sec, 0).addSecs(self.tick)
+        if (sec < 0):
+            time = QTime(0, min, 0, 0).addSecs(self.tick)
+            time = time.addMSecs(sec)
+
+        if (min < 0):
+            time = QTime(0, 0, sec, 0).addSecs(self.tick)
+            time = time.addSecs(min*60)
+            
+        self.setClockTick(time.hour()*3600+time.minute()*60+time.second())
+
     def setClockFromStr(self, str) -> bool:
         time = QTime.fromString(str, self.timeFormat)
         self.setClockTick(time.hour()*3600+time.minute()*60+time.second())
@@ -80,10 +94,6 @@ class Clock(QObject):
             self.setClockTick(0)
         return time.isValid()
 
-    def debug(self):
-        self.debug = True
-
-    @pyqtSlot()
     def _clockEvent(self):
         if (self.stopwatch):
             self.stopWatch()

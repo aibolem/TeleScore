@@ -1,10 +1,11 @@
 """
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
+
+import os, sys
+
 from PyQt6.QtWidgets import QWidget
 from PyQt6 import uic
-from gm_resources import *
-import os, sys
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
@@ -12,6 +13,7 @@ if PATH not in sys.path:
 
 from editor.connection.conninst import ConnInst
 from component.abstractcomp import AbstractComp
+from gm_resources import *
 
 class ConnMan(QWidget):
     def __init__(self, objectName, data, callBack, parent=None):
@@ -24,23 +26,24 @@ class ConnMan(QWidget):
         self.initTable(data)
 
     def initTable(self, data):
-        connInst = ConnInst(ConnInst.ADD, self.treeWidget, self.objectName)
-        connInst.setAddCall(self._addA2BCallBack)
-        self.treeWidget.addTopLevelItem(connInst)
-        connInst.exec()
         self.A2B = data[0]
         self.B2A = data[1]
+
+        self.addItem = ConnInst(ConnInst.ADD, self.treeWidget, self.objectName, self.A2B)
+        self.addItem.setAddCall(self._addA2BCallBack)
+        self.treeWidget.addTopLevelItem(self.addItem)
+        self.addItem.exec()
+
         for type in self.A2B:
             for component in self.A2B[type]:
                 self._addA2BCallBack(component, type, True)
  
         for tuple in self.B2A:
             self._addB2ACallBack(tuple[0], tuple[1], True)
-            connInst.exec()
 
     def _addA2BCallBack(self, object: AbstractComp, signal: str, init=False):
         if (object not in self.A2B[signal] or init): # Check to make sure we are not duplicating, assuming signal exists for the connected comp
-            connInst = ConnInst(ConnInst.REMOVE, self.treeWidget, object.objectName(), signal)
+            connInst = ConnInst(ConnInst.REMOVE, self.treeWidget, object.objectName(), {}, signal)
             self.treeWidget.addTopLevelItem(connInst)
             connInst.exec()
             connInst.setRemCall(self._remA2BCallBack)
@@ -49,7 +52,7 @@ class ConnMan(QWidget):
                 self.callBack()
 
     def _addB2ACallBack(self, object: AbstractComp, signal: str, init=False):
-        connInst = ConnInst(ConnInst.REMOVE, self.treeWidget_2, object.objectName(), signal)
+        connInst = ConnInst(ConnInst.REMOVE, self.treeWidget_2, object.objectName(), {}, signal)
         self.treeWidget_2.addTopLevelItem(connInst)
         connInst.exec()
         connInst.setRemCall(self._remB2ACallBack)

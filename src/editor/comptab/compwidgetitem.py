@@ -2,11 +2,18 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
+import os, sys
+
 from PyQt6.QtWidgets import QPushButton
 from PyQt6.QtGui import QIcon, QFont, QStandardItem, QColor
 from PyQt6.QtCore import Qt, QSize
-from .compwidgethead import CompWidgetHead
+
+PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+if PATH not in sys.path:
+    sys.path.append(PATH)
+
 from gm_resources import *
+from editor.comptab.compwidgethead import CompWidgetHead
 
 class CompWidgetItem(QStandardItem):
     """
@@ -31,7 +38,7 @@ class CompWidgetItem(QStandardItem):
         self.setText(text)
         self.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
         self.setFont(QFont("Open Sans Bold", 12))
-        self.setBackground(QColor(255, 255, 255))
+        #self.setBackground(QColor(255, 255, 255))
         if (icon != None):
             self.setIconFile(icon)
 

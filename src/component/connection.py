@@ -1,5 +1,4 @@
 from copy import copy
-from types import NoneType
 
 class Connection:
     COMP = 0

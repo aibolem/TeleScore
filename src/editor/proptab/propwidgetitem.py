@@ -1,12 +1,10 @@
 """
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
-
+import os, sys
 from PyQt6.QtWidgets import QWidget, QLineEdit, QSpinBox, QFontComboBox, QCheckBox
 from PyQt6.QtGui import QFont, QStandardItem, QColor
 from PyQt6.QtCore import Qt
-from .propwidgethead import PropWidgetHead
-from gm_resources import *
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
@@ -14,6 +12,8 @@ if PATH not in sys.path:
 
 from attr import CompAttr
 from editor.connection.connman import ConnMan
+from editor.proptab.propwidgethead import PropWidgetHead
+from gm_resources import *
 
 class PropWidgetItem(QStandardItem):
     """
@@ -39,7 +39,7 @@ class PropWidgetItem(QStandardItem):
         self.setText(propName)
         self.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
         self.setFont(QFont("Open Sans Bold", 11))
-        self.setBackground(QColor(255, 255, 255))
+        #self.setBackground(QColor(255, 255, 255))
         self.editWidget = self._createProp(propType, propValue)
         self.extraInfo = None
 

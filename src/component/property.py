@@ -1,11 +1,16 @@
+"""
+Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+"""
+
 import os, sys
+
+from copy import deepcopy
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
     sys.path.append(PATH)
 
 from attr import CompAttr
-from copy import deepcopy
 
 class Property:
     """

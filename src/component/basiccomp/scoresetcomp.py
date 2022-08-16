@@ -3,6 +3,7 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 import os, sys
+
 from PyQt6 import uic
 from PyQt6.QtGui import QColor
 
@@ -12,7 +13,6 @@ if PATH not in sys.path:
 
 from attr import CompAttr
 from component.abstractcomp import AbstractComp
-from component.element.counter import Counter
 from gm_resources import *
 
 class ScoreSetComp(AbstractComp):

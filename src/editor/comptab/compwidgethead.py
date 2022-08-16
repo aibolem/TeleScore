@@ -16,4 +16,4 @@ class CompWidgetHead(QStandardItem):
         self.setText(text)
         self.setFont(QFont("Open Sans Bold", 13))
         self.setEditable(False)
-        self.setBackground(QColor(200, 200, 200))
+        #self.setBackground(QColor(200, 200, 200))

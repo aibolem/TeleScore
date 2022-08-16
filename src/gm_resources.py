@@ -45,13 +45,26 @@ def externalLink(link):
 
 def resourcePath(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
-    try:
+    '''try:
         # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
     except Exception:
-        base_path = os.path.abspath(".")
+        base_path = os.path.abspath(".")'''
 
-    return os.path.join(base_path, relative_path)
+
+    joins = []
+    newPath = relative_path
+    while ('/' in newPath):
+        loc = newPath.find('/')
+        joins.append(newPath[0:loc])
+        newPath = newPath[loc+1:]
+    joins.append(newPath)
+    #joins.remove("src")
+
+    PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    #PATH = PATH.replace("\\build\\exe.win-amd64-3.10\\lib", "")
+
+    return os.path.join(PATH, *joins)
 
 def retrieveFile(url, name):
     if not "http" in url:

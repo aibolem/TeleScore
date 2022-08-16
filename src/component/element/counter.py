@@ -2,17 +2,17 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
-from ast import Index
 from PyQt6.QtCore import QObject
 
 class Counter(QObject):
-    def __init__(self, label=None, parent=None):
+    def __init__(self, label=None, file=None, parent=None):
         super(QObject, self).__init__(parent)
         self.value = 0
         self.label = label
         self.suffix = ["st", "nd", "rd", "th"]
         self.currSuffix = ""
         self.suffixEn = 0
+        self.file = file
 
     def getValue(self):
         return self.value
@@ -31,10 +31,16 @@ class Counter(QObject):
 
     def updateValue(self):
         self.computeSuffix()
+
+        text = str(self.value)
+        if (self.suffixEn == 2):
+            text = str(self.value) + self.currSuffix
+
+        if(self.file != None):
+            self.file.outputFile(text)
+
         if (self.label != None):
-            self.label.setText(str(self.value))
-            if (self.suffixEn == 2):
-                self.label.setText(str(self.value) + self.currSuffix)
+            self.label.setText(text)
 
     def computeSuffix(self):
         tenth = (abs(self.value)%10)-1

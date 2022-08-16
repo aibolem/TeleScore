@@ -22,12 +22,29 @@ class ClockComp(AbstractComp):
     This class has one clock object from the backend.
     """
 
+    clockProperty = {
+        "Stopwatch": {
+            CompAttr.TYPE: CompAttr.CHECKBOX,
+            CompAttr.VALUE: False
+        },
+        "Format": {
+            CompAttr.TYPE: CompAttr.TEXTEDIT,
+            CompAttr.VALUE: "mm:ss"
+        },
+        "Default Time": {
+            CompAttr.TYPE: CompAttr.TEXTEDIT,
+            CompAttr.VALUE: "00:00"
+        }
+    }
+
     def __init__(self, edit=False, parent=None):
         super().__init__(parent)
         path = resourcePath("src/component/basiccomp/clockcomp.ui")
         uic.loadUi(path, self) # Load the .ui file
-        self.clock = Clock(False, self.clockLabel, self)
+        self.clock = Clock(False, self.clockLabel, self.fileOut, self)
         self.defaultTime = "00:00"
+
+        self._initConn()
 
     def disableWidget(self) -> None:
         # Nothing to implement here since clock is just a label
@@ -35,29 +52,49 @@ class ClockComp(AbstractComp):
 
     # Override
     def firstTimeProp(self):
-        self.properties.appendProperty("Clock Properties", CompAttr.clockProperty)
+        self.properties.appendProperty("File Properties", CompAttr.fileProperty)
+        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName())
+        self.fileOut.setOutputFile(self.properties["File Output Location"])
+        self.fileOut.outputFile("")
+        self.properties.appendProperty("Clock Properties", self.clockProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
+
+    def _initConn(self):
         self.connection.appendConnType("Clock Start")
         self.connection.appendConnType("Clock Stop")
-        self.connection.appendCallBack("Start", self.start)
-        self.connection.appendCallBack("Stop", self.stop)
-        self.connection.appendCallBack("Reset", self.reset)
-        self.connection.appendCallBack("Set Time", self.setTime)
+        self.connection.appendCallBack("Start", self._start)
+        self.connection.appendCallBack("Stop", self._stop)
+        self.connection.appendCallBack("Reset", self._reset)
+        self.connection.appendCallBack("Set Time", self._setTime)
 
-    def debug(self):
-        self.clock.debug()
+        self.connection.appendCallBack("ADDS", self._addSec)
+        self.connection.appendCallBack("ADDM", self._addMin)
+        self.connection.appendCallBack("SUBS", self._subSec)
+        self.connection.appendCallBack("SUBM", self._subMin)
 
-    def start(self):
+    def _start(self):
         self.clock.startClock()
 
-    def stop(self):
+    def _stop(self):
         self.clock.stopClock()
 
-    def setTime(self, value):
+    def _setTime(self, value):
         self.clock.setClockFromStr(value)
 
-    def reset(self):
+    def _reset(self):
         self.clock.setClockFromStr(self.defaultTime)
+
+    def _addSec(self):
+        self.clock.addTime(0, 1)
+
+    def _addMin(self):
+        self.clock.addTime(1, 0)
+
+    def _subSec(self):
+        self.clock.addTime(0, -1)
+
+    def _subMin(self):
+        self.clock.addTime(-1, 0)
 
     # Override
     def getName(self) -> str:
@@ -67,9 +104,11 @@ class ClockComp(AbstractComp):
     def reloadProperty(self) -> None:
         self.properties["Default Time"] = self.defaultTime
         self.properties["Format"] = self.clock.getTimeFormat()
+        self.properties["File Output Location"] = self.fileOut.getOutputFile()
 
     def reconfProperty(self) -> None:
         self.defaultTime = self.properties["Default Time"]
+        self.fileOut.setOutputFile(self.properties["File Output Location"])
         self.clock.setTimeFormat(self.properties["Format"])
         
         if (not self.clock.setClockFromStr(self.defaultTime)):

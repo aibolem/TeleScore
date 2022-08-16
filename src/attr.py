@@ -81,18 +81,10 @@ class CompAttr:
         }
     }
 
-    clockProperty = {
-        "Stopwatch": {
-            TYPE: CHECKBOX,
-            VALUE: False
-        },
-        "Format": {
+    fileProperty = {
+        "File Output Location": {
             TYPE: TEXTEDIT,
-            VALUE: "mm:ss"
-        },
-        "Default Time": {
-            TYPE: TEXTEDIT,
-            VALUE: "00:00"
+            VALUE: "./Output/{}.txt"
         }
     }
 

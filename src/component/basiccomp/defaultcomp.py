@@ -2,11 +2,15 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
+import os, sys
 from PyQt6 import uic
-from PyQt6.QtCore import pyqtSlot
-from ..abstractcomp import AbstractComp
-from gm_resources import *
 
+PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+if PATH not in sys.path:
+    sys.path.append(PATH)
+
+from component.abstractcomp import AbstractComp
+from gm_resources import *
 
 class DefaultComp(AbstractComp):
     """
