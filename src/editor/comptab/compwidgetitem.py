@@ -38,12 +38,12 @@ class CompWidgetItem(QStandardItem):
         self.setText(text)
         self.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
         self.setFont(QFont("Open Sans Bold", 12))
-        #self.setBackground(QColor(255, 255, 255))
         if (icon != None):
             self.setIconFile(icon)
 
     def setInfoButton(self, infoButton: QPushButton) -> None:
         self.infoButton = infoButton
+        self.infoButton.setProperty("class", "InfoButton")
         self.infoButton.setIcon(QIcon(resourcePath("src/resources/infoButton.png")))
         self.infoButton.setStyleSheet("QPushButton {border: none;}")
         self.infoButton.pressed.connect(self.infoButtonClicked)

@@ -38,6 +38,7 @@ class ConnInst(QTreeWidgetItem):
         interface = ProgInterface()
 
         compDict = interface.getAllComponent()
+
         for i in self.signals:
             self.sigComboBox.addItem(i)
 
@@ -88,4 +89,10 @@ class ConnInst(QTreeWidgetItem):
             case self.REMOVE:
                 self.remCallBack(interface.getComponent(self.recvLineEdit.text()), self.sigLineEdit.text(), self)
 
+    def removeItem(self, objName):
+        if (self.instType == self.ADD):
+            self.recvComboBox.removeItem(self.recvComboBox.findText(objName))
     
+    def addItem(self, objName):
+        if (self.instType == self.ADD):
+            self.recvComboBox.addItem(objName)

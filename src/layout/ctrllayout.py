@@ -31,11 +31,13 @@ class CtrlLayout(QFrame):
         self.setAcceptDrops(True)
         self.setSize(projSize)
         self.projSize = projSize
-        #self.setStyleSheet("background-color: white;")
         self.compDict = {} # This list should only contain AbstractComp
         self.interface = ProgInterface()
         self.interface.setAllComponent(self.compDict)
         self.remCallBack = remCallBack
+
+    def setRemoveCallBack(self, callback):
+        self.remCallBack = callback
 
 
     def setSize(self, size: QSize) -> None:
@@ -63,6 +65,7 @@ class CtrlLayout(QFrame):
         """
         component.sizeInit(self.projSize)
         self.compDict[component.objectName()] = component
+
         self.actualLayout.addWidget(component)
 
     def removeComponent(self, component: AbstractComp) -> None:
@@ -99,3 +102,6 @@ class CtrlLayout(QFrame):
     def resizeEvent(self, event: QResizeEvent) -> None:
         for comp in self.compDict:
             self.compDict[comp].parentResizeEvent(event.size())
+
+    def getComponents(self) -> dict:
+        return self.compDict

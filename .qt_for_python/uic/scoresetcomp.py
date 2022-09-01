@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\build\exe.win-amd64-3.10\lib\component\basiccomp\scoresetcomp.ui'
+# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\build\exe.win-amd64-3.10\lib\src\component\basiccomp\scoresetcomp.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.0
 #

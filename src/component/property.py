@@ -47,12 +47,33 @@ class Property:
             self.allProp[key][CompAttr.VALUE] = value
 
     def getValue(self, attr) -> object:
+        """
+        Get the value of the property, this value can be any type of object
+        NOTE: Developers can use "[]" instead
+
+        :param attr: 
+        """
         if (attr not in self.allProp):
             return None
         return self.allProp[attr][CompAttr.VALUE]
 
-    def getAll(self) -> dict:
+    def getAllPropDict(self) -> dict:
+        """
+        Returns a dictionary that contains each property name as key
+        and the property value
+
+        :param: None
+        :return: Dictionary that contains all properties
+        """
         return self.allProp
 
-    def getList(self) -> dict:
+    def getFormPropDict(self) -> dict:
+        """
+        Returns a formatted dictionary that contains the property header, it's
+        content, and the value of each property. This should be mostly used for
+        the property tab. 
+
+        :param: None
+        :return: Dictionary that contains formatted properties
+        """
         return self.formattedProp

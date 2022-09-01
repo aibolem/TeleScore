@@ -1,5 +1,5 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Author: TheLittleDoc, Ian
 """
 
 import os
@@ -59,10 +59,8 @@ def resourcePath(relative_path):
         joins.append(newPath[0:loc])
         newPath = newPath[loc+1:]
     joins.append(newPath)
-    #joins.remove("src")
 
     PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    #PATH = PATH.replace("\\build\\exe.win-amd64-3.10\\lib", "")
 
     return os.path.join(PATH, *joins)
 

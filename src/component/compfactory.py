@@ -16,46 +16,48 @@ from component.basiccomp.scorecomp import ScoreComp
 from component.basiccomp.defaultcomp import DefaultComp
 from component.basiccomp.scoresetcomp import ScoreSetComp
 from component.basiccomp.scorecomp import ScoreComp
+from component.teamcomp.teamcomp import TeamComp
 
 class CompFactory():
     """
     Factory design patttern used to create category tabs in the component list.
     """
-    
-    NAME = "NAME"
-    COLOR = "COLOR"
-    TIMEDISPLAY = "Time Display"
-    TIMESET = "Type Time Amount"
-    SCOREDISPLAY = "Score Display"
-    SCORESET = "Score Set"
 
     def __init__():
         pass
 
     @classmethod
-    def makeComponent(self, compName: str, edit=False, parent=None):
-        comp = DefaultComp()
-        buttons = CompAttr.getAllCategory()
+    def makeComponent(self, compName: str, objectName, edit=False, parent=None):
+        allCompList = CompAttr.getAllCategory()
 
-        if (compName in buttons):        # Change this for future
-            item = buttons[compName]
-            if (self.NAME in item and self.COLOR in item):
-                comp = ButtonComp(item[self.NAME], item[CompAttr.SIGNAL], edit, parent)
-                comp.setButtonColor(item[self.COLOR])
+        if (compName not in allCompList):
+            return DefaultComp(parent)
 
+        comp = None
+        if (allCompList[compName][CompAttr.TYPE] == "BUTTON"):
+            try:
+                item = allCompList[compName]
+                comp = ButtonComp(compName, item[CompAttr.TEXT], item[CompAttr.SIGNAL], objectName, edit, parent)
+                comp.setButtonColor(item[CompAttr.COLOR])
+            except:
+                return DefaultComp(objectName, parent)
+
+        # If the component isn't a button, go through possibility. 
         match compName:
-            case self.TIMEDISPLAY:
-                comp = ClockComp(edit, parent)
-            case self.TIMESET:
-                comp = ClockSetComp(edit, parent)
-            case self.SCOREDISPLAY:
-                comp = ScoreComp(edit, parent)
+            case "Time Display":
+                comp = ClockComp(objectName, edit, parent)
+            case "Type Time Amount":
+                comp = ClockSetComp(objectName, edit, parent)
+            case "Score Display":
+                comp = ScoreComp(objectName, edit, parent)
             case "Add Points":
-                comp = ScoreSetComp(ScoreSetComp.INC, edit, parent)
+                comp = ScoreSetComp(objectName, ScoreSetComp.INC, edit, parent)
             case "Sub Points":
-                comp = ScoreSetComp(ScoreSetComp.DEC, edit, parent)
-            case self.SCORESET:
-                comp = ScoreSetComp(ScoreSetComp.SET, edit, parent)
+                comp = ScoreSetComp(objectName, ScoreSetComp.DEC, edit, parent)
+            case "Score Set":
+                comp = ScoreSetComp(objectName, ScoreSetComp.SET, edit, parent)
+            case "Team Attribute":
+                return TeamComp(objectName, edit, parent)
 
         comp.setFixedSize(100, 70)
         return comp

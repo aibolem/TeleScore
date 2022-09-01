@@ -2,8 +2,8 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 import os, sys
-from PyQt6.QtWidgets import QWidget, QLineEdit, QSpinBox, QFontComboBox, QCheckBox
-from PyQt6.QtGui import QFont, QStandardItem, QColor
+from PyQt6.QtWidgets import QWidget, QLineEdit, QSpinBox, QFontComboBox, QCheckBox, QPushButton, QFileDialog
+from PyQt6.QtGui import QFont, QStandardItem
 from PyQt6.QtCore import Qt
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -58,11 +58,19 @@ class PropWidgetItem(QStandardItem):
     def _fontEditChanged(self, font: QFont) -> None:
         self.callBack(self, font.family())
 
-    def _connEditChanged(self):
-        self.callBack(self, None) # Since the data is referenced, nothing needs to be sent back
-
     def _checkBoxChanged(self, checked):
         self.callBack(self, checked)
+
+    def _fileSctClicked(self):
+        fileName = QFileDialog.getSaveFileName(caption="Set Output File Name", directory="")
+        if (fileName[0] != '' and fileName[0] != ''):
+            # TODO
+            if (".txt" in fileName):
+                fileName[0] = fileName[0].replace(".txt", "")
+                print(fileName)
+            self.callBack(self, fileName[0] + "{}.{}")
+            # Add relative pathing
+        
 
     def _createProp(self, text: object, value) -> QWidget:
         wid = None
@@ -77,6 +85,8 @@ class PropWidgetItem(QStandardItem):
                 wid = self._createConnMan(value)
             case CompAttr.CHECKBOX:
                 wid = self._createCheckBox(value)
+            case CompAttr.FILESCT:
+                wid = self._createFileSct(value)
         return wid
 
     def extraInfo(self, value):
@@ -130,8 +140,14 @@ class PropWidgetItem(QStandardItem):
         wid.stateChanged.connect(self._checkBoxChanged)
         return wid
 
+    def _createFileSct(self, value) -> QPushButton:
+        wid = QPushButton(value)
+        wid.setToolTip(value)
+        wid.clicked.connect(self._fileSctClicked)
+        return wid
+
     def _createConnMan(self, value):
         name = value[0]
         data = value[1]
-        wid = ConnMan(name, data, self._connEditChanged)
+        wid = ConnMan(name, data)
         return wid

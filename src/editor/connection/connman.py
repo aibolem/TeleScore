@@ -16,18 +16,18 @@ from component.abstractcomp import AbstractComp
 from gm_resources import *
 
 class ConnMan(QWidget):
-    def __init__(self, objectName, data, callBack, parent=None):
+    def __init__(self, objectName, data, parent=None):
         super().__init__(parent)
         path = resourcePath("src/editor/connection/connman.ui")
         uic.loadUi(path, self) # Load the .ui file
-        self.buttonToCombo = {} # Dictionary that connects button to the combobox
         self.objectName = objectName
-        self.callBack = callBack
-        self.initTable(data)
+        self.connection = data
+        self.initTable()
 
-    def initTable(self, data):
-        self.A2B = data[0]
-        self.B2A = data[1]
+    def initTable(self):
+        expanded = self.connection.getData()
+        self.A2B = expanded[0]
+        self.B2A = expanded[1]
 
         self.addItem = ConnInst(ConnInst.ADD, self.treeWidget, self.objectName, self.A2B)
         self.addItem.setAddCall(self._addA2BCallBack)
@@ -49,25 +49,26 @@ class ConnMan(QWidget):
             connInst.setRemCall(self._remA2BCallBack)
             if (init == False):
                 self.A2B[signal].append(object)
-                self.callBack()
+            self.addItem.removeItem(object.objectName())
+            self.connection.dataChanged()
 
     def _addB2ACallBack(self, object: AbstractComp, signal: str, init=False):
         connInst = ConnInst(ConnInst.REMOVE, self.treeWidget_2, object.objectName(), {}, signal)
         self.treeWidget_2.addTopLevelItem(connInst)
         connInst.exec()
         connInst.setRemCall(self._remB2ACallBack)
-        #if (init == False):
-            #self.B2A.append((object, signal))
+        self.connection.dataChanged()
 
     def _remA2BCallBack(self, object: AbstractComp, signal: str, inst: ConnInst):
         self.A2B[signal].remove(object)
         self.treeWidget.takeTopLevelItem(self.treeWidget.indexOfTopLevelItem(inst))
-        self.callBack()
+        self.addItem.addItem(object.objectName())
+        self.connection.dataChanged()
 
     def _remB2ACallBack(self, object: AbstractComp, signal: str, inst: ConnInst):
         self.treeWidget_2.takeTopLevelItem(self.treeWidget_2.indexOfTopLevelItem(inst))
         self.B2A.remove((object, signal))
-        self.callBack()
+        self.connection.dataChanged()
 
             
 

@@ -25,17 +25,25 @@ class Clock(QObject):
         self.tickTo = 0
         self.stopwatch = stopwatch
         self.file = file
+        self.clearZero = False
         self.timeFormat = "mm:ss"
 
         self.label = label
+        self.clearTimeZero = False
 
         self.clock.timeout.connect(self._clockEvent)
+
+    def setStopCallback(self, callback):
+        self.setStopCallback = callback
 
     def getTick(self) -> int:
         return self.tick
 
     def setTimeFormat(self, value):
         self.timeFormat = value
+
+    def setStopWatch(self, value: bool):
+        self.stopwatch = value
 
     def getTimeFormat(self):
         return self.timeFormat
@@ -58,18 +66,24 @@ class Clock(QObject):
         if (self.label != None):
             self.label.setText(timeStr)
         if (self.file != None):
+            if (self.clearTimeZero and self.tick <= 0):
+                timeStr = ""
             self.file.outputFile(timeStr)
         self.clkChngedSignal.emit(timeStr)
 
     def _stopWatch(self):
         self.tick += 1
+        self._valueChanged()
 
     def _timer(self):
+        self._valueChanged()
+        self.tick -= 1
+
         if (self.tick <= self.tickTo):
+            if (self.setStopCallback != None):  # Refractor this in the future
+                self.setStopCallback()
+                self.tick = self.tickTo
             self.stopClock()
-        else:
-            self._valueChanged()
-            self.tick -= 1
 
     def setClockTick(self, tick):
         self.tick = tick
@@ -84,7 +98,7 @@ class Clock(QObject):
         if (min < 0):
             time = QTime(0, 0, sec, 0).addSecs(self.tick)
             time = time.addSecs(min*60)
-            
+        
         self.setClockTick(time.hour()*3600+time.minute()*60+time.second())
 
     def setClockFromStr(self, str) -> bool:
@@ -94,9 +108,12 @@ class Clock(QObject):
             self.setClockTick(0)
         return time.isValid()
 
+    def setClearTimeZero(self, value):
+        self.clearTimeZero = value
+
     def _clockEvent(self):
         if (self.stopwatch):
-            self.stopWatch()
+            self._stopWatch()
         else:
             self._timer()
         self._valueChanged()

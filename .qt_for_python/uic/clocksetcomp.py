@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\build\exe.win-amd64-3.10\lib\component\basiccomp\clocksetcomp.ui'
+# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\component\basiccomp\clocksetcomp.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.0
 #
@@ -19,7 +19,7 @@ class Ui_Form(object):
         font.setBold(True)
         Form.setFont(font)
         Form.setStyleSheet("background-color: #242325;\n"
-"color: white;")
+"")
         self.gridLayout = QtWidgets.QGridLayout(Form)
         self.gridLayout.setContentsMargins(5, 5, 5, 5)
         self.gridLayout.setSpacing(0)
@@ -48,6 +48,8 @@ class Ui_Form(object):
         font.setPointSize(22)
         font.setBold(True)
         self.lineEdit.setFont(font)
+        self.lineEdit.setStyleSheet("color: white;\n"
+"background-color: #808080;")
         self.lineEdit.setFrame(False)
         self.lineEdit.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit.setObjectName("lineEdit")

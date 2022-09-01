@@ -2,9 +2,9 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
-from PyQt6.QtWidgets import QMainWindow, QFrame
+from PyQt6.QtWidgets import QMainWindow, QFrame, QFileDialog
 from PyQt6 import uic, QtGui
-from PyQt6.QtCore import QPoint, pyqtSlot, QSize, QFile
+from PyQt6.QtCore import QPoint, pyqtSlot, QSize, Qt
 from gm_resources import *
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -16,17 +16,35 @@ from editor.complisttab import CompListTab
 from editor.propertytab import PropertyTab
 from editor.command.insertcmd import InsertCmd
 from layout.ctrllayout import CtrlLayout
+from fileio.layoutfile import LayoutFile
 
 class Editor(QMainWindow):
-    def __init__(self, parent=None):
+    compCounter = 0
+
+    def __init__(self, layout=None, parent=None):
         super().__init__(parent) # Call the inherited classes __init__ method
         path = resourcePath("src/window/ui/editor.ui")
         uic.loadUi(path, self) # Load the .ui file
         self.cmdStack = QtGui.QUndoStack(self)
-        self.ctrl = CtrlLayout(QSize(800, 600), self.remCallBack, self)
-        self.ctrl.dropSignal.connect(self._dropSlot)
-        self.currComp = None
+        if (layout == None):
+            self.ctrl = CtrlLayout(QSize(1000, 600), self.remCallBack, self)
+            self.ctrl.dropSignal.connect(self._dropSlot)
+            self.currComp = None
+        else:
+            self.ctrl = layout
+            self.ctrl.dropSignal.connect(self._dropSlot)
+            self.ctrl.setRemoveCallBack(self.remCallBack)
+            self.currComp = None
+            self._loadExistingLayout(self.ctrl)
+
         self._initUI()
+
+    def _loadExistingLayout(self, layout: CtrlLayout):
+        for comp in self.ctrl.getComponents().values():
+            comp.compClicked.connect(self._compClicked)
+            comp.setEditMode(True)
+        self.ctrl.setParent(self)
+        self.setCentralWidget(self.ctrl)
 
     def _initUI(self) -> None:
         """
@@ -43,30 +61,6 @@ class Editor(QMainWindow):
 
         self.ctrl.setFrameShape(QFrame.Shape.Box)
         self.setCentralWidget(self.ctrl)
-
-        ''''start = InsertCmd(self.ctrl, "Start Time", QPoint(1, 1), 1)
-        self.cmdStack.push(start)
-        data0 = start.getComponent().getConnection()
-        
-        set = InsertCmd(self.ctrl, "Type Time Amount", QPoint(100, 1), 2)
-        self.cmdStack.push(set)
-        data1 = set.getComponent().getConnection()
-
-        row = -1
-        column = 0
-        random = None
-        for i in range(5000):
-            if (i % 10 == 0):
-                column += 1
-                row = -1
-            row += 1
-            instance = InsertCmd(self.ctrl, "Time Display", QPoint(4*row, 2*column+10), i+2)
-            self.cmdStack.push(instance)
-            data0.appendConn("Start", instance.getComponent())
-            data1.appendConn("Set Time", instance.getComponent())
-
-            if (column == 3 and row == 2):
-                random = instance.getComponent().debug()'''
 
     @pyqtSlot(object)
     def _compClicked(self, comp: AbstractComp) -> None:
@@ -103,7 +97,8 @@ class Editor(QMainWindow):
         """
         type = evt.mimeData().data("application/x-comp").data().decode()
         point = QPoint(int(evt.position().x()), int(evt.position().y()))
-        insert = InsertCmd(self.ctrl, type, point, self.ctrl.count())
+        insert = InsertCmd(self.ctrl, type, point, self.compCounter)
+        self.compCounter += 1
         self.cmdStack.push(insert)
 
         comp = insert.getComponent()
@@ -117,3 +112,21 @@ class Editor(QMainWindow):
             self.prop.clearTree()
         component.compClicked.disconnect(self._compClicked)
         
+    def saveAction(self):
+        file = QFileDialog.getSaveFileName(self, "Save File As", ".", ".JSON File (*.json)")
+        if (file[0] != '' and file[1] != ''):
+            layout = LayoutFile(file[0] + file[1], self.ctrl)
+            layout.save()
+
+    # Override
+    def keyPressEvent(self, evt: QtGui.QKeyEvent) -> None:
+        if (evt.modifiers() & Qt.KeyboardModifier.ControlModifier):
+            match evt.key():
+                case Qt.Key.Key_Z:
+                    self.cmdStack.undo()
+        '''if (evt.modifiers() & Qt.KeyboardModifier.ControlModifier and evt.modifiers() & Qt.KeyboardModifier.ShiftModifier):
+            match evt.key():
+                case Qt.Key.Key_Z:
+                    self.cmdStack.redo()'''
+
+        evt.accept()

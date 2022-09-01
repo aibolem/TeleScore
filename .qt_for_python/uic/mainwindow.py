@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\build\exe.win-amd64-3.10\lib\window\ui\mainwindow.ui'
+# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\build\exe.win-amd64-3.10\lib\src\window\ui\mainwindow.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.0
 #
@@ -31,8 +31,11 @@ class Ui_MainWindow(object):
         self.actionNew.setObjectName("actionNew")
         self.actionOpen = QtGui.QAction(MainWindow)
         self.actionOpen.setObjectName("actionOpen")
+        self.actionSaveAs = QtGui.QAction(MainWindow)
+        self.actionSaveAs.setObjectName("actionSaveAs")
         self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionOpen)
+        self.menuFile.addAction(self.actionSaveAs)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
 
@@ -46,3 +49,4 @@ class Ui_MainWindow(object):
         self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
+        self.actionSaveAs.setText(_translate("MainWindow", "Save As"))

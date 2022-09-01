@@ -2,7 +2,7 @@
 Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
-from PyQt6.QtGui import QFont, QColor, QStandardItem
+from PyQt6.QtGui import QFont, QStandardItem
 from PyQt6.QtCore import Qt
 
 class CompWidgetHead(QStandardItem):
@@ -16,4 +16,3 @@ class CompWidgetHead(QStandardItem):
         self.setText(text)
         self.setFont(QFont("Open Sans Bold", 13))
         self.setEditable(False)
-        #self.setBackground(QColor(200, 200, 200))

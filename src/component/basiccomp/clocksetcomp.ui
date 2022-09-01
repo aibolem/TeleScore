@@ -27,7 +27,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #242325;
-color: white;</string>
+</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
@@ -84,6 +84,10 @@ QPushButton:pressed {
        <pointsize>22</pointsize>
        <bold>true</bold>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;
+background-color: #808080;</string>
      </property>
      <property name="inputMask">
       <string>00:00</string>

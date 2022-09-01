@@ -3,7 +3,6 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 """
 
 import os, sys
-from PyQt6 import uic
 
 PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 if PATH not in sys.path:
@@ -13,6 +12,7 @@ from attr import CompAttr
 from component.abstractcomp import AbstractComp
 from component.element.counter import Counter
 from gm_resources import *
+from fileio.fileout import TextOut
 
 
 class ScoreComp(AbstractComp):
@@ -22,28 +22,45 @@ class ScoreComp(AbstractComp):
     This class has one clock object from the backend.
     """
 
-    def __init__(self, edit=False, parent=None):
-        super().__init__(parent)
-        path = resourcePath("src/component/basiccomp/scorecomp.ui")
-        uic.loadUi(path, self) # Load the .ui file
+    scoreDispProperty = {
+        "Suffix (st, nd, rd, th)": {
+            CompAttr.TYPE: CompAttr.CHECKBOX,
+            CompAttr.VALUE: 0
+        }
+    }
+
+    def __init__(self, objectName, edit=False, parent=None):
+        super().__init__(objectName, "src/component/basiccomp/scorecomp.ui", edit, parent)
+
+        self.fileOut = TextOut(parent=self)
+        self.fileOut.setOutputFile(self.properties["File Output Location"])
         self.score = Counter(self.label, self.fileOut, self)
 
-    def disableWidget(self) -> None:
-        # Nothing to implement here since clock is just a label
-        pass
-
     # Override
-    def firstTimeProp(self):
+    def _firstTimeProp(self):
         self.properties.appendProperty("File Properties", CompAttr.fileProperty)
-        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName())
-        self.fileOut.setOutputFile(self.properties["File Output Location"])
-        self.fileOut.outputFile("")
-        self.properties.appendProperty("Score Properties", CompAttr.scoreDispProperty)
+        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName(), "txt")
+        self.properties.appendProperty("Score Properties", self.scoreDispProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
 
         self.connection.appendCallBack("Add Score", self.addPoint)
         self.connection.appendCallBack("Sub Score", self.subPoint)
         self.connection.appendCallBack("Set Score", self.setScore)
+
+    # Override
+    def getName(self) -> str:
+        return "Score Display"
+
+    # Override
+    def _reloadProperty(self) -> None:
+        self.properties["Suffix (st, nd, rd, th)"] = self.score.getSuffix()
+        self.properties["File Output Location"] = self.fileOut.getOutputFile()
+
+    # Override 
+    def _reconfProperty(self) -> None:
+        self.score.setSuffix(self.properties["Suffix (st, nd, rd, th)"])
+        self.fileOut.setOutputFile(self.properties["File Output Location"].format("", "txt"))
+        self.attrChanged.emit()
 
     def addPoint(self, value):
         self.score.increment(value)
@@ -53,16 +70,3 @@ class ScoreComp(AbstractComp):
 
     def setScore(self, value):
         self.score.setValue(value)
-
-    # Override
-    def getName(self) -> str:
-        return "Score Display"
-
-    # Override
-    def reloadProperty(self) -> None:
-        self.properties["Suffix (st, nd, rd, th)"] = self.score.getSuffix()
-        self.properties["File Output Location"] = self.fileOut.getOutputFile()
-        
-    def reconfProperty(self) -> None:
-        self.score.setSuffix(self.properties["Suffix (st, nd, rd, th)"])
-        self.fileOut.setOutputFile(self.properties["File Output Location"])

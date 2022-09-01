@@ -27,7 +27,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #242325;
-color: #FF9B42;</string>
+</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
@@ -52,6 +52,9 @@ color: #FF9B42;</string>
        <pointsize>28</pointsize>
        <bold>true</bold>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #FF9B42;</string>
      </property>
      <property name="text">
       <string>00:00</string>

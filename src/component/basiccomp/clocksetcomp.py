@@ -20,10 +20,8 @@ class ClockSetComp(AbstractComp):
     This class has one clock object from the backend.
     """
 
-    def __init__(self, edit=False, parent=None):
-        super().__init__(parent)
-        path = resourcePath("src/component/basiccomp/clocksetcomp.ui")
-        uic.loadUi(path, self) # Load the .ui file
+    def __init__(self, objectName, edit=False, parent=None):
+        super().__init__(objectName, "src/component/basiccomp/clocksetcomp.ui", edit, parent)
 
         if (edit == True):
             self.lineEdit.installEventFilter(self)
@@ -32,22 +30,20 @@ class ClockSetComp(AbstractComp):
         self.pushButton.pressed.connect(self.pressed)
 
     # Override
-    def firstTimeProp(self) -> None:
+    def _firstTimeProp(self) -> None:
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
         self.connection.appendConnType("Set Time")
 
-    def disableWidget(self) -> None:
-        # Nothing to implement here since clock is just a label
-        pass
-
-    def reloadProperty(self) -> None:
+    # Override
+    def _reloadProperty(self) -> None:
         pass
 
     # Override
     def getName(self) -> str:
-        return "Time Type Amount"
+        return "Type Time Amount"
 
-    def reconfProperty(self) -> None:
+    # Override
+    def _reconfProperty(self) -> None:
         pass
 
     def pressed(self):

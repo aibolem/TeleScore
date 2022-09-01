@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\src\editor\complisttab.ui'
+# Form implementation generated from reading ui file 'c:\Users\Ian\OneDrive - ualberta.ca\Documents\GitHub\Scoreboard\build\exe.win-amd64-3.10\lib\src\editor\complisttab.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.0
 #
@@ -9,15 +9,15 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_CompListTab(object):
-    def setupUi(self, CompListTab):
-        CompListTab.setObjectName("CompListTab")
-        CompListTab.resize(243, 204)
-        self.gridLayout = QtWidgets.QGridLayout(CompListTab)
+class Ui_yay(object):
+    def setupUi(self, yay):
+        yay.setObjectName("yay")
+        yay.resize(243, 204)
+        self.gridLayout = QtWidgets.QGridLayout(yay)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
-        self.treeView = QtWidgets.QTreeView(CompListTab)
+        self.treeView = QtWidgets.QTreeView(yay)
         self.treeView.setDragEnabled(True)
         self.treeView.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragOnly)
         self.treeView.setIconSize(QtCore.QSize(50, 50))
@@ -26,9 +26,9 @@ class Ui_CompListTab(object):
         self.treeView.header().setVisible(False)
         self.gridLayout.addWidget(self.treeView, 0, 0, 1, 1)
 
-        self.retranslateUi(CompListTab)
-        QtCore.QMetaObject.connectSlotsByName(CompListTab)
+        self.retranslateUi(yay)
+        QtCore.QMetaObject.connectSlotsByName(yay)
 
-    def retranslateUi(self, CompListTab):
+    def retranslateUi(self, yay):
         _translate = QtCore.QCoreApplication.translate
-        CompListTab.setWindowTitle(_translate("CompListTab", "Form"))
+        yay.setWindowTitle(_translate("yay", "Form"))

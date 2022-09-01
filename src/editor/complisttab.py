@@ -14,7 +14,7 @@ if PATH not in sys.path:
     sys.path.append(PATH)
 
 from attr import CompAttr
-from gm_resources import *
+from gm_resources import resourcePath
 from editor.comptab.compwidgethead import CompWidgetHead
 from editor.comptab.compwidgetitem import CompWidgetItem
 
@@ -28,10 +28,11 @@ class CompListTab(QWidget):
         super().__init__(parent) # Call the inherited classes __init__ method
         path = resourcePath("src/editor/complisttab.ui")
         uic.loadUi(path, self) # Load the .ui file
-
         self.tab = []
         self.loadTabs()
         self.treeView.pressed.connect(self.compItemClicked)
+        self.treeView.setProperty("class", "CompListView")
+        self.treeView.setAlternatingRowColors(True)
 
     def loadTabs(self) -> None:
         """

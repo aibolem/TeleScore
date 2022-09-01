@@ -32,10 +32,9 @@
    <item row="0" column="0">
     <widget class="QTreeView" name="treeView">
      <property name="styleSheet">
-      <string notr="true">QTreeView::item {
+      <string notr="true">QTreeView::item:!has-children  {
 margin:5px;
-}
-</string>
+}</string>
      </property>
      <property name="indentation">
       <number>0</number>

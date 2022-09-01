@@ -43,13 +43,9 @@ class InsertCmd(QUndoCommand):
         :param: none
         :return: none
         """
-        self.component = CompFactory.makeComponent(self.type, True, self.layout)
+        self.component = CompFactory.makeComponent(self.type, self.type + str(self.count), True, self.layout)
         if (self.component != None):
             self.component.move(self.pos)
-            name = self.component.getName() + str(self.count)
-            self.component.setObjectName(name)
-            #self.component.disableWidget()
-            self.component.firstTimeProp()
             self.layout.addComponent(self.component)
             if (self.layout.defaultSize() != self.layout.size()):
                 self.component.insertCalc(self.layout.size())

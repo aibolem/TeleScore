@@ -17,17 +17,12 @@ class DefaultComp(AbstractComp):
     You found me, easteregg
     """
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        path = resourcePath("src/component/basiccomp/defaultcomp.ui")
-        uic.loadUi(path, self) # Load the .ui file
-
-    def disableWidget(self) -> None:
-        # Nothing to implement here since clock is just a label
-        pass
+    def __init__(self, objectName, parent=None):
+        super().__init__(objectName, "src/component/basiccomp/defaultcomp.ui",
+         False, parent)
 
     # Override
-    def firstTimeProp(self) -> None:
+    def _firstTimeProp(self) -> None:
         pass
 
     # Override
@@ -35,8 +30,9 @@ class DefaultComp(AbstractComp):
         return ""
 
     # Override
-    def reloadProperty(self) -> None:
+    def _reloadProperty(self) -> None:
         pass
 
-    def reconfProperty(self) -> None:
+    # Override
+    def _reconfProperty(self) -> None:
         pass

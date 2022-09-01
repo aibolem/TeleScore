@@ -34,6 +34,9 @@ class Connection:
         self.B2Aconnection = [] # Contains components (A2B) that are connected to this component
         self.selfComponent = comp
 
+        self.aA2Bconnection = {}
+        self.aB2Aconnection = {}
+
     def appendConnType(self, typeName):
         self.A2Bconnection[typeName] = []
 
@@ -124,7 +127,9 @@ class Connection:
         for tuple in self.B2Aconnection:
             if (tuple not in self.aB2Aconnection):
                 self.removeB2AConn(tuple[1], tuple[0])
-        
+    
+    def removeConnType(self, typeName):
+        del self.A2Bconnection[typeName]
 
     def getSignalTypes(self) -> list:
         types = []

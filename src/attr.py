@@ -3,7 +3,7 @@ class CompAttr:
     COMPONENT = "COMPONENT"
     ICON = "ICON"
     HELP = "HELP"
-    NAME = "NAME"
+    TEXT = "TEXT"
     COLOR = "COLOR"
     TYPE = "TYPE"
     SIGNAL = "SIGNAL"
@@ -13,9 +13,11 @@ class CompAttr:
     NUMEDIT = "NUMEDIT"
     CONNEDIT = "CONNEDIT"
     CHECKBOX = "CHECKBOX"
+    FILESCT = "FILESCT"
     TABNAME = "TABNAME"
     PROPERTY = "PROPERTY"
     PROPERTIES = "PROPERTIES"
+    HEADER = "HEADER"
 
     defaultProp = {
         "Make a burger": {
@@ -83,26 +85,25 @@ class CompAttr:
 
     fileProperty = {
         "File Output Location": {
-            TYPE: TEXTEDIT,
-            VALUE: "./Output/{}.txt"
-        }
-    }
-
-    scoreDispProperty = {
-        "Suffix (st, nd, rd, th)": {
-            TYPE: CHECKBOX,
-            VALUE: 0
-        }
-    }
-
-    scoreSetProperty = {
-        "Set Amount": {
-            TYPE: NUMEDIT,
-            VALUE: 0
+            TYPE: FILESCT,
+            VALUE: "./Output/{}.{}"
         }
     }
 
     #---------------------------------
+    """
+    Component dictionary will have a format:
+    {
+        Component Type Name: {
+            ICON: (REQUIRED) loc to icon file
+            TYPE: (REQUIRED) type of a component -> Currently DISPLAY, BUTTON
+            COLOR: (REQUIRED FOR TYPE BUTTON) Color of the button
+            SIGNAL: (REQUIRED FOR TYPE BUTTON) Name of the transmit type name
+            HELP: (OPTIONAL BUT RECOMM) Helpful tip of the component
+            More can be added in the future
+        }
+    }
+    """
 
     timeComponent = {
         "Time Display": {
@@ -112,7 +113,7 @@ class CompAttr:
         },
         "Start Time": {
             ICON: "src/resources/startButton.png",
-            NAME: "Start",
+            TEXT: "Start",
             COLOR: "#439a86",
             TYPE: "BUTTON",
             SIGNAL: "Start",
@@ -120,7 +121,7 @@ class CompAttr:
         },
         "Stop Time": {
             ICON: "src/resources/stopButton.png",
-            NAME: "Stop",
+            TEXT: "Stop",
             COLOR: "#e15554",
             TYPE: "BUTTON",
             SIGNAL: "Stop",
@@ -128,7 +129,7 @@ class CompAttr:
         },
         "Reset": {
             ICON: "src/resources/rstButton.png",
-            NAME: "Reset",
+            TEXT: "Reset",
             COLOR: "#4357ad",
             TYPE: "BUTTON",
             SIGNAL: "Reset",
@@ -136,7 +137,7 @@ class CompAttr:
         },
         "Add Seconds": {
             ICON: "src/resources/addSec.png",
-            NAME: "Add [+]\nSeconds",
+            TEXT: "Add [+]\nSeconds",
             COLOR: "#242325",
             TYPE: "BUTTON",
             SIGNAL: "ADDS",
@@ -144,7 +145,7 @@ class CompAttr:
         },
         "Subtract Seconds": {
             ICON: "src/resources/subSec.png",
-            NAME: "Subtract [+]\nSeconds",
+            TEXT: "Subtract [+]\nSeconds",
             COLOR: "#242325",
             TYPE: "BUTTON",
             SIGNAL: "SUBS",
@@ -152,7 +153,7 @@ class CompAttr:
         },
         "Add Minutes": {
             ICON: "src/resources/addMin.png",
-            NAME: "Add [-]\nMinutes",
+            TEXT: "Add [-]\nMinutes",
             COLOR: "#242325",
             TYPE: "BUTTON",
             SIGNAL: "ADDM",
@@ -160,7 +161,7 @@ class CompAttr:
         },
         "Subtract Minutes": {
             ICON: "src/resources/subMin.png",
-            NAME: "Subtract [-]\nMinutes",
+            TEXT: "Subtract [-]\nMinutes",
             COLOR: "#242325",
             TYPE: "BUTTON",
             SIGNAL: "SUBM",
@@ -168,8 +169,8 @@ class CompAttr:
         },
         "Type Time Amount": {
             ICON: "src/resources/setTime.png",
-            NAME: "",
-            TYPE: "BUTTON",
+            TEXT: "",
+            TYPE: "DISPLAY",
             HELP: ""
         }
     }
@@ -177,24 +178,33 @@ class CompAttr:
     scoreComponent = {
         "Score Display": {
             ICON: "src/resources/scoreDisplay.png",
-            NAME: "Score Display",
+            TEXT: "Score Display",
             TYPE: "DISPLAY"
         },
         "Add Points": {
             ICON: "src/resources/addPtButton.png",
-            NAME: "Add Points",
+            TEXT: "Add Points",
             TYPE: "CUST_BUTTON",
             HELP: ""
         },
         "Sub Points": {
             ICON: "src/resources/subPtButton.png",
-            NAME: "Sub Points",
+            TEXT: "Sub Points",
             TYPE: "CUST_BUTTON",
             HELP: ""
         }, 
         "Score Set": {
             ICON: "src/resources/scoreSet.png",
-            NAME: "Score Set",
+            TEXT: "Score Set",
+            TYPE: "DISPLAY",
+            HELP: ""
+        }
+    }
+
+    teamCompoonent = {
+        "Team Attribute": {
+            ICON: "src/resources/teamComp.png",
+            TEXT: "Team Attribute",
             TYPE: "DISPLAY",
             HELP: ""
         }
@@ -208,6 +218,10 @@ class CompAttr:
             {
                 TABNAME: "Points and Stats",
                 COMPONENT: scoreComponent
+            },
+            {
+                TABNAME: "Team Component",
+                COMPONENT: teamCompoonent
             }
         ]
 
@@ -219,3 +233,7 @@ class CompAttr:
             dict = i[self.COMPONENT]
             largeDict.update(dict)
         return largeDict
+
+    header = {
+
+    }

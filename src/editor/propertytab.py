@@ -15,8 +15,7 @@ if PATH not in sys.path:
 from attr import CompAttr
 from editor.proptab.propwidgethead import PropWidgetHead
 from editor.proptab.propwidgetitem import PropWidgetItem
-from editor.connection.connman import ConnMan
-from gm_resources import resourcePath, GMessageBox
+from gm_resources import resourcePath
 
 class PropertyTab(QWidget):
     """
@@ -31,6 +30,7 @@ class PropertyTab(QWidget):
         uic.loadUi(path, self) # Load the .ui file
         self.model = QStandardItemModel(0, 2)
         self.treeView.setModel(self.model)
+        self.treeView.setAlternatingRowColors(True)
         self.objectName = ""
 
     def clearTree(self):
