@@ -60,7 +60,8 @@ class ScoreComp(AbstractComp):
     def _reconfProperty(self) -> None:
         self.score.setSuffix(self.properties["Suffix (st, nd, rd, th)"])
         self.fileOut.setOutputFile(self.properties["File Output Location"].format("", "txt"))
-        self.attrChanged.emit()
+        if (self.fileOut.getOutputFile() != self.properties["File Output Location"]):
+            self.attrChanged.emit()
 
     def addPoint(self, value):
         self.score.increment(value)

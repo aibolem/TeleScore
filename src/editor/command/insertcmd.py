@@ -47,8 +47,6 @@ class InsertCmd(QUndoCommand):
         if (self.component != None):
             self.component.move(self.pos)
             self.layout.addComponent(self.component)
-            if (self.layout.defaultSize() != self.layout.size()):
-                self.component.insertCalc(self.layout.size())
 
     # Override
     def undo(self) -> None:

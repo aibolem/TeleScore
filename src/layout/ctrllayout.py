@@ -25,8 +25,7 @@ class CtrlLayout(QFrame):
 
     def __init__(self, projSize=QSize(800, 600), remCallBack=None, parent=None):
         super().__init__(parent)
-        self.actualLayout = FreeLayout()
-        self.actualLayout.setGeometry(QRect(0, 0, self.width(), self.height()))
+        self.actualLayout = FreeLayout(projSize)
         self.setLayout(self.actualLayout)
         self.setAcceptDrops(True)
         self.setSize(projSize)
@@ -39,9 +38,9 @@ class CtrlLayout(QFrame):
     def setRemoveCallBack(self, callback):
         self.remCallBack = callback
 
-
     def setSize(self, size: QSize) -> None:
         self.setMinimumSize(size)
+        self.projSize = size
 
     def defaultSize(self):
         return self.projSize
@@ -63,7 +62,7 @@ class CtrlLayout(QFrame):
         :param component: AbstractComp, a component to add
         :return: none
         """
-        component.sizeInit(self.projSize)
+        component.initRatio(self.projSize, self.size())
         self.compDict[component.objectName()] = component
 
         self.actualLayout.addWidget(component)
@@ -78,7 +77,6 @@ class CtrlLayout(QFrame):
             self.remCallBack(component)
         component.setParent(None)
         component.deleteLater()
-        #del component
         component = None
 
     def dragEnterEvent(self, evt) -> None:
@@ -101,7 +99,13 @@ class CtrlLayout(QFrame):
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         for comp in self.compDict:
-            self.compDict[comp].parentResizeEvent(event.size())
+            self.compDict[comp].parentResized(self.size())
 
     def getComponents(self) -> dict:
         return self.compDict
+
+    def getProjSize(self) -> QSize:
+        return self.projSize
+
+    def getCurrSize(self) -> QSize:
+        return self.size()

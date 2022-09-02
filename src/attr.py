@@ -145,7 +145,7 @@ class CompAttr:
         },
         "Subtract Seconds": {
             ICON: "src/resources/subSec.png",
-            TEXT: "Subtract [+]\nSeconds",
+            TEXT: "Subtract [-]\nSeconds",
             COLOR: "#242325",
             TYPE: "BUTTON",
             SIGNAL: "SUBS",
@@ -235,5 +235,6 @@ class CompAttr:
         return largeDict
 
     header = {
-
+        "Width": 1,
+        "Height": 1
     }

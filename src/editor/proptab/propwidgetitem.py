@@ -39,7 +39,6 @@ class PropWidgetItem(QStandardItem):
         self.setText(propName)
         self.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
         self.setFont(QFont("Open Sans Bold", 11))
-        #self.setBackground(QColor(255, 255, 255))
         self.editWidget = self._createProp(propType, propValue)
         self.extraInfo = None
 

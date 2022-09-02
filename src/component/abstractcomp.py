@@ -5,7 +5,7 @@ import os, sys
 
 from PyQt6.QtWidgets import QFrame, QMenu
 from PyQt6 import uic
-from PyQt6.QtCore import QSize, QPoint, Qt, QEvent, QObject, pyqtSignal
+from PyQt6.QtCore import QPoint, Qt, QEvent, QObject, pyqtSignal, QSize
 from PyQt6.QtGui import QMouseEvent, QContextMenuEvent
 from abc import ABC, abstractmethod
 
@@ -33,11 +33,6 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     attrChanged = pyqtSignal()
 
     def __init__(self, objectName, uiFile, edit, ctrlLayout):
-        """
-        Contruct a new 'AbstractComp' object
-
-        :param 
-        """
         super().__init__()
         self.layout = ctrlLayout
         self.properties = Property()
@@ -45,7 +40,6 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         self.connection = Connection(self)
         self.firstPoint = QPoint(1, 1)
         self.parentSize = QSize(1, 1)
-        self.updatedSize = QSize(1, 1)
         self.mousePressed = False
         self.resizeRadius = 5
         self.edit = edit
@@ -73,7 +67,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         pass
 
     @abstractmethod
-    def _firstTimeProp(self) -> None:
+    def _firstTimeProp(self):
         """
         When the component is initialized, this is called to make
         sure the subclasses insert correct properties. This method will be
@@ -93,7 +87,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         pass
 
     # Override
-    def contextMenuEvent(self, evt: QContextMenuEvent) -> None:
+    def contextMenuEvent(self, evt: QContextMenuEvent):
         """
         """
         menu = QMenu(self)
@@ -117,8 +111,8 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         :return: list containing the layout info
         """
         self.properties["Component Name"] = self.objectName()
-        self.properties["Width"] = self.width()
-        self.properties["Height"] = self.height()
+        self.properties["Width"] = self.origSize.width()
+        self.properties["Height"] = self.origSize.height()
         self.properties["X"] = self.x()
         self.properties["Y"] = self.y()
         if (self.connection != None):
@@ -129,6 +123,11 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     def propChanged(self):
         self.move(self.properties["X"], self.properties["Y"])
         self.setFixedSize(self.properties["Width"], self.properties["Height"])
+        self.origSize = QSize(self.properties["Width"], self.properties["Height"])
+
+        self.setModLoc(self.currParSize)
+        self.setModSize(self.origParSize, self.currParSize)
+
         if (self.objectName() != self.properties["Component Name"]):
             if (not self.prog.compContains(self.properties["Component Name"])):
                 self.prog.nameChanged(self.objectName(), self.properties["Component Name"])
@@ -146,73 +145,55 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     def setNameChangeCallback(self, callback):
         self.nameChanged = callback
 
-    def sizeInit(self, size: QSize) -> None:
+    # Scenario 1
+    def initRatio(self, origSize: QSize, currSize: QSize):
         """
-        When the size or position of either the component
-        is initialized or changed, 
-        this must be called in order to have a relative sizing
-        when resized. Ratio is used for future calculation.
+        When the component is first dropped to the layout, we must calculate
+        the ratio for location and size to the ctrl layout in order for resizing to work.
 
-        :param: size of the parent widget
-        :return: none
+        :param origSize: QGeometry object that contains location and size
         """
-        pass
-        if (self.x() <= 0):
-            self.move(1, self.y())
-        if (self.y() <= 0):
-            self.move(self.x(), 1)
+        self.origSize = self.size()
+        self.origParSize = origSize
+        self.currParSize = currSize
+        self.setLocRatio(currSize)
+        self.setSizeRatio(origSize)
+        
+        self.setModSize(origSize, currSize)
 
-        self.xratio = size.width() / self.x()
-        self.yratio = size.height() / self.y()
-        self.wratio = size.width() / self.width()
-        self.hratio = size.height() / self.height()
+    def setModSize(self, origSize: QSize, currSize: QSize):
+        self.setSizeRatio(origSize)
 
-        self.parentSize = size
-        self.updatedSize = size
+        self.setFixedSize(int(currSize.width() * self.wratio),
+         int(currSize.height() * self.hratio))
 
-    def parentResizeEvent(self, size: QSize) -> None:
+    def setModLoc(self, currSize: QSize):
+        self.setLocRatio(currSize)
+
+    def setLocRatio(self, parentGeo: QSize):
         """
-        When parent widget's size is changed, this
-        must be called for the component to resize respectively
-        to the adjusted size.
-
-        :param: size of the parent widget
-        :return: none
+        Anytime location is changed, this must be called
         """
-        self.updatedSize = size
-        if (self.xratio != 0 and self.yratio != 0):
-            self.move(int(size.width()/self.xratio), int(size.height()/self.yratio))
-            self.setFixedSize(int(size.width()/self.wratio), int(size.height()/self.hratio))
+        self.xratio = self.x() / parentGeo.width()
+        self.yratio = self.y() / parentGeo.height()
 
-    # TODO
-    def insertCalc(self, modSize):
+    def setSizeRatio(self, parentGeo: QSize):
         """
-        If a component gets created with layout size different to
-        the original size, this gets called to calculate the 
-        resized component
+        Anytime size is changed, this must be called
         """
-        self.updatedSize = modSize
-        self.calcLocFromOrg(modSize)
-        self.setFixedSize(int(modSize.width()/self.wratio), int(modSize.height()/self.hratio))
+        self.wratio = self.width() / parentGeo.width()
+        self.hratio = self.height() / parentGeo.height()
 
-    # TODO
-    def calcSizeFromOrg(self, size: QSize):
-        self.wratio = size.width() / self.width()
-        self.hratio = size.height() / self.height()
+    def parentResized(self, currSize: QSize):
+        aWidth = int(currSize.width() * self.wratio)
+        aHeight = int(currSize.height() * self.hratio)
+        aX = int(currSize.width() * self.xratio)
+        aY = int(currSize.height() * self.yratio)
 
-    # TODO
-    def calcLocFromOrg(self, size: QSize):
-        self.xratio = size.width() / self.x()
-        self.yratio = size.height() / self.y()
+        self.setFixedSize(aWidth, aHeight)
+        self.move(aX, aY)
 
-    # TODO
-    def changedGeo(self):
-        if (self.parentSize != self.updatedSize):
-            self.calcSizeFromOrg(self.parentSize)
-            self.insertCalc(self.updatedSize)
-        else:
-            self.calcSizeFromOrg(self.parentSize)
-            self.calcLocFromOrg(self.parentSize)
+        self.currParSize = currSize
 
     # Override
     def mouseMoveEvent(self, evt: QMouseEvent) -> None:
@@ -232,12 +213,10 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     def mouseReleaseEvent(self, evt: QMouseEvent) -> None:
         if (self.edit):
             self.setCursor(Qt.CursorShape.ArrowCursor)
-            #self.insertCalc(self.updatedSize) TODO
             self.boundaryCheck(self.pos())
-            self.properties["Width"] = self.width()
-            self.properties["Height"] = self.height()
             self.properties["X"] = self.x()
             self.properties["Y"] = self.y()
+            self.setModLoc(self.currParSize)
             self.attrChanged.emit()
             self.mousePressed = False
 
@@ -248,11 +227,11 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         if (pos.y() <= 0):
             self.move(self.x(), 1)
 
-        if (pos.x() + self.width() >= self.parentSize.width()):
-            self.move(self.parentSize.width()-self.width(), pos.y())
+        if (pos.x() + self.width() >= self.currParSize.width()):
+            self.move(self.currParSize.width()-self.width(), pos.y())
 
-        if (pos.y() + self.height() >= self.parentSize.height()):
-            self.move(self.x(), self.parentSize.height()-self.height())
+        if (pos.y() + self.height() >= self.currParSize.height()):
+            self.move(self.x(), self.currParSize.height()-self.height())
 
     # TODO
     def cornerResizeCheck(self, pos) -> bool:
@@ -273,9 +252,6 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
                 self.setCursor(Qt.CursorShape.SizeFDiagCursor)
         else:
             self.setCursor(Qt.CursorShape.ArrowCursor)
-
-    def checkBoundary(self, pos) -> bool:
-        pass
 
     def eventFilter(self, obj: QObject, evt: QEvent) -> bool:
         if (evt.type() == QEvent.Type.MouseMove):

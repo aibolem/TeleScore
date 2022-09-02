@@ -18,7 +18,7 @@ except:
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
-    with open(resourcePath("src/theme/dark.qss"), 'r') as stream:
+    with open(resourcePath("src/theme/fisk.qss"), 'r') as stream:
         style = stream.read()
         window.setStyleSheet(style)
 

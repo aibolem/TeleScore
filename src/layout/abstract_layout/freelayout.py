@@ -4,7 +4,7 @@ Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
 
 # This Python file uses the following encoding: utf-8
 from PyQt6.QtWidgets import QLayout
-from PyQt6.QtCore import QSize
+from PyQt6.QtCore import QSize, QRect
 import os, sys
 
 class FreeLayout(QLayout):
@@ -13,11 +13,12 @@ class FreeLayout(QLayout):
     to be placed any where in the layout without any restrictions.
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, size: QSize, parent=None):
         super().__init__(parent)
         self.items = [] # QLayoutItem List
         self.space = -1
         self.size = QSize()
+        self.setGeometry(QRect(0, 0, size.width(), size.height()))
 
     # Override
     def addItem(self, item) -> None:

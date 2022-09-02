@@ -87,12 +87,13 @@ class ClockComp(AbstractComp):
         self.properties["Default Time"] = self.defaultTime
         self.properties["Format"] = self.clock.getTimeFormat()
         self.properties["File Output Location"] = self.fileOut.getOutputFile()
-        self.attrChanged.emit()
 
     # Override
     def _reconfProperty(self) -> None:
         self.defaultTime = self.properties["Default Time"]
         self.fileOut.setOutputFile(self.properties["File Output Location"].format("", "txt"))
+        if (self.fileOut.getOutputFile() != self.properties["File Output Location"]):
+            self.attrChanged.emit()
         self.clock.setTimeFormat(self.properties["Format"])
         self.clock.setStopWatch(self.properties["Stopwatch"])
         self.clock.setClearTimeZero(self.properties["Clr file when time = 0"])
@@ -100,8 +101,6 @@ class ClockComp(AbstractComp):
         if (not self.clock.setClockFromStr(self.defaultTime)):
             info = GMessageBox("Default Time Invalid", "Please reenter the time", "Info")
             info.exec()
-
-        self.attrChanged.emit()
 
     def _start(self):
         self.clock.startClock()

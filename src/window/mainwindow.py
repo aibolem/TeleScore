@@ -35,9 +35,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.editor = Editor()
         self.setCentralWidget(self.editor)
 
-        self.actionSaveAs.triggered.connect(self.saveAsTriggered)
-        self.actionOpen.triggered.connect(self.openTriggered)
-        self.actionNew.triggered.connect(self.newTriggered)
+        self.actionSaveAs.triggered.connect(self._saveAsTriggered)
+        self.actionOpen.triggered.connect(self._openTriggered)
+        self.actionNew.triggered.connect(self._newTriggered)
+        self.actionSave.triggered.connect(self._saveTriggered)
 
         self.toolBar.addWidget(QtWidgets.QPushButton(QIcon(resourcePath("src/resources/icon.ico")), " JumpShot v1.0"))
         self.toolBar.addSeparator()
@@ -46,19 +47,28 @@ class MainWindow(QtWidgets.QMainWindow):
         self.editModeButton.setEnabled(False)
         self.editModeButton.clicked.connect(self._editModeClicked)
 
-    def saveAsTriggered(self):
+    def _saveTriggered(self):
         if (self.editor != None):
             self.editor.saveAction()
 
-    def openTriggered(self):
+    def _saveAsTriggered(self):
+        if (self.editor != None):
+            self.editor.saveAsAction()
+
+    def _openTriggered(self):
         self.fileName = QtWidgets.QFileDialog.getOpenFileName(self, "Open Layout File", ".", "JSON File (*.json)")
         if (self.fileName[0] != "" and self.fileName[1] == "JSON File (*.json)"):
             del self.editor # Assuming editor will be the first thing to open. If the order changes, change this too.
             self.editor = None
             self.layout = CtrlLayout()
             self.setCentralWidget(self.layout)
-            file = LayoutFile(self.fileName[0], self.layout)
-            file.load()
+            try:
+                file = LayoutFile(self.fileName[0], self.layout)
+                file.load()
+            except Exception:
+                msg = GMessageBox("Layout File Load Error", "This file is not compatible with this version of JumpShot", "Info")
+                msg.exec()
+                return
             self.editModeButton.setEnabled(True)
 
     def _editModeClicked(self):
@@ -66,13 +76,15 @@ class MainWindow(QtWidgets.QMainWindow):
         layout = CtrlLayout()
         file = LayoutFile(self.fileName[0], layout)
         file.load(True)
-        self.editor = Editor(layout)
+        self.editor = Editor(layout, file)
         self.editModeButton.setEnabled(False)
 
         self.setCentralWidget(self.editor)
 
-    def newTriggered(self):
-        if (self.editor == None):
+    def _newTriggered(self):
+        if (self.editor != None):
+            del self.editor
+        elif (self.layout != None):
             del self.layout
-            self.editor = Editor()
-            self.setCentralWidget(self.editor)
+        self.editor = Editor()
+        self.setCentralWidget(self.editor)

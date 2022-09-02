@@ -71,14 +71,14 @@ class TeamComp(AbstractComp):
 
     def _onLogoButton(self):
         fileName = QFileDialog.getOpenFileName(self, "Open Image Location", "", "Image File (*.png *.jpg)")[0]
+        if (fileName != ""):
+            pixmap = QPixmap(fileName)
+            icon = QIcon(pixmap)
+            self.icon_pushButton.setIcon(icon)
+            self.icon_pushButton.setIconSize(self.icon_pushButton.size())
+            self.icon_pushButton.setText("")
 
-        pixmap = QPixmap(fileName)
-        icon = QIcon(pixmap)
-        self.icon_pushButton.setIcon(icon)
-        self.icon_pushButton.setIconSize(self.icon_pushButton.size())
-        self.icon_pushButton.setText("")
-
-        self.logo = pixmap.scaled(self.properties["Logo Width"], self.properties["Logo Height"])
+            self.logo = pixmap.scaled(self.properties["Logo Width"], self.properties["Logo Height"])
 
     def _setTeamButton(self):
         name = self.nameLineEdit.text()

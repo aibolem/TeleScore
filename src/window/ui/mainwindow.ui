@@ -34,15 +34,10 @@
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
     <addaction name="actionSaveAs"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuEdit"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
@@ -74,6 +69,11 @@
   <action name="actionSaveAs">
    <property name="text">
     <string>Save As</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
    </property>
   </action>
  </widget>
