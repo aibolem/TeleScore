@@ -1,5 +1,6 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
 """
 
 class ProgInterface(object):

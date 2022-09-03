@@ -1,5 +1,12 @@
+/*
+Developed by: JumpShot Team
+Written by: riscyseven
+Designed by: Fisk31
+
+Disclaimer: Parts of the design and all of images are made by KangaRew.
+*/
+
 QWidget {
-    image: url(./Material\ Dark/fisk.png);
     color: rgb(225,224,225); /* veryLight */
 	outline: none;
 	font-family: "Segoe UI";
@@ -7,15 +14,6 @@ QWidget {
 
 QMainWindow {
     background: #26323C; /* #181818;*/
-}
-
-#menubar {
-    padding: 0px 2px 2px;
-	margin: 0 0 4px 0;
-}
-
-QLabel:link {
-    color: #2a3a75;
 }
 
 * [frameShape="1"], 
@@ -62,20 +60,20 @@ QGroupBox::indicator {
 }
 
 QCheckBox::indicator:unchecked {
-	image: url(./Material Dark/checkbox_unchecked.png);
+	image: url(./src/theme/checkbox_unchecked.png);
 }
 
 QCheckBox::indicator:checked {
-	image: url(./Material Dark/checkbox_checked.png);
+	image: url(./src/theme/checkbox_checked.png);
 }
 
 QCheckBox::indicator:checked:disabled {
 	outline: none;
-	image: url(./Material Dark/checkbox_checked_disabled.png);
+	image: url(./src/theme/checkbox_checked_disabled.png);
 }
 
 QCheckBox::indicator:unchecked:disabled {
-	image: url(./Material Dark/checkbox_unchecked_disabled.png);
+	image: url(./src/theme/checkbox_unchecked_disabled.png);
 }
 
 /* Radio Buttons */
@@ -86,22 +84,22 @@ QRadioButton::indicator {
 }
 
 QRadioButton::indicator:unchecked {
-	image: url(./Material Dark/radio_unchecked.png);
+	image: url(./src/theme/radio_unchecked.png);
 }
 
 QRadioButton::indicator:checked {
 	border: none;
 	outline: none;
-	image: url(./Material Dark/radio_checked.png);
+	image: url(./src/theme/radio_checked.png);
 }
 
 QRadioButton::indicator:checked:disabled {
 	outline: none;
-	image: url(./Material Dark/radio_checked_disabled.png);
+	image: url(./src/theme/radio_checked_disabled.png);
 }
 
 QRadioButton::indicator:unchecked:disabled {
-	image: url(./Material Dark/radio_unchecked_disabled.png);
+	image: url(./src/theme/radio_unchecked_disabled.png);
 }
 
 /* Tooltips */
@@ -125,6 +123,7 @@ QMenu::item:selected {
 }
 
 QMenuBar {
+	background-color: #26323C;
 }
 
 QMenuBar::item {
@@ -167,7 +166,6 @@ QScrollBar::corner {
 
 QScrollBar:vertical {
 	background-color: transparent;
-	width: 0px;
 	margin-top: -3px;
 	margin-bottom: -3px;
 }
@@ -266,24 +264,6 @@ QTabBar::tab:hover {
 	background-color: #9147ff;
 }
 
-/* Group Box */
-
-QGroupBox {
-	border: 2px solid #3a3a3d;
-	margin-bottom: 0px;
-	padding-top: 32px;
-}
-
-QGroupBox::title {
-	left: 5px;
-	right: 0;
-	top: 8px;
-	padding-left: 8px;
-	padding-right: 8px;
-	padding-bottom: 8px;
-	font-size: 12px;
-}
-
 /* ComboBox */
 
 QComboBox {
@@ -308,13 +288,13 @@ QComboBox::drop-down {
 
 QComboBox::down-arrow {
 	qproperty-alignment: AlignTop;
-	image: url(./Material Dark/down_arrow.png);
+	image: url(./src/theme/down_arrow.png);
 	width: 100%;
 	margin-right: 10px;
 }
 
 QComboBox::down-arrow:on {
-	image: url(./Material Dark/up_arrow.png);
+	image: url(./src/theme/up_arrow.png);
 }
 
 QComboBox:on {
@@ -388,12 +368,12 @@ QDoubleSpinBox::down-button:off {
 }
 
 QSpinBox::up-arrow, QDoubleSpinBox::up-arrow {
-	image: url(./Material Dark/up_arrow.png);
+	image: url(./src/theme/up_arrow.png);
 	width: 100%;
 }
 
 QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
-	image: url(./Material Dark/down_arrow.png);
+	image: url(./src/theme/down_arrow.png);
 	width: 100%;
 }
 
@@ -442,7 +422,7 @@ QPushButton:checked:hover#streamButton {
 }
 
 QPushButton::menu-indicator {
-    image: url(./Material Dark/down_arrow.png);
+    image: url(./src/theme/down_arrow.png);
     subcontrol-position: right;
     subcontrol-origin: padding;
     width: 25px;
@@ -533,7 +513,7 @@ QSlider::sub-page:vertical:disabled {
 
 QRadioButton::indicator:hover,
 QCheckBox::indicator:hover {
-	background: #9147ff;
+	background: #2d6dce;
 	border-radius: 4px;
 }
 

@@ -1,18 +1,12 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed by: JumpShot Team
+Written by: riscyseven
+Designed by: Fisk31
 """
 
-import os, sys
-
-from PyQt6 import uic
 from PyQt6.QtGui import QColor
 
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
-
 from attr import CompAttr
-from gm_resources import *
 from component.abstractcomp import AbstractComp
 
 class ButtonComp(AbstractComp):

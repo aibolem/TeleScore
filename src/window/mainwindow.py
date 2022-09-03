@@ -1,24 +1,19 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
 """
-
-import os, sys
 
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtGui import QIcon
 
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
-
 from window.editor import Editor
-from gm_resources import * # Importing my PyInstaller resource manager
+from gm_resources import resourcePath, GMessageBox # Importing my PyInstaller resource manager
 from fileio.layoutfile import LayoutFile
 from layout.ctrllayout import CtrlLayout
 
 class MainWindow(QtWidgets.QMainWindow):
     """
-
+    
     """
 
     def __init__(self, parent=None):

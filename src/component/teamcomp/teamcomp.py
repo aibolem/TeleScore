@@ -1,19 +1,13 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed by: JumpShot Team
+Written by: riscyseven
 """
-
-import os, sys
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtWidgets import QFileDialog
 
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
-
 from attr import CompAttr
-from gm_resources import *
 from component.abstractcomp import AbstractComp
 from fileio.fileout import TextOut, ImageOut
 
@@ -42,14 +36,14 @@ class TeamComp(AbstractComp):
         self.icon_pushButton.clicked.connect(self._onLogoButton)
         self.setteam_PushButton.clicked.connect(self._setTeamButton)
 
-        self.nameOut = TextOut(self.properties["File Output Location"].format("-name", "txt"), self)
-        self.attrOut = TextOut(self.properties["File Output Location"].format("-attr", "txt"), self)
-        self.logoOut = ImageOut(self.properties["File Output Location"].format("-logo", "png"), self)
+        self.nameOut = TextOut(self.properties["File Output Location"] + "-name", self)
+        self.attrOut = TextOut(self.properties["File Output Location"] + "-attr", self)
+        self.logoOut = ImageOut(self.properties["File Output Location"] + "-logo", self)
 
     # Override
     def _firstTimeProp(self):
         self.properties.appendProperty("File Properties", CompAttr.fileProperty)
-        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName() + "{}", "{}")
+        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName())
         self.properties.appendProperty("Logo Properties", self.imageProperty)
 
     # Override
@@ -60,9 +54,9 @@ class TeamComp(AbstractComp):
     def _reconfProperty(self):
         if (self.fileName != self.properties["File Output Location"]):
             self.fileName = self.properties["File Output Location"]
-            self.nameOut.setOutputFile(self.properties["File Output Location"].format("-name", "txt"))
-            self.attrOut.setOutputFile(self.properties["File Output Location"].format("-attr", "txt"))
-            self.logoOut.setOutputFile(self.properties["File Output Location"].format("-logo", "png"))
+            self.nameOut.setOutputFile(self.properties["File Output Location"] + "-name")
+            self.attrOut.setOutputFile(self.properties["File Output Location"] + "-attr")
+            self.logoOut.setOutputFile(self.properties["File Output Location"] + "-logo")
             self.attrChanged.emit()
 
     # Override

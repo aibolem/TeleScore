@@ -1,17 +1,14 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
+Designed by: Fisk31
 """
 
 # This Python file uses the following encoding: utf-8
-import os, sys
 from PyQt6.QtWidgets import QWidget, QPushButton
 from PyQt6.QtGui import QDrag, QStandardItemModel, QStandardItem
 from PyQt6.QtCore import QMimeData, Qt, QByteArray, QModelIndex
 from PyQt6 import uic
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
 
 from attr import CompAttr
 from gm_resources import resourcePath

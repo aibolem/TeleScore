@@ -1,3 +1,8 @@
+"""
+Developed by: JumpShot Team
+Written by: riscyseven
+"""
+
 from copy import copy
 
 class Connection:

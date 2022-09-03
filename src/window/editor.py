@@ -1,15 +1,12 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
 """
 
 from PyQt6.QtWidgets import QMainWindow, QFrame, QFileDialog
 from PyQt6 import uic, QtGui
 from PyQt6.QtCore import QPoint, pyqtSlot, QSize, Qt
-from gm_resources import *
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
+from gm_resources import resourcePath
 
 from component.abstractcomp import AbstractComp
 from editor.complisttab import CompListTab
@@ -19,7 +16,7 @@ from layout.ctrllayout import CtrlLayout
 from fileio.layoutfile import LayoutFile
 
 class Editor(QMainWindow):
-    compCounter = 0
+    compCounter = 0 # TODO This might cause unique name violation when program restarts
 
     def __init__(self, layout=None, file=None, parent=None):
         super().__init__(parent) # Call the inherited classes __init__ method

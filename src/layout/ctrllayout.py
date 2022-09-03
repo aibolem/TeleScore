@@ -1,18 +1,14 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
 """
 
 # This Python file uses the following encoding: utf-8
 from PyQt6.QtWidgets import QFrame
-from PyQt6.QtCore import QEvent, QRect, pyqtSignal, QSize
+from PyQt6.QtCore import QEvent, pyqtSignal, QSize
 from PyQt6.QtGui import QDropEvent, QResizeEvent
-import os, sys
 
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
-
-from .abstract_layout.freelayout import FreeLayout
+from layout.abstract_layout.freelayout import FreeLayout
 from component.abstractcomp import AbstractComp
 from proginterface import ProgInterface
 

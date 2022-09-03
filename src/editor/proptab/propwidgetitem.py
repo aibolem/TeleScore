@@ -1,19 +1,16 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
 """
-import os, sys
-from PyQt6.QtWidgets import QWidget, QLineEdit, QSpinBox, QFontComboBox, QCheckBox, QPushButton, QFileDialog
+
+from PyQt6.QtWidgets import QWidget, QLineEdit, QSpinBox, QFontComboBox, QCheckBox, QPushButton
 from PyQt6.QtGui import QFont, QStandardItem
 from PyQt6.QtCore import Qt
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
 
 from attr import CompAttr
 from editor.connection.connman import ConnMan
 from editor.proptab.propwidgethead import PropWidgetHead
-from gm_resources import *
+from editor.proptab.fileseldialog import FileSelDialog
 
 class PropWidgetItem(QStandardItem):
     """
@@ -60,16 +57,8 @@ class PropWidgetItem(QStandardItem):
     def _checkBoxChanged(self, checked):
         self.callBack(self, checked)
 
-    def _fileSctClicked(self):
-        fileName = QFileDialog.getSaveFileName(caption="Set Output File Name", directory="")
-        if (fileName[0] != '' and fileName[0] != ''):
-            # TODO
-            if (".txt" in fileName):
-                fileName[0] = fileName[0].replace(".txt", "")
-                print(fileName)
-            self.callBack(self, fileName[0] + "{}.{}")
-            # Add relative pathing
-        
+    def _fileSctClicked(self, fileName):
+        self.callBack(self, fileName)
 
     def _createProp(self, text: object, value) -> QWidget:
         wid = None
@@ -84,8 +73,8 @@ class PropWidgetItem(QStandardItem):
                 wid = self._createConnMan(value)
             case CompAttr.CHECKBOX:
                 wid = self._createCheckBox(value)
-            case CompAttr.FILESCT:
-                wid = self._createFileSct(value)
+            case CompAttr.FLSAVE | CompAttr.FLOPEN:
+                wid = self._createFileSct(text, value)
         return wid
 
     def extraInfo(self, value):
@@ -139,10 +128,9 @@ class PropWidgetItem(QStandardItem):
         wid.stateChanged.connect(self._checkBoxChanged)
         return wid
 
-    def _createFileSct(self, value) -> QPushButton:
-        wid = QPushButton(value)
-        wid.setToolTip(value)
-        wid.clicked.connect(self._fileSctClicked)
+    def _createFileSct(self, mode, value) -> QPushButton:
+        wid = FileSelDialog(mode, self._fileSctClicked, value)
+        self.fileName = value
         return wid
 
     def _createConnMan(self, value):

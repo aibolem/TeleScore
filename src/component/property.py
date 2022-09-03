@@ -1,15 +1,9 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed by: JumpShot Team
+Written by: riscyseven
 """
 
-import os, sys
-
 from copy import deepcopy
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
-
 from attr import CompAttr
 
 class Property:

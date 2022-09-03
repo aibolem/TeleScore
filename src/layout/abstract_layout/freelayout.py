@@ -1,11 +1,11 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
 """
 
 # This Python file uses the following encoding: utf-8
 from PyQt6.QtWidgets import QLayout
 from PyQt6.QtCore import QSize, QRect
-import os, sys
 
 class FreeLayout(QLayout):
     """

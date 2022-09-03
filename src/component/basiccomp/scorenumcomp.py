@@ -7,7 +7,7 @@ Designed by: Fisk31
 from attr import CompAttr
 from component.abstractcomp import AbstractComp
 
-class ClockSetComp(AbstractComp):
+class ScoreNumComp(AbstractComp):
     """
     CLock widget for scoreboard.
 
@@ -15,7 +15,7 @@ class ClockSetComp(AbstractComp):
     """
 
     def __init__(self, objectName, edit=False, parent=None):
-        super().__init__(objectName, "src/component/basiccomp/clocksetcomp.ui", edit, parent)
+        super().__init__(objectName, "src/component/basiccomp/scorenumcomp.ui", edit, parent)
 
         if (edit == True):
             self.lineEdit.installEventFilter(self)
@@ -26,7 +26,7 @@ class ClockSetComp(AbstractComp):
     # Override
     def _firstTimeProp(self) -> None:
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
-        self.connection.appendConnType("Set Time")
+        self.connection.appendConnType("Set Score")
 
     # Override
     def _reloadProperty(self) -> None:
@@ -34,11 +34,11 @@ class ClockSetComp(AbstractComp):
 
     # Override
     def getName(self) -> str:
-        return "Type Time Amount"
+        return "Type Score Amount"
 
     # Override
     def _reconfProperty(self) -> None:
         pass
 
     def pressed(self):
-        self.connection.emitSignal("Set Time", self.lineEdit.text())
+        self.connection.emitSignal("Set Score", int(self.lineEdit.text()))

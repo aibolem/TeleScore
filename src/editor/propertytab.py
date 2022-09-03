@@ -1,16 +1,13 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
+Designed by: Fisk31
 """
 
-import os, sys
 from PyQt6.QtWidgets import QWidget
 from PyQt6 import uic
 from PyQt6.QtCore import QModelIndex, pyqtSignal
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
 
 from attr import CompAttr
 from editor.proptab.propwidgethead import PropWidgetHead

@@ -1,9 +1,9 @@
 """
-Author: TheLittleDoc, Ian
+Developed By: JumpShot Team
+Written by: TheLittleDoc, riscyseven
 """
 
-import os
-import sys
+import os, sys
 from PyQt6.QtWidgets import QMessageBox
 import requests
 import webbrowser
@@ -42,6 +42,9 @@ def externalLink(link):
         webbrowser.open(link)
     else:
         None
+
+def getRootPath() -> str:
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 def resourcePath(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """

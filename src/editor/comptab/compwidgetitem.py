@@ -1,18 +1,13 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
 """
 
-import os, sys
-
 from PyQt6.QtWidgets import QPushButton
-from PyQt6.QtGui import QIcon, QFont, QStandardItem, QColor
+from PyQt6.QtGui import QIcon, QFont, QStandardItem
 from PyQt6.QtCore import Qt, QSize
 
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
-
-from gm_resources import *
+from gm_resources import GMessageBox, resourcePath
 from editor.comptab.compwidgethead import CompWidgetHead
 
 class CompWidgetItem(QStandardItem):
@@ -55,7 +50,7 @@ class CompWidgetItem(QStandardItem):
 
     def infoButtonClicked(self):
         self.infoButton.setIcon(QIcon(resourcePath("src/resources/infoButtonDown.png")))
-        msg = GMessageBox("Clock", "It's a clock duhh...", "AskYesNo")
+        msg = GMessageBox("Coming Soon", "Coming Soon", "Info")
         msg.exec()
 
     def setIconFile(self, iconFile: str) -> None:

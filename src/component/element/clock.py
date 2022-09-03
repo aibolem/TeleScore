@@ -1,5 +1,6 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed by: JumpShot Team
+Written by: riscyseven
 """
 
 from PyQt6.QtCore import QObject, pyqtSignal, QTimer, QTime

@@ -1,17 +1,13 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed by: JumpShot Team
+Written by: riscyseven
 """
-import os, sys
 
 from PyQt6.QtWidgets import QFrame, QMenu
 from PyQt6 import uic
 from PyQt6.QtCore import QPoint, Qt, QEvent, QObject, pyqtSignal, QSize
 from PyQt6.QtGui import QMouseEvent, QContextMenuEvent
 from abc import ABC, abstractmethod
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
 
 from component.property import Property
 from component.connection import Connection

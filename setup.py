@@ -40,7 +40,7 @@ if sys.platform == "win32":
 setup(
     name="JumpShot",
     version="1.0",
-    description="Open Source Customizable Scoreboard Program",
+    description="JumpShot",
     options={"build_exe": build_exe_options},
     executables=exes,
 )

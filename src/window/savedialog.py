@@ -1,11 +1,10 @@
-import os, sys
+"""
+Developed By: JumpShot Team
+Written by: riscyseven
+"""
 
 from PyQt6.QtWidgets import QDialog
 from PyQt6 import uic
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
 
 from gm_resources import resourcePath
 

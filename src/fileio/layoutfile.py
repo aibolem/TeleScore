@@ -1,11 +1,11 @@
-from json import *
-import os, sys
+"""
+Developed By: JumpShot Team
+Written by: riscyseven
+"""
+
+from json import load, dump
 
 from PyQt6.QtCore import QSize
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
 
 from attr import CompAttr
 from layout.ctrllayout import CtrlLayout

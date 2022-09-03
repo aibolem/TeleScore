@@ -1,19 +1,13 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed by: JumpShot Team
+Written by: riscyseven
+Designed by: Fisk31
 """
-
-import os, sys
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
 
 from attr import CompAttr
 from component.abstractcomp import AbstractComp
 from component.element.counter import Counter
-from gm_resources import *
 from fileio.fileout import TextOut
-
 
 class ScoreComp(AbstractComp):
     """
@@ -39,7 +33,7 @@ class ScoreComp(AbstractComp):
     # Override
     def _firstTimeProp(self):
         self.properties.appendProperty("File Properties", CompAttr.fileProperty)
-        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName(), "txt")
+        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName())
         self.properties.appendProperty("Score Properties", self.scoreDispProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
 
@@ -59,7 +53,7 @@ class ScoreComp(AbstractComp):
     # Override 
     def _reconfProperty(self) -> None:
         self.score.setSuffix(self.properties["Suffix (st, nd, rd, th)"])
-        self.fileOut.setOutputFile(self.properties["File Output Location"].format("", "txt"))
+        self.fileOut.setOutputFile(self.properties["File Output Location"])
         if (self.fileOut.getOutputFile() != self.properties["File Output Location"]):
             self.attrChanged.emit()
 

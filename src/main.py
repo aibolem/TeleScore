@@ -1,5 +1,7 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed by: JumpShot Team
+Written by: riscyseven, TheLittleDoc
+Designed by: Fisk31, TheLittleDoc
 """
 
 import sys
@@ -13,7 +15,6 @@ except:
     sys.path.append(src.CURR_PATH)
     from gm_resources import resourcePath
     from window.mainwindow import MainWindow
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

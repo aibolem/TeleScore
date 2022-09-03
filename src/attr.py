@@ -1,3 +1,9 @@
+"""
+Developed by: JumpShot Team
+Written by: riscyseven
+Designed by: Fisk31
+"""
+
 class CompAttr:
     TABNAME = "TABNAME"
     COMPONENT = "COMPONENT"
@@ -13,7 +19,8 @@ class CompAttr:
     NUMEDIT = "NUMEDIT"
     CONNEDIT = "CONNEDIT"
     CHECKBOX = "CHECKBOX"
-    FILESCT = "FILESCT"
+    FLSAVE = "FLSAVE"
+    FLOPEN = "FLOPEN"
     TABNAME = "TABNAME"
     PROPERTY = "PROPERTY"
     PROPERTIES = "PROPERTIES"
@@ -85,8 +92,8 @@ class CompAttr:
 
     fileProperty = {
         "File Output Location": {
-            TYPE: FILESCT,
-            VALUE: "./Output/{}.{}"
+            TYPE: FLSAVE,
+            VALUE: "./Output/{}"
         }
     }
 
@@ -196,6 +203,12 @@ class CompAttr:
         "Score Set": {
             ICON: "src/resources/scoreSet.png",
             TEXT: "Score Set",
+            TYPE: "DISPLAY",
+            HELP: ""
+        },
+        "Type Score Amount": {
+            ICON: "src/resources/setScoreNum.png",
+            TEXT: "Type Score Amount",
             TYPE: "DISPLAY",
             HELP: ""
         }

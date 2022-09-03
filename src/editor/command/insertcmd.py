@@ -1,14 +1,10 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
 """
 
-import os, sys
 from PyQt6.QtCore import QPoint
 from PyQt6.QtGui import QUndoCommand
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
 
 from layout.ctrllayout import CtrlLayout
 from component.compfactory import CompFactory

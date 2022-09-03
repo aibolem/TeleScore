@@ -1,12 +1,7 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed by: JumpShot Team
+Written by: riscyseven
 """
-
-import os, sys
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
 
 from attr import CompAttr
 from component.basiccomp.clocksetcomp import ClockSetComp
@@ -17,6 +12,7 @@ from component.basiccomp.defaultcomp import DefaultComp
 from component.basiccomp.scoresetcomp import ScoreSetComp
 from component.basiccomp.scorecomp import ScoreComp
 from component.teamcomp.teamcomp import TeamComp
+from component.basiccomp.scorenumcomp import ScoreNumComp
 
 class CompFactory():
     """
@@ -58,6 +54,8 @@ class CompFactory():
                 comp = ScoreSetComp(objectName, ScoreSetComp.SET, edit, parent)
             case "Team Attribute":
                 return TeamComp(objectName, edit, parent)
+            case "Type Score Amount":
+                comp = ScoreNumComp(objectName, edit, parent)
 
-        comp.setFixedSize(100, 70)
+        comp.setFixedSize(110, 80)
         return comp

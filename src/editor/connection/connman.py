@@ -1,19 +1,14 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
 """
-
-import os, sys
 
 from PyQt6.QtWidgets import QWidget
 from PyQt6 import uic
 
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
-
 from editor.connection.conninst import ConnInst
 from component.abstractcomp import AbstractComp
-from gm_resources import *
+from gm_resources import resourcePath
 
 class ConnMan(QWidget):
     def __init__(self, objectName, data, parent=None):

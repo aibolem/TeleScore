@@ -76,6 +76,11 @@
     <string>Save</string>
    </property>
   </action>
+  <action name="actionProject_Size">
+   <property name="text">
+    <string>Project Size</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

@@ -1,5 +1,6 @@
 """
-Author: Ian, TheLittleDoc, Fisk, Dan, Glenn
+Developed By: JumpShot Team
+Written by: riscyseven
 """
 
 import sys
@@ -11,10 +12,6 @@ from PyQt6.QtCore import QSize
 import unittest 
 import requests
 import time
-
-PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-if PATH not in sys.path:
-    sys.path.append(PATH)
 
 import gm_resources
 from layout.abstract_layout.freelayout import FreeLayout
