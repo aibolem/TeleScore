@@ -20,7 +20,7 @@ class FileSelDialog(QWidget):
             self.absPathButton.clicked.connect(self._saveFile)
 
         self.callBack = callback
-        self.lineEdit.editingFinished.connect(self._editFinished)
+        self.lineEdit.returnPressed.connect(self._editFinished)
 
     def _saveFile(self):
         fileName = QFileDialog.getSaveFileName(caption="Set Output File Name", directory="")

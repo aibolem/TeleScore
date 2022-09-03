@@ -16,8 +16,6 @@ from layout.ctrllayout import CtrlLayout
 from fileio.layoutfile import LayoutFile
 
 class Editor(QMainWindow):
-    compCounter = 0 # TODO This might cause unique name violation when program restarts
-
     def __init__(self, layout=None, file=None, parent=None):
         super().__init__(parent) # Call the inherited classes __init__ method
         path = resourcePath("src/window/ui/editor.ui")
@@ -95,8 +93,7 @@ class Editor(QMainWindow):
         """
         type = evt.mimeData().data("application/x-comp").data().decode()
         point = QPoint(int(evt.position().x()), int(evt.position().y()))
-        insert = InsertCmd(self.ctrl, type, point, self.compCounter)
-        self.compCounter += 1
+        insert = InsertCmd(self.ctrl, type, point)
         self.cmdStack.push(insert)
 
         comp = insert.getComponent()

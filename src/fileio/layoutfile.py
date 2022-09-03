@@ -28,6 +28,7 @@ class LayoutFile:
         header = CompAttr.header
         header["Width"] = self.ctrlLayout.getProjSize().width()
         header["Height"] = self.ctrlLayout.getProjSize().height()
+        header["Counter"] = self.ctrlLayout.getCounter()
 
         jsonFormattedDict = {CompAttr.HEADER: header}
         for name in components:
@@ -74,6 +75,7 @@ class LayoutFile:
             header = dataDict[CompAttr.HEADER]
             size = QSize(header["Width"], header["Height"])
             self.ctrlLayout.setSize(size)
+            self.ctrlLayout.setCounter(header["Counter"])
 
         for element in dataDict:
             if (element != CompAttr.HEADER):

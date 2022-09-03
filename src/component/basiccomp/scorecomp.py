@@ -27,7 +27,6 @@ class ScoreComp(AbstractComp):
         super().__init__(objectName, "src/component/basiccomp/scorecomp.ui", edit, parent)
 
         self.fileOut = TextOut(parent=self)
-        self.fileOut.setOutputFile(self.properties["File Output Location"])
         self.score = Counter(self.label, self.fileOut, self)
 
     # Override

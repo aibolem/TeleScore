@@ -16,7 +16,7 @@ class InsertCmd(QUndoCommand):
     to the layout
     """
 
-    def __init__(self, layout: CtrlLayout, type: str, pos: QPoint, count: int, parent=None):
+    def __init__(self, layout: CtrlLayout, type: str, pos: QPoint, parent=None):
         """
         :param layout: Layout
         :param type: Component type (Ex. Clock)
@@ -27,7 +27,7 @@ class InsertCmd(QUndoCommand):
         self.layout = layout
         self.type = type
         self.pos = pos
-        self.count = count
+        self.count = layout.getCounter()
         self.component = None
 
     # Override

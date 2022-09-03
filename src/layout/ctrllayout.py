@@ -18,6 +18,7 @@ class CtrlLayout(QFrame):
     layout
     """
     dropSignal = pyqtSignal(QDropEvent)
+    compCounter = 0 # TODO This might cause unique name violation when program restarts
 
     def __init__(self, projSize=QSize(800, 600), remCallBack=None, parent=None):
         super().__init__(parent)
@@ -40,6 +41,13 @@ class CtrlLayout(QFrame):
 
     def defaultSize(self):
         return self.projSize
+
+    def getCounter(self) -> int:
+        self.compCounter += 1
+        return self.compCounter
+
+    def setCounter(self, value) -> int:
+        self.compCounter = value
 
     def resizeEvent(self, event: QEvent) -> None:
         """

@@ -103,9 +103,12 @@ class PropertyTab(QWidget):
                     self.objectName = property[CompAttr.VALUE]
 
     def _propItemChanged(self, item: PropWidgetItem, value):
+        # This should be rewritten. Possible edge case is that if there are more than one linedit with editFinish,
+        # editFinish could get called after item is deleted
         if (value != None):
             self.settings[item.parent().text()][CompAttr.PROPERTIES][item.text()][CompAttr.VALUE] = value
         self.propChanged.emit()
+            
 
     def externalChange(self):
         self.loadProperties(self.settings)

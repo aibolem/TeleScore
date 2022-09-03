@@ -12,12 +12,9 @@ class FileOut:
         self.type = "." + type
         self.fileName = fileName
         self.fileIO = QFile(fileName + self.type, parent)
-        if (fileName != ''):
-            self.outputFile(None)
         
     def setOutputFile(self, fileAddr: str):
         self.fileIO.setFileName(fileAddr + self.type)
-        self.outputFile(None)
         self.fileName = fileAddr
 
     def getOutputFile(self) -> str:
