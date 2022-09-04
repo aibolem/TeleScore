@@ -41,7 +41,7 @@ class ButtonComp(AbstractComp):
         self.properties["Font Size"] = self.pushButton.font().pixelSize()
 
     # Override
-    def _reconfProperty(self) -> None:
+    def _reconfProperty(self):
         self.pushButton.setStyleSheet("font-size: {}px;\
             font-family: {}".format(self.properties["Font Size"], self.properties["Display Font"]))
         self.pushButton.setText(self.properties["Display Text"])
@@ -53,7 +53,14 @@ class ButtonComp(AbstractComp):
     def _onClick(self):
         self.connection.emitSignal(self.signal)
 
-    def setButtonColor(self, hexval: str) -> None:
+    def setButtonColor(self, hexval: str):
+        """
+        Method that automatically determines the button colour for hover
+        and press actions.
+
+        :param hexval: String hex value "#ffffff"
+        :return: None
+        """
         dimmed = QColor(hexval)
         dimmed.setRgb(dimmed.red() // 2, dimmed.green() // 2, dimmed.blue() // 2)
         self.setStyleSheet(self.styleSheet() +

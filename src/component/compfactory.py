@@ -26,10 +26,10 @@ class CompFactory():
     def makeComponent(self, compName: str, objectName, edit=False, parent=None):
         allCompList = CompAttr.getAllCategory()
 
+        comp = DefaultComp(objectName, parent)
         if (compName not in allCompList):
-            return DefaultComp(parent)
+            return comp
 
-        comp = None
         if (allCompList[compName][CompAttr.TYPE] == "BUTTON"):
             try:
                 item = allCompList[compName]

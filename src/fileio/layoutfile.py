@@ -18,7 +18,11 @@ class LayoutFile:
         self.ctrlLayout = layout
 
     def save(self):
+        """
+        
+        """
         # This is a bit janky, change this in the future.
+        # Shrinks the layout down to the original size and saves it.
         tempSize = self.ctrlLayout.getCurrSize()
         self.ctrlLayout.resize(self.ctrlLayout.getProjSize())
         self.ctrlLayout.resizeEvent(None)
@@ -66,6 +70,10 @@ class LayoutFile:
             conn[typeName] = newList
 
     def load(self, edit=False):
+        """
+        Reads through the file specified by self.fileName and initializes the self.ctrlLayout
+        according to the file. Also connects the components
+        """
         dataDict = {}
         with open(self.fileName, 'r') as rstream:
             dataDict = load(rstream)
@@ -90,6 +98,7 @@ class LayoutFile:
 
         intf = ProgInterface()
 
+        # This is required since integrating this code into the previous for loop might cause deadlock
         for component in self.ctrlLayout.getComponents().values():
             conn = component.getConnection()
 

@@ -87,20 +87,13 @@ class Clock(QObject):
             self.stopClock()
 
     def setClockTick(self, tick):
-        self.tick = tick
-        self._valueChanged()
+        if (tick >= 0 and tick < 86400):
+            self.tick = tick
+            self._valueChanged()
 
     def addTime(self, min, sec):
-        time = QTime(0, min, sec, 0).addSecs(self.tick)
-        if (sec < 0):
-            time = QTime(0, min, 0, 0).addSecs(self.tick)
-            time = time.addMSecs(sec)
-
-        if (min < 0):
-            time = QTime(0, 0, sec, 0).addSecs(self.tick)
-            time = time.addSecs(min*60)
-        
-        self.setClockTick(time.hour()*3600+time.minute()*60+time.second())
+        tempTick = self.tick + min * 60 + sec
+        self.setClockTick(tempTick)
 
     def setClockFromStr(self, str) -> bool:
         time = QTime.fromString(str, self.timeFormat)

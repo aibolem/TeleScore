@@ -160,7 +160,7 @@ class CompAttr:
         },
         "Add Minutes": {
             ICON: "src/resources/addMin.png",
-            TEXT: "Add [-]\nMinutes",
+            TEXT: "Add [+]\nMinutes",
             COLOR: "#242325",
             TYPE: "BUTTON",
             SIGNAL: "ADDM",

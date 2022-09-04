@@ -27,7 +27,6 @@ class Application:
     def raise_error(Self):
         assert False
 
-
 def excepthook(eType, eValue, eTb):
     msg = GMessageBox("Unhandled Exception", "Uh Oh!\nUnhandled Exception Caught!\nReason:\n{}\n{}".format(eType, eValue), "Info")
     msg.exec()
