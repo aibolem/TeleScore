@@ -224,7 +224,7 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
             self.move(self.x(), 1)
 
         if (pos.x() + self.width() >= self.currParSize.width()):
-            self.move(self.currParSize.width()-self.width(), pos.y())
+            self.move(self.currParSize.width()-self.width(), self.y())
 
         if (pos.y() + self.height() >= self.currParSize.height()):
             self.move(self.x(), self.currParSize.height()-self.height())
