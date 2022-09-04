@@ -41,4 +41,9 @@ class ScoreNumComp(AbstractComp):
         pass
 
     def pressed(self):
-        self.connection.emitSignal("Set Score", int(self.lineEdit.text()))
+        number = self.lineEdit.text()
+        try:
+            number = int(number)
+        except ValueError:
+            number = 0
+        self.connection.emitSignal("Set Score", number)

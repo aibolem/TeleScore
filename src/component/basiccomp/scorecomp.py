@@ -20,6 +20,10 @@ class ScoreComp(AbstractComp):
         "Suffix (st, nd, rd, th)": {
             CompAttr.TYPE: CompAttr.CHECKBOX,
             CompAttr.VALUE: 0
+        },
+        "Clr file when score = 0": {
+            CompAttr.TYPE: CompAttr.CHECKBOX,
+            CompAttr.VALUE: False
         }
     }
 
@@ -27,6 +31,7 @@ class ScoreComp(AbstractComp):
         super().__init__(objectName, "src/component/basiccomp/scorecomp.ui", edit, parent)
 
         self.fileOut = TextOut(parent=self)
+        self.fileOut.setOutputFile(self.properties["File Output Location"])
         self.score = Counter(self.label, self.fileOut, self)
 
     # Override
@@ -55,6 +60,7 @@ class ScoreComp(AbstractComp):
         self.fileOut.setOutputFile(self.properties["File Output Location"])
         if (self.fileOut.getOutputFile() != self.properties["File Output Location"]):
             self.attrChanged.emit()
+        self.score.setClearScoreZero(self.properties["Clr file when score = 0"])
 
     def addPoint(self, value):
         self.score.increment(value)

@@ -14,6 +14,7 @@ class Counter(QObject):
         self.currSuffix = ""
         self.suffixEn = 0
         self.file = file
+        self.clearScoreZero = False
 
     def getValue(self):
         return self.value
@@ -38,7 +39,10 @@ class Counter(QObject):
             text = str(self.value) + self.currSuffix
 
         if(self.file != None):
-            self.file.outputFile(text)
+            outFile = text
+            if (self.clearScoreZero and self.value == 0):
+                outFile = ""
+            self.file.outputFile(outFile)
 
         if (self.label != None):
             self.label.setText(text)
@@ -61,3 +65,7 @@ class Counter(QObject):
 
     def toString(self):
         return str(self.value)
+
+    def setClearScoreZero(self, value):
+        self.clearScoreZero = value
+        self.updateValue()

@@ -33,8 +33,9 @@ class FileSelDialog(QWidget):
 
     def _openFile(self):
         fileName = QFileDialog.getOpenFileName(caption="Open File", directory="")
-        self.lineEdit.setText(fileName[0])
-        self._editFinished()
+        if (fileName[0] != '' and fileName[0] != ''):
+            self.lineEdit.setText(fileName[0])
+            self._editFinished()
 
     def _editFinished(self):
         self.callBack(self.lineEdit.text())

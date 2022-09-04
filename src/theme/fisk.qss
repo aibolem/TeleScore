@@ -392,7 +392,6 @@ QPushButton {
 
 .InfoButton {
 	background-color: transparent;
-	border-radius: 17px;
 }
 
 .InfoButton:hover {
