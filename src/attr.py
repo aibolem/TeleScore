@@ -19,6 +19,7 @@ class CompAttr:
     NUMEDIT = "NUMEDIT"
     CONNEDIT = "CONNEDIT"
     CHECKBOX = "CHECKBOX"
+    HOTEDIT = "HOTEDIT"
     FLSAVE = "FLSAVE"
     FLOPEN = "FLOPEN"
     TABNAME = "TABNAME"
@@ -94,6 +95,13 @@ class CompAttr:
         "File Output Location": {
             TYPE: FLSAVE,
             VALUE: "./Output/{}"
+        }
+    }
+
+    hotkeyProperty = {
+        "Hotkey": {
+            TYPE: HOTEDIT,
+            VALUE: ""
         }
     }
 

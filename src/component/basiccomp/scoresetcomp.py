@@ -6,6 +6,7 @@ Designed by: Fisk31
 
 from attr import CompAttr
 from component.basiccomp.buttoncomp import ButtonComp
+from component.hotkey import HotKey
 
 class ScoreSetComp(ButtonComp):
     """
@@ -33,6 +34,7 @@ class ScoreSetComp(ButtonComp):
         self.connection.removeConnType("")
         self.delta = delta
         self.value = 1
+        self.hotKey = None
         match delta:
             case self.SET:
                 self.pushButton.setText("Set\nNumber")
@@ -50,6 +52,7 @@ class ScoreSetComp(ButtonComp):
     def _firstTimeProp(self):
         self.properties.appendProperty("Appearance Properties", CompAttr.appearProperty)
         self.properties.appendProperty("Set Properties", self.scoreSetProperty)
+        self.properties.appendProperty("Hotkey Properties", CompAttr.hotkeyProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
 
     # Override
@@ -67,6 +70,15 @@ class ScoreSetComp(ButtonComp):
             font-family: {}".format(self.properties["Font Size"], self.properties["Display Font"]))
         if (len(self.properties["Display Text"]) > 0):
             self.pushButton.setText(self.properties["Display Text"])
+
+        if (self.hotKey != None):
+            self.hotKey.signal.disconnect(self._onClick)
+            self.hotKey.stopThread()
+            self.hotKey = None
+        if (self.properties["Hotkey"] != ""):
+            self.hotKey = HotKey(self.properties["Hotkey"])
+            self.hotKey.signal.connect(self._onClick)
+
 
     # Override
     def getName(self) -> str:

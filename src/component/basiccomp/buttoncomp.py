@@ -8,6 +8,7 @@ from PyQt6.QtGui import QColor
 
 from attr import CompAttr
 from component.abstractcomp import AbstractComp
+from component.hotkey import HotKey
 
 class ButtonComp(AbstractComp):
     """
@@ -20,6 +21,7 @@ class ButtonComp(AbstractComp):
         self.signal = signal
         self.buttonType = type
         self.text = text
+        self.hotKey = None
         self.setStyleSheet("QPushButton {border: none; color: white; \
          font-size: 17px; border-radius: 4px;}")
         self.pushButton.setText(text)
@@ -32,6 +34,7 @@ class ButtonComp(AbstractComp):
     # Override
     def _firstTimeProp(self):
         self.properties.appendProperty("Appearance Properties", CompAttr.appearProperty)
+        self.properties.appendProperty("Hotkey Properties", CompAttr.hotkeyProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
 
     # Override
@@ -40,11 +43,19 @@ class ButtonComp(AbstractComp):
         self.properties["Display Font"] = self.pushButton.font().family()
         self.properties["Font Size"] = self.pushButton.font().pixelSize()
 
-    # Override
+    # Overridebb
     def _reconfProperty(self):
         self.pushButton.setStyleSheet("font-size: {}px;\
             font-family: {}".format(self.properties["Font Size"], self.properties["Display Font"]))
         self.pushButton.setText(self.properties["Display Text"])
+
+        if (self.hotKey != None):
+            self.hotKey.signal.disconnect(self._onClick)
+            self.hotKey.stopThread()
+            self.hotKey = None
+        if (self.properties["Hotkey"] != ""):    
+            self.hotKey = HotKey(self.properties["Hotkey"])
+            self.hotKey.signal.connect(self._onClick)
 
     # Override
     def getName(self) -> str:

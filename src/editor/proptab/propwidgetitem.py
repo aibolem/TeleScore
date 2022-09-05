@@ -11,6 +11,7 @@ from attr import CompAttr
 from editor.connection.connman import ConnMan
 from editor.proptab.propwidgethead import PropWidgetHead
 from editor.proptab.fileseldialog import FileSelDialog
+from editor.connection.hotkeyman import HotkeyMan
 
 class PropWidgetItem(QStandardItem):
     """
@@ -60,6 +61,9 @@ class PropWidgetItem(QStandardItem):
     def _fileSctClicked(self, fileName):
         self.callBack(self, fileName)
 
+    def _hotKeyFinished(self, hotKey):
+        self.callBack(self, hotKey)
+
     def _createProp(self, text: object, value) -> QWidget:
         wid = None
         match text:
@@ -75,6 +79,8 @@ class PropWidgetItem(QStandardItem):
                 wid = self._createCheckBox(value)
             case CompAttr.FLSAVE | CompAttr.FLOPEN:
                 wid = self._createFileSct(text, value)
+            case CompAttr.HOTEDIT:
+                wid = self._createHotKeyMan(value)
         return wid
 
     def extraInfo(self, value):
@@ -137,4 +143,8 @@ class PropWidgetItem(QStandardItem):
         name = value[0]
         data = value[1]
         wid = ConnMan(name, data)
+        return wid
+
+    def _createHotKeyMan(self, value):
+        wid = HotkeyMan(value, self._hotKeyFinished)
         return wid
