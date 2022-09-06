@@ -582,3 +582,7 @@ QTreeView::item:has-children {
 QHeaderView::section {
 	background-color: #2E3E4C;
 }
+
+.PropListView QWidget {
+	padding: 0px 0px 0px 0px;
+}

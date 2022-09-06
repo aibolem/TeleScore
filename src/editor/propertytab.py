@@ -28,6 +28,7 @@ class PropertyTab(QWidget):
         self.model = QStandardItemModel(0, 2)
         self.treeView.setModel(self.model)
         self.treeView.setAlternatingRowColors(True)
+        self.treeView.setProperty("class", "PropListView")
         self.objectName = ""
 
     def clearTree(self):

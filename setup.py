@@ -5,7 +5,7 @@ from cx_Freeze import setup, Executable
 # Dependencies are automatically detected, but it might need fine tuning.
 # "packages": ["os"] is used as example only
 
-py_package = ["os", "sys", "PyQt6", "requests"]
+py_package = ["os", "sys", "PyQt6", "requests", "pynput"]
 
 def find_files(directory, patterns):
     """ Recursively find all files in a folder tree """
@@ -30,17 +30,24 @@ if sys.platform == "win32":
         src_files.append((i, os.path.join("lib", i)))
     build_exe_options = {"packages": py_package, "include_files": src_files, "excludes": ["tkinter", "numpy", "pydoc_data", "distutils", "setuptools"]}
 
-    exes = [Executable("src/main.py",
+elif sys.platform == "darwin":
+    copy_path = os.path.join(PATH, "src")
+    src_files = []
+    for i in find_files("src", ["*"]):
+        src_files.append((i, os.path.join("lib", i)))
+    build_exe_options = {"packages": py_package, "include_files": src_files, "excludes": ["tkinter", "numpy", "pydoc_data", "distutils", "setuptools"]}
+
+
+exes = [Executable("src/main.py",
                     base=base,
                     icon=os.path.join(PATH, "src", "resources", "icon.ico"),
                     shortcut_dir="ProgramMenuFolder",
-                    target_name="JumpShot")]
-
+                    target_name="TeleScore")]
 
 setup(
-    name="JumpShot",
+    name="TeleScore",
     version="1.0",
-    description="JumpShot",
+    description="TeleScore - Open Source Scoreboard Software",
     options={"build_exe": build_exe_options},
     executables=exes,
 )
