@@ -37,7 +37,8 @@ class HotKey(QObject):
         return key
 
     def stopThread(self):
-        self.listener.stop()
+        if (sys.platform == "win32"):
+            self.listener.stop()
 
     def onPress(self):
         self.signal.emit()

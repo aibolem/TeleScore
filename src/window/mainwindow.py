@@ -23,7 +23,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def initUI(self):
         path = resourcePath("src/window/ui/mainwindow.ui") # replaced complicated path logic with resourcePath()
         uic.loadUi(path, self) # Load the .ui file
-        self.setWindowTitle("JumpShot")
+        self.setWindowTitle("TeleScore")
         self.setWindowIcon(QIcon(resourcePath("src/resources/icon.ico"))) # Using a slightly modified version of my PyInstaller Resource system. Also seen on line 18. Basically uses working directory OR temp directory for absolute paths to files.
         self.show() # Show the GUI
 
@@ -35,7 +35,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.actionNew.triggered.connect(self._newTriggered)
         self.actionSave.triggered.connect(self._saveTriggered)
 
-        self.toolBar.addWidget(QtWidgets.QPushButton(QIcon(resourcePath("src/resources/icon.ico")), " JumpShot v1.0"))
+        self.toolBar.addWidget(QtWidgets.QPushButton(QIcon(resourcePath("src/resources/icon.ico")), " TeleScore v1.0"))
         self.toolBar.addSeparator()
         self.editModeButton = QtWidgets.QPushButton("Editor Mode")
         self.toolBar.addWidget(self.editModeButton)
