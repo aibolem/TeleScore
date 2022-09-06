@@ -520,6 +520,7 @@ QCheckBox::indicator:hover {
 /* Scenes and Sources toolbar */
 
 QToolBar {
+	border: none;
 	background-color: #1E262C;
 }
 
