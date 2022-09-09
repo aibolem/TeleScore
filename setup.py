@@ -2,9 +2,6 @@ import sys, os
 import fnmatch
 from cx_Freeze import setup, Executable
 
-# Dependencies are automatically detected, but it might need fine tuning.
-# "packages": ["os"] is used as example only
-
 py_package = ["os", "sys", "PyQt6", "requests", "pynput"]
 
 def find_files(directory, patterns):
