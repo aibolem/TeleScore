@@ -113,3 +113,6 @@ class CtrlLayout(QFrame):
 
     def getCurrSize(self) -> QSize:
         return self.size()
+
+    def getComponents(self) -> dict:
+        return self.compDict

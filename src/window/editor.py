@@ -3,7 +3,7 @@ Developed By: JumpShot Team
 Written by: riscyseven
 """
 
-from PyQt6.QtWidgets import QMainWindow, QFrame, QFileDialog
+from PyQt6.QtWidgets import QMainWindow, QFrame, QFileDialog, QPushButton
 from PyQt6 import uic, QtGui
 from PyQt6.QtCore import QPoint, pyqtSlot, QSize, Qt
 from gm_resources import resourcePath
@@ -12,6 +12,7 @@ from component.abstractcomp import AbstractComp
 from editor.complisttab import CompListTab
 from editor.propertytab import PropertyTab
 from editor.command.insertcmd import InsertCmd
+from editor.globaldirectory import GlobalDirectory
 from layout.ctrllayout import CtrlLayout
 from fileio.layoutfile import LayoutFile
 
@@ -20,8 +21,16 @@ class Editor(QMainWindow):
         super().__init__(parent) # Call the inherited classes __init__ method
         path = resourcePath("src/window/ui/editor.ui")
         uic.loadUi(path, self) # Load the .ui file
-        self.cmdStack = QtGui.QUndoStack(self)
+
+        self.cmdStack = QtGui.QUndoStack(self) # Command stack used for undo/redo
         self.layoutFile = file
+
+        self.globalDir = "./Output"
+        self.globalPushButton = QPushButton("Set Component File Output Folder")
+        self.toolBar.addWidget(self.globalPushButton)
+        self.globalPushButton.clicked.connect(self._setGlobalFolder)
+        
+        # TODO Refractor this
         if (layout == None):
             self.ctrl = CtrlLayout(QSize(1000, 600), self.remCallBack, self)
             self.ctrl.dropSignal.connect(self._dropSlot)
@@ -70,10 +79,7 @@ class Editor(QMainWindow):
         :return: none
         """
         if (self.currComp != comp):
-            if (self.currComp != None):
-                self.prop.propChanged.disconnect(self.currComp.propChanged)
-                self.currComp.attrChanged.disconnect(self.prop.externalChange)
-                self.currComp.setFrameShape(QFrame.Shape.NoFrame)
+            self.clearCurrComp()
             self.prop.propChanged.connect(comp.propChanged)
             self.prop.loadProperties(comp.getPropertyTab())
             comp.attrChanged.connect(self.prop.externalChange)
@@ -81,6 +87,14 @@ class Editor(QMainWindow):
             comp.setLineWidth(3)
 
         self.currComp = comp
+
+    def clearCurrComp(self):
+        self.prop.clearTree()
+        if (self.currComp != None):
+            self.prop.propChanged.disconnect(self.currComp.propChanged)
+            self.currComp.attrChanged.disconnect(self.prop.externalChange)
+            self.currComp.setFrameShape(QFrame.Shape.NoFrame)
+            self.currComp = None
 
     @pyqtSlot(QtGui.QDropEvent)
     def _dropSlot(self, evt: QtGui.QDropEvent) -> None:
@@ -121,13 +135,28 @@ class Editor(QMainWindow):
 
     # Override
     def keyPressEvent(self, evt: QtGui.QKeyEvent) -> None:
+        '''if (evt.modifiers() & Qt.KeyboardModifier.ControlModifier):
+            match evt.key():
+                case Qt.Key.Key_Z:
+                    self.cmdStack.undo()'''
         if (evt.modifiers() & Qt.KeyboardModifier.ControlModifier):
             match evt.key():
-                case Qt.Key.Key_Z:
-                    self.cmdStack.undo()
-        '''if (evt.modifiers() & Qt.KeyboardModifier.ControlModifier and evt.modifiers() & Qt.KeyboardModifier.ShiftModifier):
-            match evt.key():
-                case Qt.Key.Key_Z:
-                    self.cmdStack.redo()'''
+                case Qt.Key.Key_S:
+                    self.saveAction()
 
         evt.accept()
+
+    def _setGlobalFolder(self):
+        directory = GlobalDirectory(self.globalDir, self)
+        directory.exec()
+
+        dirName = directory.getDirectory()
+        
+        if (dirName != ""):
+            # Check for valid directory
+            self.globalDir = dirName
+            components = self.ctrl.getComponents()
+            for comp in components.values():
+                comp.setFileDir(self.globalDir + "/{}")
+
+        self.clearCurrComp()

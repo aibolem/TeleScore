@@ -13,6 +13,7 @@ from component.basiccomp.scoresetcomp import ScoreSetComp
 from component.basiccomp.scorecomp import ScoreComp
 from component.teamcomp.teamcomp import TeamComp
 from component.basiccomp.scorenumcomp import ScoreNumComp
+from component.penalty.penaltycomp import PenaltyComp
 
 class CompFactory():
     """
@@ -56,6 +57,8 @@ class CompFactory():
                 return TeamComp(objectName, edit, parent)
             case "Type Score Amount":
                 comp = ScoreNumComp(objectName, edit, parent)
+            case "Penalty":
+                return PenaltyComp(objectName, edit, parent)
 
         comp.setFixedSize(110, 80)
         return comp

@@ -17,8 +17,8 @@ class HotkeyMan(QWidget):
 
         self.callBack = callBack
         self.keySequenceEdit.setKeySequence(QKeySequence(data))
-        self.keySequenceEdit.editingFinished.connect(self._editingFinished)
-        self.pushButton.clicked.connect(self._clearButtonClicked)
+        self.submit_pushButton.clicked.connect(self._editingFinished)
+        self.clear_pushButton.clicked.connect(self._clearButtonClicked)
 
     def _editingFinished(self):
         value = self.keySequenceEdit.keySequence()[0]

@@ -6,6 +6,8 @@ Written by: riscyseven
 from PyQt6.QtCore import QObject, pyqtSignal, QTimer, QTime
 from PyQt6.QtWidgets import QLabel
 
+from fileio.fileout import TextOut
+
 class Clock(QObject):
     """
     Class that implements a basic clock (timer or stopwatch),
@@ -14,9 +16,9 @@ class Clock(QObject):
     instead of seconds.
     """
 
-    clkChngedSignal = pyqtSignal(str)    # Signal/Callback for when clock is changed
+    clkChngedSignal = pyqtSignal(str) # Signal/Callback for when clock is changed
 
-    def __init__(self, stopwatch=False, label: QLabel=None, file=None, parent=None):
+    def __init__(self, stopwatch=False, label: QLabel=None, file:TextOut=None, parent=None):
         """
         """
         super(QObject, self).__init__(parent)
@@ -33,7 +35,7 @@ class Clock(QObject):
         self.clearTimeZero = False
 
         self.clock.timeout.connect(self._clockEvent)
-
+        
     def setStopCallback(self, callback):
         self.setStopCallback = callback
 
@@ -62,6 +64,7 @@ class Clock(QObject):
             self.clock.start(self.speed)
 
     def _valueChanged(self):
+        # Potential issue for soccer clock, 60:00 -> 1 hour
         timeStr = QTime(0, 0, 0, 0).addSecs(self.tick).toString(self.timeFormat)
         
         if (self.label != None):
@@ -77,14 +80,16 @@ class Clock(QObject):
         self._valueChanged()
 
     def _timer(self):
-        self._valueChanged()
         self.tick -= 1
 
-        if (self.tick <= self.tickTo):
+        if (self.tick < self.tickTo):
+            self.tick = self.tickTo
+            self._valueChanged()
             if (self.setStopCallback != None):  # Refractor this in the future
                 self.setStopCallback()
-                self.tick = self.tickTo
             self.stopClock()
+        else:
+            self._valueChanged()
 
     def setClockTick(self, tick):
         if (tick >= 0 and tick < 86400):
@@ -97,9 +102,10 @@ class Clock(QObject):
 
     def setClockFromStr(self, str) -> bool:
         time = QTime.fromString(str, self.timeFormat)
-        self.setClockTick(time.hour()*3600+time.minute()*60+time.second())
-        if (not time.isValid()):
-            self.setClockTick(0)
+        if (time.isValid()):
+            self.setClockTick(time.hour()*3600+time.minute()*60+time.second())
+        else:
+            self._valueChanged()
         return time.isValid()
 
     def setClearTimeZero(self, value):
@@ -110,6 +116,5 @@ class Clock(QObject):
             self._stopWatch()
         else:
             self._timer()
-        self._valueChanged()
     
     

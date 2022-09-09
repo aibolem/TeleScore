@@ -5,6 +5,7 @@ Designed by: Fisk31
 """
 
 class CompAttr:
+    # Refractor these attribute at some point to enums for more effiecency
     TABNAME = "TABNAME"
     COMPONENT = "COMPONENT"
     ICON = "ICON"
@@ -22,6 +23,7 @@ class CompAttr:
     HOTEDIT = "HOTEDIT"
     FLSAVE = "FLSAVE"
     FLOPEN = "FLOPEN"
+    DRSAVE = "DRSAVE"
     TABNAME = "TABNAME"
     PROPERTY = "PROPERTY"
     PROPERTIES = "PROPERTIES"
@@ -231,6 +233,15 @@ class CompAttr:
         }
     }
 
+    miscComponent = {
+        "Penalty": {
+            ICON: "",
+            TEXT: "Penalty",
+            TYPE: "DISPLAY",
+            HELP: ""
+        }
+    }
+
     category = [
             {
                 TABNAME: "Time Based Buttons",
@@ -243,6 +254,10 @@ class CompAttr:
             {
                 TABNAME: "Team Component",
                 COMPONENT: teamCompoonent
+            },
+            {
+                TABNAME: "Misc",
+                COMPONENT: miscComponent
             }
         ]
 

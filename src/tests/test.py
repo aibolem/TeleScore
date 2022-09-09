@@ -13,7 +13,6 @@ import unittest
 import requests
 import time
 
-import gm_resources
 from layout.abstract_layout.freelayout import FreeLayout
 from component.basiccomp.buttoncomp import ButtonComp
 from component.element.clock import Clock

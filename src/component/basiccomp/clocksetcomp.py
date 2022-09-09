@@ -1,7 +1,7 @@
 """
 Developed by: JumpShot Team
 Written by: riscyseven
-Designed by: Fisk31
+UI designed by: Fisk31
 """
 
 from attr import CompAttr
@@ -38,6 +38,10 @@ class ClockSetComp(AbstractComp):
 
     # Override
     def _reconfProperty(self) -> None:
+        pass
+
+    # Override
+    def setFileDir(self, dirName):
         pass
 
     def pressed(self):

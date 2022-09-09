@@ -1,7 +1,7 @@
 """
 Developed by: JumpShot Team
 Written by: riscyseven
-Designed by: Fisk31
+UI designed by: Fisk31
 """
 
 from attr import CompAttr
@@ -79,7 +79,6 @@ class ScoreSetComp(ButtonComp):
             self.hotKey = HotKey(self.properties["Hotkey"])
             self.hotKey.signal.connect(self._onClick)
 
-
     # Override
     def getName(self) -> str:
         return self.delta
@@ -93,3 +92,7 @@ class ScoreSetComp(ButtonComp):
                 self.connection.emitSignal("Add Score", self.value)
             case self.DEC:
                 self.connection.emitSignal("Sub Score", self.value)
+
+    # Override
+    def setFileDir(self, dirName):
+        pass

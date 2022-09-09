@@ -1,7 +1,7 @@
 """
 Developed by: JumpShot Team
 Written by: riscyseven
-Designed by: Fisk31
+UI designed by: Fisk31
 """
 
 from PyQt6.QtMultimedia import QMediaPlayer, QAudioOutput, QMediaDevices
@@ -54,29 +54,12 @@ class ClockComp(AbstractComp):
         self.buzzAudio = None
         self._initConn()
 
-    def disableWidget(self) -> None:
-        # Nothing to implement here since clock is just a label
-        pass
-
     # Override
     def _firstTimeProp(self):
         self.properties.appendProperty("File Properties", CompAttr.fileProperty)
         self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName())
         self.properties.appendProperty("Clock Properties", self.clockProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
-
-    def _initConn(self):
-        self.connection.appendConnType("Clock Stop")
-        self.connection.appendCallBack("Start", self._start)
-        self.connection.appendCallBack("Stop", self._stop)
-        self.connection.appendCallBack("Reset", self._reset)
-        self.connection.appendCallBack("Set Time", self._setTime)
-
-        self.connection.appendCallBack("ADDS", self._addSec)
-        self.connection.appendCallBack("ADDM", self._addMin)
-        self.connection.appendCallBack("SUBS", self._subSec)
-        self.connection.appendCallBack("SUBM", self._subMin)
-        self.connection.appendCallBack("Clock Stop", self._stop)
 
     # Override
     def getName(self) -> str:
@@ -112,8 +95,26 @@ class ClockComp(AbstractComp):
             self.buzzAudio = None
         
         if (not self.clock.setClockFromStr(self.defaultTime)):
-            info = GMessageBox("Default Time Invalid", "Please reenter the time", "Info")
+            info = GMessageBox("Default Time Invalid", "Please check your time format", "Info")
             info.exec()
+
+    # Override
+    def setFileDir(self, dirName):
+        self.properties["File Output Location"] = dirName.format(self.objectName())
+        self.fileOut.setOutputFile(self.properties["File Output Location"])
+
+    def _initConn(self):
+        self.connection.appendConnType("Clock Stop")
+        self.connection.appendCallBack("Start", self._start)
+        self.connection.appendCallBack("Stop", self._stop)
+        self.connection.appendCallBack("Reset", self._reset)
+        self.connection.appendCallBack("Set Time", self._setTime)
+
+        self.connection.appendCallBack("ADDS", self._addSec)
+        self.connection.appendCallBack("ADDM", self._addMin)
+        self.connection.appendCallBack("SUBS", self._subSec)
+        self.connection.appendCallBack("SUBM", self._subMin)
+        self.connection.appendCallBack("Clock Stop", self._stop)
 
     def _start(self):
         self.clock.startClock()

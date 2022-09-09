@@ -1,7 +1,7 @@
 """
 Developed by: JumpShot Team
 Written by: riscyseven
-Designed by: Fisk31
+UI designed by: Fisk31
 """
 
 from PyQt6.QtGui import QColor
@@ -43,7 +43,7 @@ class ButtonComp(AbstractComp):
         self.properties["Display Font"] = self.pushButton.font().family()
         self.properties["Font Size"] = self.pushButton.font().pixelSize()
 
-    # Overridebb
+    # Override
     def _reconfProperty(self):
         self.pushButton.setStyleSheet("font-size: {}px;\
             font-family: {}".format(self.properties["Font Size"], self.properties["Display Font"]))
@@ -60,6 +60,10 @@ class ButtonComp(AbstractComp):
     # Override
     def getName(self) -> str:
         return self.buttonType
+
+    # Override
+    def setFileDir(self, dirName):
+        pass
 
     def _onClick(self):
         self.connection.emitSignal(self.signal)

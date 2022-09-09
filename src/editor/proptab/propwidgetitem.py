@@ -10,7 +10,7 @@ from PyQt6.QtCore import Qt
 from attr import CompAttr
 from editor.connection.connman import ConnMan
 from editor.proptab.propwidgethead import PropWidgetHead
-from editor.proptab.fileseldialog import FileSelDialog
+from editor.proptab.fileseldialog import FileSelWidget
 from editor.connection.hotkeyman import HotkeyMan
 
 class PropWidgetItem(QStandardItem):
@@ -135,7 +135,7 @@ class PropWidgetItem(QStandardItem):
         return wid
 
     def _createFileSct(self, mode, value) -> QPushButton:
-        wid = FileSelDialog(mode, self._fileSctClicked, value)
+        wid = FileSelWidget(mode, self._fileSctClicked, value)
         self.fileName = value
         return wid
 

@@ -1,7 +1,7 @@
 """
 Developed by: JumpShot Team
 Written by: riscyseven
-Designed by: Fisk31
+UI designed by: Fisk31
 """
 
 from attr import CompAttr
@@ -61,6 +61,11 @@ class ScoreComp(AbstractComp):
         if (self.fileOut.getOutputFile() != self.properties["File Output Location"]):
             self.attrChanged.emit()
         self.score.setClearScoreZero(self.properties["Clr file when score = 0"])
+
+    # Override
+    def setFileDir(self, dirName):
+        self.properties["File Output Location"] = dirName.format(self.objectName())
+        self.fileOut.setOutputFile(self.properties["File Output Location"])
 
     def addPoint(self, value):
         self.score.increment(value)

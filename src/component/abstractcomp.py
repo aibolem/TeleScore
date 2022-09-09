@@ -52,13 +52,18 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
 
     def getConnection(self) -> Connection:
         """
+        Returns the connection object
+        :param: none
+        :return connection: Connection object
         """
         return self.connection
 
     @abstractmethod
-    def getName() -> str:
+    def getName(self) -> str:
         """
-        Return the type of the component
+        Return the type of the component in str
+        :param: none
+        :return str: str that describes the component type
         """
         pass
 
@@ -69,22 +74,33 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
         sure the subclasses insert correct properties. This method will be
         called automatially by the this base class.
 
-        :param: None
-        :return: None
+        :param: none
+        :return: none
         """
         pass
 
     @abstractmethod
     def _reconfProperty(self):
+        """
+        Called when the user modifies any attributes inside the property tab
+        :param: none
+        :return: none
+        """
         pass
 
     @abstractmethod
     def _reloadProperty(self):
+        """
+        Reload attributes 
+        """
         pass
 
     # Override
     def contextMenuEvent(self, evt: QContextMenuEvent):
         """
+        Brings up the right click menu
+        :param evt: Right click event
+        :return: none
         """
         menu = QMenu(self)
         #menu.addAction("Copy")
@@ -266,3 +282,9 @@ class AbstractComp(ABC, QFrame, metaclass=Meta):
     # MIGHT CHANGE IN THE FUTURE
     def setOneProp(self, attr, value):
         self.properties[attr] = value
+
+    # At some point, make another sub abstract class for Display and Control component
+    # This will reduce sub components to implement something that doesn't output
+    @classmethod
+    def setFileDir(self, dirName):
+        pass

@@ -7,6 +7,7 @@ Disclaimer: Parts of the design and all of images are made by KangaRew.
 */
 
 QWidget {
+	background-color: #26323C;
     color: rgb(225,224,225); /* veryLight */
 	outline: none;
 	font-family: "Segoe UI";

@@ -30,3 +30,7 @@ class DefaultComp(AbstractComp):
     # Override
     def _reconfProperty(self) -> None:
         pass
+
+    # Override
+    def setFileDir(self, dirName):
+        pass

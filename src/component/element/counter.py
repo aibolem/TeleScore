@@ -21,18 +21,18 @@ class Counter(QObject):
 
     def setValue(self, value):
         self.value = value
-        self.updateValue()
+        self._updateValue()
 
     def increment(self, inc=1):
         self.value += inc
-        self.updateValue()
+        self._updateValue()
 
     def decrement(self, dec=1):
         self.value -= dec
-        self.updateValue()
+        self._updateValue()
 
-    def updateValue(self):
-        self.computeSuffix()
+    def _updateValue(self):
+        self._computeSuffix()
 
         text = str(self.value)
         if (self.suffixEn == 2):
@@ -47,7 +47,7 @@ class Counter(QObject):
         if (self.label != None):
             self.label.setText(text)
 
-    def computeSuffix(self):
+    def _computeSuffix(self):
         tenth = (abs(self.value)%10)-1
         self.currSuffix = self.suffix[3]
         try:
@@ -58,7 +58,6 @@ class Counter(QObject):
 
     def setSuffix(self, value):
         self.suffixEn = value
-        self.updateValue()
 
     def getSuffix(self) -> bool:
         return self.suffixEn
@@ -68,4 +67,3 @@ class Counter(QObject):
 
     def setClearScoreZero(self, value):
         self.clearScoreZero = value
-        self.updateValue()

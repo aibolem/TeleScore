@@ -13,7 +13,7 @@ from fileio.fileout import TextOut, ImageOut
 
 class TeamComp(AbstractComp):
     """
-    Name component for now
+    Temporary Team Component
     """
 
     imageProperty = {
@@ -62,6 +62,14 @@ class TeamComp(AbstractComp):
     # Override
     def getName(self) -> str:
         return "Team Attribute"
+
+    # Override
+    def setFileDir(self, dirName):
+        self.properties["File Output Location"] = dirName.format(self.objectName())
+        self.fileName = self.properties["File Output Location"]
+        self.nameOut.setOutputFile(self.properties["File Output Location"] + "-name")
+        self.attrOut.setOutputFile(self.properties["File Output Location"] + "-attr")
+        self.logoOut.setOutputFile(self.properties["File Output Location"] + "-logo")
 
     def _onLogoButton(self):
         fileName = QFileDialog.getOpenFileName(self, "Open Image Location", "", "Image File (*.png *.jpg)")[0]
