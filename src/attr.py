@@ -235,7 +235,7 @@ class CompAttr:
 
     miscComponent = {
         "Penalty": {
-            ICON: "",
+            ICON: "src/resources/penaltyComp.png",
             TEXT: "Penalty",
             TYPE: "DISPLAY",
             HELP: ""

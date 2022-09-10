@@ -15,41 +15,32 @@ from editor.command.insertcmd import InsertCmd
 from editor.globaldirectory import GlobalDirectory
 from layout.ctrllayout import CtrlLayout
 from fileio.layoutfile import LayoutFile
+from proginterface import ProgInterface
 
 class Editor(QMainWindow):
     def __init__(self, layout=None, file=None, parent=None):
         super().__init__(parent) # Call the inherited classes __init__ method
-        path = resourcePath("src/window/ui/editor.ui")
-        uic.loadUi(path, self) # Load the .ui file
 
         self.cmdStack = QtGui.QUndoStack(self) # Command stack used for undo/redo
-        self.layoutFile = file
-
-        self.globalDir = "./Output"
-        self.globalPushButton = QPushButton("Set Component File Output Folder")
-        self.toolBar.addWidget(self.globalPushButton)
-        self.globalPushButton.clicked.connect(self._setGlobalFolder)
+        self.currComp = None
         
-        # TODO Refractor this
+        # Check to see if we are creating or loading a layout
+        self.layoutFile = file
         if (layout == None):
-            self.ctrl = CtrlLayout(QSize(1000, 600), self.remCallBack, self)
-            self.ctrl.dropSignal.connect(self._dropSlot)
-            self.currComp = None
+            self.ctrl = CtrlLayout(QSize(1000, 600), self._remCallBack, self)
         else:
             self.ctrl = layout
-            self.ctrl.dropSignal.connect(self._dropSlot)
-            self.ctrl.setRemoveCallBack(self.remCallBack)
-            self.currComp = None
-            self._loadExistingLayout(self.ctrl)
+            self.ctrl.setRemoveCallBack(self._remCallBack)
+            self._loadExistingComp()
+
+        self.ctrl.dropSignal.connect(self._dropSlot)
 
         self._initUI()
 
-    def _loadExistingLayout(self, layout: CtrlLayout):
+    def _loadExistingComp(self):
         for comp in self.ctrl.getComponents().values():
             comp.compClicked.connect(self._compClicked)
             comp.setEditMode(True)
-        self.ctrl.setParent(self)
-        self.setCentralWidget(self.ctrl)
 
     def _initUI(self) -> None:
         """
@@ -58,6 +49,9 @@ class Editor(QMainWindow):
         :param: none
         :return: none
         """
+        path = resourcePath("src/window/ui/editor.ui")
+        uic.loadUi(path, self) # Load the .ui file
+
         self.comp = CompListTab(self)
         self.compDock.setWidget(self.comp)
 
@@ -66,6 +60,16 @@ class Editor(QMainWindow):
 
         self.ctrl.setFrameShape(QFrame.Shape.Box)
         self.setCentralWidget(self.ctrl)
+
+        # Setting up the toolbar
+
+        # This is a bit redundant. If there is a simpler way of doing this, please change it.
+        self.toolBar.addWidget(QPushButton(QtGui.QIcon(resourcePath("src/resources/icon.ico")),
+         " TeleScore v1.0"))
+        self.toolBar.addSeparator()
+        self.globalPushButton = QPushButton("Set Component File Output Folder")
+        self.toolBar.addWidget(self.globalPushButton)
+        self.globalPushButton.clicked.connect(self._setGlobalFolder)
 
     @pyqtSlot(object)
     def _compClicked(self, comp: AbstractComp) -> None:
@@ -113,7 +117,7 @@ class Editor(QMainWindow):
         comp = insert.getComponent()
         comp.compClicked.connect(self._compClicked)
 
-    def remCallBack(self, component: AbstractComp):
+    def _remCallBack(self, component: AbstractComp):
         if (self.currComp == component):
             self.prop.propChanged.disconnect(self.currComp.propChanged)
             self.currComp.attrChanged.disconnect(self.prop.externalChange)
@@ -147,16 +151,17 @@ class Editor(QMainWindow):
         evt.accept()
 
     def _setGlobalFolder(self):
-        directory = GlobalDirectory(self.globalDir, self)
+        progInt = ProgInterface()
+        directory = GlobalDirectory(progInt.getDefaultFileDir().replace("/{}", ""), self)
         directory.exec()
 
         dirName = directory.getDirectory()
         
         if (dirName != ""):
+            progInt.setDefaultFileDir(dirName + "/{}")
             # Check for valid directory
-            self.globalDir = dirName
             components = self.ctrl.getComponents()
             for comp in components.values():
-                comp.setFileDir(self.globalDir + "/{}")
+                comp.setFileDir(dirName + "/{}")
 
         self.clearCurrComp()

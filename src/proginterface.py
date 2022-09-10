@@ -17,6 +17,7 @@ class ProgInterface(object):
         return cls.instance
 
     compDict = {}
+    dirName = "./Output/{}"
 
     def setAllComponent(self, value) -> None:
         self.compDict = value
@@ -34,3 +35,9 @@ class ProgInterface(object):
 
     def compContains(self, name: str) -> bool:
         return name in self.compDict
+
+    def setDefaultFileDir(self, dirName):
+        self.dirName = dirName
+
+    def getDefaultFileDir(self) -> str:
+        return self.dirName

@@ -16,6 +16,7 @@ class FileOut:
     def setOutputFile(self, fileAddr: str):
         self.fileIO.setFileName(fileAddr + self.type)
         self.fileName = fileAddr
+        self.outputFile(None)
 
     def getOutputFile(self) -> str:
         return self.fileName
@@ -41,9 +42,6 @@ class ImageOut(FileOut):
         super().__init__(fileName, "png", parent)
 
     # Override
-    def outputFile(self, value: QPixmap):
-        if (value == None):
-            value = QPixmap()
-
-        # Modify it in the future
-        value.save(self.fileName + self.type, "PNG")
+    def outputFile(self, value: QPixmap=None):
+        if (value != None):
+            value.save(self.fileName + self.type, "PNG")

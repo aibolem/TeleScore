@@ -43,7 +43,6 @@ class TeamComp(AbstractComp):
     # Override
     def _firstTimeProp(self):
         self.properties.appendProperty("File Properties", CompAttr.fileProperty)
-        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName())
         self.properties.appendProperty("Logo Properties", self.imageProperty)
 
     # Override

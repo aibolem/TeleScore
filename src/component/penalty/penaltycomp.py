@@ -36,8 +36,7 @@ class PenaltyComp(AbstractComp):
     def _firstTimeProp(self):
         self.properties.appendProperty("Clock Properties", self.clockProperty)
         self.properties.appendProperty("File Properties", CompAttr.fileProperty)
-        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName())
-
+        
     # Override
     def _reloadProperty(self):
         pass

@@ -31,13 +31,11 @@ class ScoreComp(AbstractComp):
         super().__init__(objectName, "src/component/basiccomp/scorecomp.ui", edit, parent)
 
         self.fileOut = TextOut(parent=self)
-        self.fileOut.setOutputFile(self.properties["File Output Location"])
         self.score = Counter(self.label, self.fileOut, self)
 
     # Override
     def _firstTimeProp(self):
         self.properties.appendProperty("File Properties", CompAttr.fileProperty)
-        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName())
         self.properties.appendProperty("Score Properties", self.scoreDispProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
 

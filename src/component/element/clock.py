@@ -3,6 +3,8 @@ Developed by: JumpShot Team
 Written by: riscyseven
 """
 
+from email.policy import default
+from os import times
 from PyQt6.QtCore import QObject, pyqtSignal, QTimer, QTime
 from PyQt6.QtWidgets import QLabel
 
@@ -29,6 +31,7 @@ class Clock(QObject):
         self.stopwatch = stopwatch
         self.file = file
         self.clearZero = False
+        self.carryOver = False
         self.timeFormat = "mm:ss"
 
         self.label = label
@@ -43,6 +46,10 @@ class Clock(QObject):
         return self.tick
 
     def setTimeFormat(self, value):
+        if (value.lower().count("h") > 0):
+            self.carryOver = True
+        else:
+            self.carryOver = False
         self.timeFormat = value
 
     def setStopWatch(self, value: bool):
@@ -65,8 +72,8 @@ class Clock(QObject):
 
     def _valueChanged(self):
         # Potential issue for soccer clock, 60:00 -> 1 hour
-        timeStr = QTime(0, 0, 0, 0).addSecs(self.tick).toString(self.timeFormat)
-        
+        timeStr = self._convTicktoStr(self.tick, self.timeFormat)
+
         if (self.label != None):
             self.label.setText(timeStr)
         if (self.file != None):
@@ -100,8 +107,10 @@ class Clock(QObject):
         tempTick = self.tick + min * 60 + sec
         self.setClockTick(tempTick)
 
-    def setClockFromStr(self, str) -> bool:
-        time = QTime.fromString(str, self.timeFormat)
+    def setClockFromStr(self, str, timeFormat=None) -> bool:
+        if (timeFormat == None):
+            timeFormat = self.timeFormat
+        time = QTime.fromString(str, timeFormat)
         if (time.isValid()):
             self.setClockTick(time.hour()*3600+time.minute()*60+time.second())
         else:
@@ -117,4 +126,31 @@ class Clock(QObject):
         else:
             self._timer()
     
-    
+    def _convTicktoStr(self, tick: int, timeFormat: str) -> str:
+        sec = tick % 60
+        min = (tick // 60) % 60
+        if (not self.carryOver):
+            min = (tick // 60)
+        hour = (tick // 3600) % 24
+
+        lastPos = 0
+        currPos = 0
+        currChar = ''
+        newStr = ""
+        timeFormat += " "
+        for i in timeFormat:
+            if (currChar != i):
+                match currChar:
+                    case "h":
+                        newStr += ("{:0" + str(currPos-lastPos) + "d}").format(hour)
+                    case "m":
+                        newStr += ("{:0" + str(currPos-lastPos) + "d}").format(min)
+                    case "s":
+                        newStr += ("{:0" + str(currPos-lastPos) + "d}").format(sec)
+                    case _:
+                        newStr += currChar
+                currChar = i
+                lastPos = currPos
+            currPos += 1
+
+        return newStr

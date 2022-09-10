@@ -47,7 +47,6 @@ class ClockComp(AbstractComp):
         super().__init__(objectName, "src/component/basiccomp/clockcomp.ui", edit, parent)
 
         self.fileOut = TextOut(parent=self)
-        self.fileOut.setOutputFile(self.properties["File Output Location"])
         self.clock = Clock(False, self.clockLabel, self.fileOut, self)
         self.clock.setStopCallback(self._stopCallback)
         self.defaultTime = "00:00"
@@ -57,7 +56,6 @@ class ClockComp(AbstractComp):
     # Override
     def _firstTimeProp(self):
         self.properties.appendProperty("File Properties", CompAttr.fileProperty)
-        self.properties["File Output Location"] = self.properties["File Output Location"].format(self.objectName())
         self.properties.appendProperty("Clock Properties", self.clockProperty)
         self.properties.appendProperty("Connection Properties", CompAttr.connProperty)
 
@@ -123,7 +121,7 @@ class ClockComp(AbstractComp):
         self.clock.stopClock()
 
     def _setTime(self, value):
-        self.clock.setClockFromStr(value)
+        self.clock.setClockFromStr(value, "mm:ss")
 
     def _reset(self):
         self.clock.setClockFromStr(self.defaultTime)

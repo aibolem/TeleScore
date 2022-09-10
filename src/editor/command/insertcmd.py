@@ -10,6 +10,8 @@ from layout.ctrllayout import CtrlLayout
 from component.compfactory import CompFactory
 from component.abstractcomp import AbstractComp
 
+from proginterface import ProgInterface
+
 class InsertCmd(QUndoCommand):
     """
     Command used when insertting a component
@@ -43,6 +45,8 @@ class InsertCmd(QUndoCommand):
         if (self.component != None):
             self.component.move(self.pos)
             self.layout.addComponent(self.component)
+            progInt = ProgInterface()
+            self.component.setFileDir(progInt.getDefaultFileDir())
 
     # Override
     def undo(self) -> None:

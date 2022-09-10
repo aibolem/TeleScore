@@ -32,6 +32,8 @@ class LayoutFile:
         header = CompAttr.header
         header["Width"] = self.ctrlLayout.getProjSize().width()
         header["Height"] = self.ctrlLayout.getProjSize().height()
+        progInt = ProgInterface()
+        header["Folder"] = progInt.getDefaultFileDir()
         header["Counter"] = self.ctrlLayout.getCounter()
 
         jsonFormattedDict = {CompAttr.HEADER: header}
@@ -79,9 +81,11 @@ class LayoutFile:
             dataDict = load(rstream)
         
         size = None
+        progInt = ProgInterface()
         if (CompAttr.HEADER in dataDict):
             header = dataDict[CompAttr.HEADER]
             size = QSize(header["Width"], header["Height"])
+            progInt.setDefaultFileDir(header["Folder"])
             self.ctrlLayout.setSize(size)
             self.ctrlLayout.setCounter(header["Counter"])
 
@@ -96,8 +100,6 @@ class LayoutFile:
                 self.ctrlLayout.addComponent(component)
                 component.propChanged()
 
-        intf = ProgInterface()
-
         # This is required since integrating this code into the previous for loop might cause deadlock
         for component in self.ctrlLayout.getComponents().values():
             conn = component.getConnection()
@@ -106,7 +108,7 @@ class LayoutFile:
             for i in componentConn:
                 conn.appendConnType(i)
                 for j in componentConn[i]:
-                    conn.appendConn(i, intf.getComponent(j))
+                    conn.appendConn(i, progInt.getComponent(j))
         
 
         

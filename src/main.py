@@ -6,6 +6,7 @@ Designed by: Fisk31, TheLittleDoc
 
 import sys
 from PyQt6.QtWidgets import QApplication
+from traceback import format_exc
 
 try:
     from gm_resources import resourcePath, GMessageBox
@@ -28,7 +29,10 @@ class Application:
         assert False
 
 def excepthook(eType, eValue, eTb):
-    msg = GMessageBox("Unhandled Exception", "Uh Oh!\nUnhandled Exception Caught!\nReason:\n{}\n{}".format(eType, eValue), "Info")
+    msg = GMessageBox("Unhandled Exception",
+     "Uh Oh! Unhandled Exception Caught!\nReason:\n{}\n{}\n{}"
+     .format(eType, eValue, format_exc()), "Info")
+
     msg.exec()
     QApplication.exit(0)
 
