@@ -7,3 +7,6 @@ TeleScore is currently undergoing a full rewrite to fully utilize the flexible P
 2. Using command line, head to the root directory of the project (Not src folder, folder above it)
 3. Using pip, install the dependencies by using "pip install -r requirements.txt"
 4. If no errors are shown, use "python src/main.py" to build the software
+
+## Support/Discord:
+<a href="https://discord.gg/PcUneZX6VM">https://discord.gg/PcUneZX6VM</a>
